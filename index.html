@@ -35,19 +35,20 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* الإصلاح الشامل لمشكلة الألوان في الموبايل */
         body {
             font-family: 'Cairo', sans-serif;
             -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
             transition: background-color 0.4s ease, color 0.4s ease;
         }
-        .font-en { font-family: 'Outfit', sans-serif; }
-
-        /* Theme Styles */
+        
         body.dark { background-color: #080A10; color: #F8FAFC; }
         body:not(.dark) { background-color: #F8FAFC; color: #0F172A; }
 
-        /* Premium Cards */
+        .font-en { font-family: 'Outfit', sans-serif; }
+
+        /* تصميم البطاقات المتقدم */
         .premium-card {
             border-radius: 24px;
             transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -75,7 +76,7 @@
             box-shadow: 0 20px 40px -15px rgba(217, 26, 42, 0.15);
         }
 
-        /* Scrollbar */
+        /* شريط التمرير */
         ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         .dark ::-webkit-scrollbar-thumb { background: #1F2332; border-radius: 10px; }
@@ -83,7 +84,7 @@
         ::-webkit-scrollbar-thumb:hover { background: #D91A2A; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
 
-        /* Sidebar Nav Items */
+        /* القائمة الجانبية */
         .nav-item {
             display: flex;
             align-items: center;
@@ -98,9 +99,7 @@
         .dark .nav-item { color: #94A3B8; }
         body:not(.dark) .nav-item { color: #475569; }
         
-        .nav-item:hover, .nav-item.active {
-            background: rgba(217, 26, 42, 0.08);
-        }
+        .nav-item:hover, .nav-item.active { background: rgba(217, 26, 42, 0.08); }
         .dark .nav-item:hover, .dark .nav-item.active { color: #F8FAFC; }
         body:not(.dark) .nav-item:hover, body:not(.dark) .nav-item.active { color: #D91A2A; }
         
@@ -117,7 +116,7 @@
             box-shadow: 0 0 10px rgba(217, 26, 42, 0.5);
         }
 
-        /* Animated Background Glows */
+        /* تأثيرات الإضاءة الخلفية */
         .glow-circle {
             position: absolute;
             border-radius: 50%;
@@ -136,7 +135,7 @@
             100% { transform: translate(-30px, 30px) scale(1.1); }
         }
 
-        /* Icons & Buttons */
+        /* الأيقونات والأزرار */
         .icon-box {
             width: 50px;
             height: 50px;
@@ -174,7 +173,7 @@
             box-shadow: 0 15px 35px rgba(37,211,102,0.5);
         }
 
-        /* Edit Mode Styles */
+        /* تنسيق النصوص القابلة للتعديل */
         [contenteditable="true"] {
             outline: none;
             background: rgba(217, 26, 42, 0.05);
@@ -199,7 +198,7 @@
         
         <div class="h-28 flex items-center px-8 dark:border-ivan-darkBorder border-ivan-lightBorder border-b relative">
             
-            <div id="sidebarSecretTrigger" class="flex items-center gap-4 cursor-pointer select-none" title="منطقة الإدارة">
+            <div id="sidebarSecretTrigger" class="flex items-center gap-4 cursor-pointer select-none" title="المنطقة الإدارية">
                 <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#D91A2A] to-black flex items-center justify-center shadow-[0_0_20px_rgba(217,26,42,0.4)]">
                     <span class="font-en text-3xl font-black italic text-white">i</span>
                 </div>
@@ -207,11 +206,11 @@
                     <h1 class="font-en text-3xl tracking-[0.15em] uppercase font-black dark:text-white text-gray-900 leading-none">
                         IVAN
                     </h1>
-                    <span class="text-[11px] dark:text-ivan-textDarkSub text-ivan-textLightSub tracking-[0.2em] uppercase mt-1 font-bold">Portal System</span>
+                    <span class="text-[11px] dark:text-ivan-textDarkSub text-gray-500 tracking-[0.2em] uppercase mt-1 font-bold">Portal System</span>
                 </div>
             </div>
 
-            <button onclick="toggleSidebar()" class="absolute left-6 lg:hidden dark:text-ivan-textDarkSub text-ivan-textLightSub hover:text-ivan-red text-2xl">
+            <button onclick="toggleSidebar()" class="absolute left-6 lg:hidden dark:text-ivan-textDarkSub text-gray-500 hover:text-ivan-red text-2xl">
                 <i class="fa-solid fa-times"></i>
             </button>
         </div>
@@ -263,109 +262,109 @@
 
     <div class="flex-1 lg:mr-80 min-h-screen flex flex-col relative z-10 overflow-x-hidden">
         
-        <header class="h-24 sticky top-0 z-30 px-8 lg:px-12 flex items-center justify-between dark:bg-[#080A10]/80 bg-[#F8FAFC]/80 backdrop-blur-xl dark:border-ivan-darkBorder border-ivan-lightBorder border-b transition-colors duration-500">
+        <header class="h-24 sticky top-0 z-30 px-6 lg:px-12 flex items-center justify-between dark:bg-[#080A10]/90 bg-[#F8FAFC]/90 backdrop-blur-xl dark:border-ivan-darkBorder border-ivan-lightBorder border-b transition-colors duration-500">
             
             <div class="flex items-center gap-5">
                 <button onclick="toggleSidebar()" class="lg:hidden w-12 h-12 rounded-xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-white text-gray-900 shadow-sm text-xl hover:bg-ivan-red hover:text-white hover:border-ivan-red transition-all">
                     <i class="fa-solid fa-bars-staggered"></i>
                 </button>
                 
-                <div class="font-en text-2xl font-black tracking-[0.2em] uppercase hidden sm:block dark:text-white text-gray-900 editable">
+                <div class="font-en text-2xl font-black tracking-[0.2em] uppercase hidden sm:block dark:text-white text-gray-900 editable whitespace-nowrap">
                     IVAN <span class="text-ivan-red">SHOW</span>
                 </div>
             </div>
 
-            <div class="flex items-center gap-6">
+            <div class="flex items-center gap-4 lg:gap-6">
                 <div class="hidden md:flex items-center gap-3 px-5 py-2.5 rounded-full dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border shadow-sm">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span class="text-xs font-bold dark:text-ivan-textDarkSub text-gray-600 font-en tracking-widest uppercase mt-0.5 editable">System Online</span>
                 </div>
                 
-                <button onclick="toggleTheme()" class="w-12 h-12 rounded-xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-amber-400 text-indigo-600 hover:scale-110 transition-transform shadow-sm text-xl cursor-pointer relative z-50">
+                <button onclick="toggleTheme()" class="w-12 h-12 rounded-xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-amber-400 text-indigo-600 hover:scale-110 transition-transform shadow-sm text-xl cursor-pointer">
                     <i class="fa-solid fa-moon dark:hidden"></i>
                     <i class="fa-solid fa-sun hidden dark:block"></i>
                 </button>
             </div>
         </header>
 
-        <main class="flex-1 p-8 lg:p-14 max-w-7xl mx-auto w-full">
+        <main class="flex-1 p-6 lg:p-14 max-w-7xl mx-auto w-full">
             
-            <div class="mb-16">
-                <h2 class="text-4xl lg:text-6xl font-black mb-6 leading-tight dark:text-white text-gray-900 tracking-tight editable">
+            <div class="mb-12 lg:mb-16">
+                <h2 class="text-3xl sm:text-4xl lg:text-6xl font-black mb-6 leading-tight dark:text-white text-gray-900 tracking-tight editable">
                     مرحبًا بكم في بوابة <br class="hidden lg:block"/> <span class="text-ivan-red">موظفي إيفان</span>
                 </h2>
-                <p class="text-lg lg:text-2xl max-w-4xl leading-relaxed dark:text-ivan-textDarkSub text-gray-600 font-semibold editable">
+                <p class="text-base sm:text-lg lg:text-2xl max-w-4xl leading-relaxed dark:text-ivan-textDarkSub text-gray-600 font-semibold editable">
                     نظام داخلي متكامل يهدف إلى تنظيم العمل، توحيد الإجراءات، ورفع مستوى الأداء داخل جميع أقسام المعرض.
                 </p>
-            </div>
+                </div>
 
-            <div class="mb-14 border-r-4 border-ivan-red pr-6">
-                <h3 class="text-2xl font-bold mb-3 dark:text-white text-gray-900 editable">نظرة عامة</h3>
-                <p class="text-lg leading-relaxed dark:text-ivan-textDarkSub text-gray-600 max-w-4xl editable">
+            <div class="mb-14 border-r-4 border-ivan-red pr-4 lg:pr-6">
+                <h3 class="text-xl sm:text-2xl font-bold mb-3 dark:text-white text-gray-900 editable">نظرة عامة</h3>
+                <p class="text-base sm:text-lg leading-relaxed dark:text-ivan-textDarkSub text-gray-600 max-w-4xl editable">
                     توفر هذه البوابة وصولًا سريعًا إلى المهام اليومية، التعليمات الأساسية، وأقسام العمل، بما يضمن وضوح المسؤوليات وسهولة المتابعة لجميع كوادر المعرض.
                 </p>
             </div>
 
             <div class="mb-20">
-                <h3 class="text-3xl font-black mb-8 dark:text-white text-gray-900 flex items-center gap-4 editable">
+                <h3 class="text-2xl sm:text-3xl font-black mb-8 dark:text-white text-gray-900 flex items-center gap-4 editable">
                     <i class="fa-solid fa-bolt text-ivan-red"></i>
                     الوصول السريع
                 </h3>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                     
-                    <div class="premium-card p-8 flex flex-col h-full group">
+                    <div class="premium-card p-6 lg:p-8 flex flex-col h-full group">
                         <div class="flex items-start justify-between mb-6">
                             <div class="icon-box"><i class="fa-solid fa-list-check"></i></div>
                             <span class="px-4 py-1.5 rounded-full dark:bg-blue-500/10 bg-blue-100 text-blue-600 dark:text-blue-400 text-xs font-bold font-en uppercase tracking-wider editable">Daily</span>
                         </div>
-                        <h4 class="text-2xl font-bold mb-3 dark:text-white text-gray-900 editable">المهام اليومية</h4>
-                        <p class="text-base dark:text-ivan-textDarkSub text-gray-600 leading-relaxed editable">متابعة جدول الأعمال اليومي الخاص بك وتحديث حالة الإنجاز.</p>
+                        <h4 class="text-xl lg:text-2xl font-bold mb-3 dark:text-white text-gray-900 editable">المهام اليومية</h4>
+                        <p class="text-sm lg:text-base dark:text-ivan-textDarkSub text-gray-600 leading-relaxed editable">متابعة جدول الأعمال اليومي الخاص بك وتحديث حالة الإنجاز.</p>
                         <a href="#" class="btn-link"><span class="editable">الدخول إلى المهام</span> <i class="fa-solid fa-arrow-left"></i></a>
                     </div>
 
-                    <div class="premium-card p-8 flex flex-col h-full group">
+                    <div class="premium-card p-6 lg:p-8 flex flex-col h-full group">
                         <div class="flex items-start justify-between mb-6">
                             <div class="icon-box"><i class="fa-solid fa-bell"></i></div>
                             <span class="px-4 py-1.5 rounded-full dark:bg-amber-500/10 bg-amber-100 text-amber-600 dark:text-amber-400 text-xs font-bold font-en uppercase tracking-wider animate-pulse editable">New</span>
                         </div>
-                        <h4 class="text-2xl font-bold mb-3 dark:text-white text-gray-900 editable">الإعلانات والتنبيهات</h4>
-                        <p class="text-base dark:text-ivan-textDarkSub text-gray-600 leading-relaxed editable">الاطلاع على آخر القرارات الإدارية والتعميمات الصادرة حديثاً.</p>
+                        <h4 class="text-xl lg:text-2xl font-bold mb-3 dark:text-white text-gray-900 editable">الإعلانات والتنبيهات</h4>
+                        <p class="text-sm lg:text-base dark:text-ivan-textDarkSub text-gray-600 leading-relaxed editable">الاطلاع على آخر القرارات الإدارية والتعميمات الصادرة حديثاً.</p>
                         <a href="#" class="btn-link"><span class="editable">اقرأ آخر التنبيهات</span> <i class="fa-solid fa-arrow-left"></i></a>
                     </div>
 
-                    <div class="premium-card p-8 flex flex-col h-full group">
+                    <div class="premium-card p-6 lg:p-8 flex flex-col h-full group">
                         <div class="flex items-start justify-between mb-6">
                             <div class="icon-box"><i class="fa-solid fa-layer-group"></i></div>
                         </div>
-                        <h4 class="text-2xl font-bold mb-3 dark:text-white text-gray-900 editable">أقسام المعرض</h4>
-                        <p class="text-base dark:text-ivan-textDarkSub text-gray-600 leading-relaxed editable">تصفح أقسام العمل المختلفة والدخول للتعليمات المخصصة لكل قسم.</p>
+                        <h4 class="text-xl lg:text-2xl font-bold mb-3 dark:text-white text-gray-900 editable">أقسام المعرض</h4>
+                        <p class="text-sm lg:text-base dark:text-ivan-textDarkSub text-gray-600 leading-relaxed editable">تصفح أقسام العمل المختلفة والدخول للتعليمات المخصصة لكل قسم.</p>
                         <a href="#" class="btn-link"><span class="editable">اقرأ تفاصيل الأقسام</span> <i class="fa-solid fa-arrow-left"></i></a>
                     </div>
 
-                    <div class="premium-card p-8 flex flex-col h-full group">
+                    <div class="premium-card p-6 lg:p-8 flex flex-col h-full group">
                         <div class="flex items-start justify-between mb-6">
                             <div class="icon-box"><i class="fa-solid fa-envelope-open-text"></i></div>
                         </div>
-                        <h4 class="text-2xl font-bold mb-3 dark:text-white text-gray-900 editable">الشكاوى والملاحظات</h4>
-                        <p class="text-base dark:text-ivan-textDarkSub text-gray-600 leading-relaxed editable">رفع المقترحات أو الملاحظات للإدارة بسرية تامة لضمان التطوير.</p>
+                        <h4 class="text-xl lg:text-2xl font-bold mb-3 dark:text-white text-gray-900 editable">الشكاوى والملاحظات</h4>
+                        <p class="text-sm lg:text-base dark:text-ivan-textDarkSub text-gray-600 leading-relaxed editable">رفع المقترحات أو الملاحظات للإدارة بسرية تامة لضمان التطوير.</p>
                         <a href="#" class="btn-link"><span class="editable">تقديم ملاحظة</span> <i class="fa-solid fa-arrow-left"></i></a>
                     </div>
 
                 </div>
             </div>
 
-            <div class="premium-card p-10 lg:p-14 mb-16 bg-gradient-to-l dark:from-ivan-darkCard dark:to-[#0F111A] from-white to-gray-50 border-l-8 border-l-ivan-red">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div class="premium-card p-8 lg:p-14 mb-16 bg-gradient-to-l dark:from-ivan-darkCard dark:to-[#0F111A] from-white to-gray-50 border-l-8 border-l-ivan-red">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
                     <div>
-                        <h3 class="text-2xl font-black mb-5 dark:text-white text-gray-900 editable">عن النظام</h3>
-                        <p class="text-lg leading-relaxed dark:text-ivan-textDarkSub text-gray-600 editable">
+                        <h3 class="text-xl sm:text-2xl font-black mb-5 dark:text-white text-gray-900 editable">عن النظام</h3>
+                        <p class="text-base sm:text-lg leading-relaxed dark:text-ivan-textDarkSub text-gray-600 editable">
                             تم تصميم هذا النظام لتسهيل العمل اليومي، وتعزيز التعاون بين الفرق، وتحقيق بيئة عمل منظمة تعتمد على الالتزام والدقة والتطوير المستمر.
                         </p>
                     </div>
                     <div>
-                        <h3 class="text-2xl font-black mb-5 dark:text-white text-gray-900 editable">رسالتنا</h3>
-                        <p class="text-lg leading-relaxed dark:text-ivan-textDarkSub text-gray-600 editable">
+                        <h3 class="text-xl sm:text-2xl font-black mb-5 dark:text-white text-gray-900 editable">رسالتنا</h3>
+                        <p class="text-base sm:text-lg leading-relaxed dark:text-ivan-textDarkSub text-gray-600 editable">
                             العمل باحتراف، الالتزام بالجودة المطلقة، وتقديم أفضل تجربة تسوق وخدمة داخل معرض إيفان في كافة الأوقات.
                         </p>
                     </div>
@@ -379,30 +378,30 @@
                 </p>
                 
                 <div class="flex flex-wrap justify-center gap-4 mb-10">
-                    <a href="https://wa.me/9647514844125" target="_blank" class="w-14 h-14 rounded-2xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-gray-600 hover:text-[#25D366] hover:border-[#25D366] transition-all shadow-md text-2xl hover:-translate-y-2">
+                    <a href="https://wa.me/9647514844125" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-gray-600 hover:text-[#25D366] hover:border-[#25D366] transition-all shadow-md text-xl lg:text-2xl hover:-translate-y-2">
                         <i class="fa-brands fa-whatsapp"></i>
                     </a>
-                    <a href="https://www.facebook.com/share/1BLDRvJGzr/" target="_blank" class="w-14 h-14 rounded-2xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-gray-600 hover:text-[#1877F2] hover:border-[#1877F2] transition-all shadow-md text-2xl hover:-translate-y-2">
+                    <a href="https://www.facebook.com/share/1BLDRvJGzr/" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-gray-600 hover:text-[#1877F2] hover:border-[#1877F2] transition-all shadow-md text-xl lg:text-2xl hover:-translate-y-2">
                         <i class="fa-brands fa-facebook-f"></i>
                     </a>
-                    <a href="https://www.instagram.com/ma3rd_ivan1?igsh=dDF4Y2dnYXZ5eGZ3" target="_blank" class="w-14 h-14 rounded-2xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-gray-600 hover:text-[#E1306C] hover:border-[#E1306C] transition-all shadow-md text-2xl hover:-translate-y-2">
+                    <a href="https://www.instagram.com/ma3rd_ivan1?igsh=dDF4Y2dnYXZ5eGZ3" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-gray-600 hover:text-[#E1306C] hover:border-[#E1306C] transition-all shadow-md text-xl lg:text-2xl hover:-translate-y-2">
                         <i class="fa-brands fa-instagram"></i>
                     </a>
-                    <a href="https://www.tiktok.com/@ma3rdivan1?_r=1&_d=em9ma8k92df7mi" target="_blank" class="w-14 h-14 rounded-2xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-gray-600 hover:text-black dark:hover:text-white dark:hover:border-white hover:border-black transition-all shadow-md text-2xl hover:-translate-y-2">
+                    <a href="https://www.tiktok.com/@ma3rdivan1?_r=1&_d=em9ma8k92df7mi" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-gray-600 hover:text-black dark:hover:text-white dark:hover:border-white hover:border-black transition-all shadow-md text-xl lg:text-2xl hover:-translate-y-2">
                         <i class="fa-brands fa-tiktok"></i>
                     </a>
-                    <a href="https://maps.app.goo.gl/u6zP3XLVnA5xSKRGA?g_st=ac" target="_blank" class="w-14 h-14 rounded-2xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-gray-600 hover:text-[#34A853] hover:border-[#34A853] transition-all shadow-md text-2xl hover:-translate-y-2">
+                    <a href="https://maps.app.goo.gl/u6zP3XLVnA5xSKRGA?g_st=ac" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-gray-600 hover:text-[#34A853] hover:border-[#34A853] transition-all shadow-md text-xl lg:text-2xl hover:-translate-y-2">
                         <i class="fa-solid fa-location-dot"></i>
                     </a>
                 </div>
 
-                <div class="flex flex-wrap justify-center gap-8 text-sm font-bold dark:text-ivan-textDarkSub text-gray-600">
+                <div class="flex flex-wrap justify-center gap-6 lg:gap-8 text-sm font-bold dark:text-ivan-textDarkSub text-gray-600">
                     <a href="#" class="hover:text-ivan-red transition-colors editable">سياسة المعرض</a>
                     <a href="#" class="hover:text-ivan-red transition-colors editable">أقسام المعرض</a>
                     <a href="#" class="hover:text-ivan-red transition-colors editable">الدعم الفني</a>
                 </div>
                 
-                <p class="font-en text-[11px] dark:text-gray-600 text-gray-400 tracking-[0.3em] uppercase mt-12 font-bold editable">
+                <p class="font-en text-[10px] lg:text-[11px] dark:text-gray-600 text-gray-400 tracking-[0.2em] lg:tracking-[0.3em] uppercase mt-12 font-bold editable">
                     © 2026 IVAN SHOWROOM. ALL RIGHTS RESERVED. DUHOK - ZARKA.
                 </p>
             </footer>
@@ -410,14 +409,14 @@
         </main>
     </div>
 
-    <a href="https://wa.me/9647514844125" target="_blank" class="whatsapp-float fixed bottom-8 left-8 z-40 w-14 h-14 rounded-full flex items-center justify-center text-white text-3xl">
+    <a href="https://wa.me/9647514844125" target="_blank" class="whatsapp-float fixed bottom-6 left-6 lg:bottom-8 lg:left-8 z-40 w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center text-white text-2xl lg:text-3xl">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
     <div id="adminModal" class="fixed inset-0 bg-black/80 z-[100] hidden items-center justify-center opacity-0 transition-opacity duration-300 backdrop-blur-sm px-4">
-        <div id="adminModalContent" class="dark:bg-ivan-darkCard bg-white border dark:border-ivan-red/50 border-ivan-red/30 rounded-3xl p-8 max-w-sm w-full transform scale-95 transition-transform duration-300 shadow-2xl">
+        <div id="adminModalContent" class="dark:bg-ivan-darkCard bg-white border dark:border-ivan-red/50 border-ivan-red/30 rounded-3xl p-6 lg:p-8 max-w-sm w-full transform scale-95 transition-transform duration-300 shadow-2xl">
             <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-black dark:text-white text-gray-900 flex items-center gap-3">
+                <h3 class="text-lg lg:text-xl font-black dark:text-white text-gray-900 flex items-center gap-3">
                     <i class="fa-solid fa-lock text-ivan-red"></i> لوحة الإدارة السرية
                 </h3>
             </div>
@@ -433,49 +432,49 @@
     </div>
 
     <script>
-        // --- 1. إصلاح زر الوضع الداكن والفاتح ---
+        // التبديل بين الوضع الداكن والفاتح بشكل سليم 100%
         function toggleTheme() {
             const html = document.documentElement;
-            // تبديل الكلاس الخاص بالوضع الداكن
-            html.classList.toggle('dark');
-            
-            // حفظ الخيار للمرات القادمة
             if (html.classList.contains('dark')) {
-                localStorage.setItem('ivanTheme', 'dark');
-            } else {
+                html.classList.remove('dark');
                 localStorage.setItem('ivanTheme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('ivanTheme', 'dark');
             }
         }
 
-        // عند تحميل الصفحة، تأكد من تطبيق الوضع المحفوظ
+        // قراءة إعداد الوضع المحفوظ عند بداية تشغيل الصفحة
         window.addEventListener('DOMContentLoaded', () => {
             if (localStorage.getItem('ivanTheme') === 'light') {
                 document.documentElement.classList.remove('dark');
             } else {
-                document.documentElement.classList.add('dark');
+                document.documentElement.classList.add('dark'); // الافتراضي
             }
         });
 
-        // فتح وإغلاق القائمة الجانبية (للموبايل)
+        // فتح وإغلاق القائمة الجانبية في الموبايل
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('translate-x-full');
             document.getElementById('sidebarOverlay').classList.toggle('hidden');
         }
 
-        // --- 2. الزر السري في القائمة الجانبية ---
+        // --- نظام الضغطات السرية للمشرفين ---
         const sidebarSecretTrigger = document.getElementById('sidebarSecretTrigger');
         let clickCount = 0;
         let clickTimer;
 
-        // الضغط 7 مرات على اللوجو في القائمة الجانبية
         ['click', 'touchstart'].forEach(evt => {
             sidebarSecretTrigger.addEventListener(evt, function(e) {
+                // منع الافتراضي حتى لا يعمل تحديد للنص في الجوال
+                if(evt === 'touchstart') e.preventDefault(); 
+                
                 clickCount++;
                 clearTimeout(clickTimer);
                 
                 clickTimer = setTimeout(() => {
                     clickCount = 0;
-                }, 2000); // المهلة ثانيتين
+                }, 2000);
 
                 if (clickCount === 7) {
                     openAdminModal();
@@ -507,7 +506,7 @@
             }, 300);
         }
 
-        // --- 3. تفعيل تعديل النصوص مباشرة ---
+        // --- تفعيل وضع التعديل المباشر ---
         let isEditMode = false;
         function toggleEditMode() {
             isEditMode = !isEditMode;
@@ -516,7 +515,6 @@
 
             editableElements.forEach(el => {
                 el.contentEditable = isEditMode;
-                // إضافة حدود حمراء متقطعة لتمييز النصوص القابلة للتعديل
                 if(isEditMode) {
                     el.style.borderBottom = "2px dashed #D91A2A";
                     el.style.paddingBottom = "2px";
@@ -530,11 +528,11 @@
                 editIcon.classList.remove('fa-pen');
                 editIcon.classList.add('fa-check', 'text-green-500');
                 editIcon.classList.remove('text-ivan-red');
-                alert("🔓 تم تفعيل وضع التعديل. اضغط على أي نص لتغييره مباشرة!");
+                alert("🔓 تم تفعيل وضع التعديل بنجاح. اضغط على أي نص لتغييره مباشرة.");
             } else {
                 editIcon.classList.add('fa-pen', 'text-ivan-red');
                 editIcon.classList.remove('fa-check', 'text-green-500');
-                alert("🔒 تم إيقاف وضع التعديل.");
+                alert("🔒 تم إيقاف وحفظ وضع التعديل.");
             }
             closeAdminModal();
         }
