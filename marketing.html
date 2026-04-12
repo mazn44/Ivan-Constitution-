@@ -32,207 +32,327 @@
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
+    
     <style>
-        /* إزالة التضاربات السابقة والاعتماد كلياً على Tailwind كما صممها كلاود */
-        body { font-family: 'Cairo', sans-serif; overflow-x: hidden; }
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            width: 100%;
+        }
         .font-en { font-family: 'Outfit', sans-serif; }
-        
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; }
+
+        body.dark { background-color: #07090F; color: #F0F4FF; }
+        body:not(.dark) { background-color: #F5F7FA; color: #0D1117; }
+
+        ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
         .dark ::-webkit-scrollbar-thumb { background: #1A1E2E; }
         ::-webkit-scrollbar-thumb:hover { background: #C8102E; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* ambient glow */
+        .ambient-red {
+            position: fixed; border-radius: 50%;
+            filter: blur(120px); z-index: -1; pointer-events: none;
+            background: rgba(200,16,46,0.12); width: 500px; height: 500px;
+            top: -150px; right: -150px; opacity: 0; transition: opacity 0.6s;
+        }
+        .dark .ambient-red { opacity: 1; }
+        .ambient-blue {
+            position: fixed; border-radius: 50%;
+            filter: blur(150px); z-index: -1; pointer-events: none;
+            background: rgba(30,64,175,0.07); width: 600px; height: 600px;
+            bottom: -200px; left: -200px; opacity: 0; transition: opacity 0.6s;
+        }
+        .dark .ambient-blue { opacity: 1; }
+
+        /* sidebar nav item */
+        .nav-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 16px; border-radius: 14px;
+            font-weight: 600; font-size: 13.5px;
+            color: #64748B; transition: all 0.2s ease;
+            cursor: pointer; text-decoration: none; border: none;
+            background: transparent; width: 100%; text-align: right;
+        }
+        .nav-item:hover { background: rgba(200,16,46,0.07); color: #C8102E; }
+        .dark .nav-item { color: #94A3B8; }
+        .dark .nav-item:hover { background: rgba(200,16,46,0.1); color: #FF6B7A; }
+        .nav-item.active {
+            background: rgba(200,16,46,0.1); color: #C8102E; font-weight: 700;
+        }
+        .dark .nav-item.active { background: rgba(200,16,46,0.15); color: #FF6B7A; }
+        .nav-item .nav-icon {
+            width: 32px; height: 32px; border-radius: 9px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 13px; background: rgba(100,116,139,0.1);
+            transition: all 0.2s;
+        }
+        .nav-item:hover .nav-icon, .nav-item.active .nav-icon {
+            background: rgba(200,16,46,0.15); color: #C8102E;
+        }
+        .dark .nav-item:hover .nav-icon, .dark .nav-item.active .nav-icon {
+            background: rgba(200,16,46,0.2); color: #FF6B7A;
+        }
+
+        /* dept sub item */
+        .dept-item {
+            display: flex; align-items: flex-start; gap: 10px;
+            padding: 9px 14px; border-radius: 12px;
+            font-size: 12.5px; font-weight: 600;
+            color: #64748B; transition: all 0.18s; cursor: pointer;
+            text-decoration: none; border: none; background: transparent; width: 100%;
+        }
+        .dept-item:hover { background: rgba(200,16,46,0.06); color: #C8102E; }
+        .dark .dept-item { color: #7A8BA0; }
+        .dark .dept-item:hover { background: rgba(200,16,46,0.1); color: #FF8090; }
+        .dept-item.active { background: rgba(200,16,46,0.06); color: #C8102E; }
+        .dark .dept-item.active { background: rgba(200,16,46,0.1); color: #FF8090; }
+        .dept-item .dept-icon {
+            width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 11px;
+            background: rgba(100,116,139,0.08); margin-top: 1px;
+        }
+        .dept-item:hover .dept-icon, .dept-item.active .dept-icon { background: rgba(200,16,46,0.12); }
+
+        /* dept submenu animation */
+        #deptSubMenu {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+        #deptSubMenu.open { max-height: 600px; }
+
+        /* البطاقات الخاصة بالمحتوى */
+        .content-card {
+            background: #fff; border: 1px solid #E4E9F0;
+            border-radius: 22px; padding: 28px; margin-bottom: 24px;
+            transition: all 0.25s ease;
+        }
+        .dark .content-card { background: #0F1118; border-color: #1A1E2E; }
+        
+        .sub-box { border-radius: 16px; padding: 20px; border: 1px solid #E4E9F0; background: #F5F7FA; }
+        .dark .sub-box { background: #07090F; border-color: #1A1E2E; }
     </style>
 </head>
+<body class="bg-ivan-lightBg dark:bg-ivan-darkBg text-gray-900 dark:text-white relative min-h-screen">
 
-<body class="bg-ivan-lightBg dark:bg-ivan-darkBg text-gray-900 dark:text-white min-h-screen flex flex-col transition-colors duration-300">
+<div class="ambient-red"></div>
+<div class="ambient-blue"></div>
 
-    <div id="sidebarOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="toggleSidebar()"></div>
+<div id="sidebarOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="toggleSidebar()"></div>
 
-    <aside id="sidebar" class="fixed top-0 right-0 h-screen w-72 lg:w-80 z-50 bg-white dark:bg-ivan-darkCard border-l border-ivan-lightBorder dark:border-ivan-darkBorder transform translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col shadow-2xl lg:shadow-none">
-        
-        <div class="h-24 lg:h-28 flex items-center px-6 lg:px-8 border-b border-ivan-lightBorder dark:border-ivan-darkBorder relative">
-            <div class="flex items-center gap-4 w-full">
-                <div class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-gradient-to-br from-ivan-red to-red-900 flex items-center justify-center shadow-lg shadow-ivan-red/30">
-                    <span class="font-en text-2xl lg:text-3xl font-black italic text-white">i</span>
-                </div>
-                <div class="flex flex-col">
-                    <h1 class="font-en text-2xl lg:text-3xl tracking-[0.15em] uppercase font-black text-gray-900 dark:text-white leading-none">IVAN</h1>
-                    <span class="text-[10px] lg:text-[11px] text-gray-500 tracking-[0.2em] uppercase mt-1 font-bold">Portal System</span>
-                </div>
+<aside id="sidebar" class="fixed top-0 right-0 h-screen w-72 lg:w-[280px] z-50 bg-white dark:bg-ivan-darkCard border-l border-gray-100 dark:border-ivan-darkBorder transform translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col shadow-[0_0_40px_rgba(0,0,0,0.05)] dark:shadow-[0_0_40px_rgba(0,0,0,0.2)]">
+    
+    <div class="h-24 flex items-center px-6 border-b border-gray-100 dark:border-ivan-darkBorder relative">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-ivan-red to-red-900 flex items-center justify-center shadow-lg shadow-ivan-red/30">
+                <span class="font-en text-2xl font-black italic text-white">i</span>
             </div>
-            <button onclick="toggleSidebar()" class="absolute left-4 lg:hidden text-gray-500 hover:text-ivan-red text-2xl"><i class="fa-solid fa-times"></i></button>
+            <div class="flex flex-col">
+                <h1 class="font-en text-2xl tracking-[0.1em] font-black text-gray-900 dark:text-white leading-none">IVAN</h1>
+                <span class="text-[9px] text-gray-500 tracking-[0.15em] uppercase mt-1 font-bold">Portal System</span>
+            </div>
         </div>
-
-        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
-            
-            <a href="index.html" class="flex items-center gap-4 px-5 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-ivan-red transition-all">
-                <i class="fa-solid fa-house w-6 text-center text-xl"></i>
-                <span class="font-bold text-lg">الرئيسية</span>
-            </a>
-
-            <div>
-                <button onclick="toggleDeptMenu()" class="w-full flex items-center justify-between px-5 py-4 rounded-2xl bg-red-50 dark:bg-red-900/20 text-ivan-red font-bold relative overflow-hidden focus:outline-none transition-all">
-                    <div class="flex items-center gap-4">
-                        <i class="fa-solid fa-layer-group w-6 text-center text-xl"></i>
-                        <span class="text-lg">أقسام المعرض</span>
-                    </div>
-                    <i id="deptMenuArrow" class="fa-solid fa-chevron-down transition-transform duration-300 rotate-180"></i>
-                    <div class="absolute right-0 top-1/4 h-1/2 w-1 bg-ivan-red rounded-l-full shadow-[0_0_10px_rgba(200,16,46,0.8)]"></div>
-                </button>
-                
-                <div id="deptDropdown" class="flex flex-col pl-4 pr-12 space-y-2 mt-3 mb-2">
-                    <a href="admin.html" class="text-gray-500 hover:text-ivan-red dark:text-gray-400 dark:hover:text-white font-bold transition-all text-base py-1">الإدارة العامة</a>
-                    <a href="marketing.html" class="text-ivan-red font-bold transition-all text-base py-1">التسويق والإعلام</a> <a href="customer_service.html" class="text-gray-500 hover:text-ivan-red dark:text-gray-400 dark:hover:text-white font-bold transition-all text-base py-1">خدمة العملاء</a>
-                    <a href="sales.html" class="text-gray-500 hover:text-ivan-red dark:text-gray-400 dark:hover:text-white font-bold transition-all text-base py-1">قسم المبيعات</a>
-                    <a href="carpentry.html" class="text-gray-500 hover:text-ivan-red dark:text-gray-400 dark:hover:text-white font-bold transition-all text-base py-1">النجارة والتركيب</a>
-                    <a href="warehouse.html" class="text-gray-500 hover:text-ivan-red dark:text-gray-400 dark:hover:text-white font-bold transition-all text-base py-1">المخازن والمناولة</a>
-                    <a href="cleaning.html" class="text-gray-500 hover:text-ivan-red dark:text-gray-400 dark:hover:text-white font-bold transition-all text-base py-1">النظافة والخدمات</a>
-                </div>
-            </div>
-
-            <a href="policy.html" class="flex items-center gap-4 px-5 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-ivan-red transition-all mt-2">
-                <i class="fa-solid fa-scale-balanced w-6 text-center text-xl"></i>
-                <span class="font-bold text-lg">سياسة المعرض</span>
-            </a>
-        </nav>
-    </aside>
-
-    <div class="flex flex-col min-h-screen w-full lg:w-[calc(100%-20rem)] lg:mr-auto">
-        
-        <header class="h-20 lg:h-24 sticky top-0 z-30 px-4 sm:px-8 flex items-center justify-between bg-ivan-lightBg/80 dark:bg-ivan-darkBg/80 backdrop-blur-xl border-b border-ivan-lightBorder dark:border-ivan-darkBorder">
-            <div class="flex items-center gap-4">
-                <button onclick="toggleSidebar()" class="lg:hidden w-12 h-12 rounded-xl bg-white dark:bg-ivan-darkCard border border-ivan-lightBorder dark:border-ivan-darkBorder flex items-center justify-center text-gray-900 dark:text-white text-xl hover:text-ivan-red transition-all">
-                    <i class="fa-solid fa-bars-staggered"></i>
-                </button>
-                <div class="font-en text-xl lg:text-2xl font-black tracking-[0.2em] uppercase hidden sm:block">
-                    IVAN <span class="text-ivan-red">DEPT</span>
-                </div>
-            </div>
-            <button onclick="toggleTheme()" class="w-12 h-12 rounded-xl bg-white dark:bg-ivan-darkCard border border-ivan-lightBorder dark:border-ivan-darkBorder flex items-center justify-center text-gray-600 dark:text-gray-300 hover:text-ivan-red dark:hover:text-ivan-red hover:scale-110 transition-all text-xl cursor-pointer shadow-sm">
-                <i class="fa-solid fa-moon dark:hidden"></i>
-                <i class="fa-solid fa-sun hidden dark:block"></i>
-            </button>
-        </header>
-
-        <main class="flex-1 w-full max-w-5xl mx-auto p-5 sm:p-8 lg:p-12">
-            
-            <div class="mb-14 border-r-8 border-ivan-red pr-6">
-                <h1 class="text-4xl lg:text-5xl font-black mb-4 leading-tight">
-                    قسم <span class="text-ivan-red">التسويق والإعلام الرقمي</span>
-                </h1>
-                <p class="text-lg text-gray-600 dark:text-gray-400 font-bold leading-relaxed">
-                    مسؤول عن تقديم صورة معرض إيفان بطريقة راقية، بناء الثقة، وإظهار المنتجات بأفضل شكل.
-                </p>
-            </div>
-
-            <div class="bg-white dark:bg-ivan-darkCard border border-ivan-lightBorder dark:border-ivan-darkBorder rounded-3xl p-6 lg:p-8 mb-8 shadow-sm transition-all">
-                <h2 class="text-2xl font-black text-ivan-red mb-6 border-b border-gray-100 dark:border-gray-800 pb-4">1) مهمة القسم والأدوار</h2>
-                <div class="space-y-4">
-                    <div class="bg-ivan-lightBg dark:bg-ivan-darkBg border border-ivan-lightBorder dark:border-ivan-darkBorder rounded-2xl p-5">
-                        <h3 class="text-lg font-black mb-2 underline">الهدف الأساسي:</h3>
-                        <p class="text-sm font-bold leading-relaxed">نحن لا ننشر لمجرد الظهور، بل ننشر لزيادة الثقة وجذب الزبون بطريقة تليق باسم إيفان. الصدق قبل التجميل.</p>
-                    </div>
-                    <div class="bg-ivan-lightBg dark:bg-ivan-darkBg border border-ivan-lightBorder dark:border-ivan-darkBorder rounded-2xl p-5">
-                        <h3 class="text-lg font-black mb-2 underline">المهام الأساسية:</h3>
-                        <ul class="text-sm font-bold space-y-2 list-none">
-                            <li><strong class="text-ivan-red">الإدارة والإشراف:</strong> الموافقة النهائية ومتابعة جودة النشر قبل خروجه للناس.</li>
-                            <li><strong class="text-ivan-red">الواجهة الإعلامية:</strong> الظهور أمام الكاميرا كخبير يشرح القطع بصدق وإعطاء إحساس الثقة.</li>
-                            <li><strong class="text-ivan-red">التصوير والمونتاج:</strong> لقطات ثابتة ومونتاج أنيق يضمن راحة المشاهد بدون إزعاج.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-ivan-darkCard border border-ivan-lightBorder dark:border-ivan-darkBorder rounded-3xl p-6 lg:p-8 mb-8 shadow-sm transition-all">
-                <h2 class="text-2xl font-black mb-6">2) المسموح والممنوع (خطوط حمراء)</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-900/30 rounded-2xl p-5">
-                        <h3 class="text-xl font-black text-emerald-600 dark:text-emerald-500 mb-4">المسموح ✔️</h3>
-                        <ul class="text-sm font-bold space-y-3 list-disc pl-5 text-gray-700 dark:text-gray-300">
-                            <li>تصوير القطع بوضوح وبإضاءة جيدة.</li>
-                            <li>شرح المقاس، اللون، والحالة بشكل مباشر.</li>
-                            <li>إبراز عيوب القطع المستعملة بكل شفافية.</li>
-                            <li>عمل فيديوهات قصيرة ونهاية تدعو للزيارة.</li>
-                        </ul>
-                    </div>
-                    <div class="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/30 rounded-2xl p-5">
-                        <h3 class="text-xl font-black text-red-600 dark:text-red-500 mb-4">الممنوع ❌</h3>
-                        <ul class="text-sm font-bold space-y-3 list-disc pl-5 text-gray-700 dark:text-gray-300">
-                            <li>نشر أي محتوى دون مراجعة مسبقة.</li>
-                            <li>المبالغة الكاذبة في وصف جودة البضاعة.</li>
-                            <li>السخرية من المنافسين.</li>
-                            <li>الأغاني أو الموسيقى الصاخبة في الفيديوهات.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white dark:bg-ivan-darkCard border border-ivan-lightBorder dark:border-ivan-darkBorder rounded-3xl p-6 lg:p-8 shadow-sm transition-all border-t-4 border-t-amber-500">
-                <h2 class="text-2xl font-black text-amber-600 dark:text-amber-500 mb-6 flex items-center gap-3">
-                    <i class="fa-solid fa-star"></i> 3) منهجية واجهة المعرض (التقديم)
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-ivan-lightBg dark:bg-ivan-darkBg border border-ivan-lightBorder dark:border-ivan-darkBorder rounded-2xl p-5">
-                        <h4 class="font-black underline mb-3 text-lg">العبارات المعتمدة (عربي):</h4>
-                        <ul class="text-sm font-bold space-y-2">
-                            <li>• "تعالوا نشوف هالقطعة عن قرب أحسن."</li>
-                            <li>• "هذا الموديل عملي ومرتب جداً."</li>
-                            <li>• "هذي مو للمبالغة، هذي للناس اللي تحب الشغل الواضح."</li>
-                        </ul>
-                    </div>
-                    <div class="bg-ivan-lightBg dark:bg-ivan-darkBg border border-ivan-lightBorder dark:border-ivan-darkBorder rounded-2xl p-5">
-                        <h4 class="font-black underline mb-3 text-lg">العبارات المعتمدة (باديني):</h4>
-                        <ul class="text-sm font-bold space-y-2">
-                            <li>• "سلاڤ و رێز، ئەز ژ پێشانگەها ئاڤان."</li>
-                            <li>• "وەرن ڤێ پارچێ ژ نێزیکڤە ببینین."</li>
-                            <li>• "ئەڤ پارچە کارامە و ڕێکە."</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </main>
+        <button onclick="toggleSidebar()" class="absolute left-4 lg:hidden text-gray-500 hover:text-ivan-red text-xl"><i class="fa-solid fa-times"></i></button>
     </div>
 
-    <script>
-        // نظام الداكن والفاتح (تم إصلاحه ليتوافق مع كلاود)
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('ivanTheme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-        }
+    <nav class="flex-1 overflow-y-auto px-4 py-6 flex flex-col gap-1.5 no-scrollbar">
         
-        // التحقق من الثيم عند التحميل
+        <a href="index.html" class="nav-item">
+            <div class="nav-icon"><i class="fa-solid fa-house"></i></div>
+            الرئيسية
+        </a>
+
+        <div class="flex flex-col">
+            <button id="deptMenuBtn" onclick="toggleDeptMenu()" class="nav-item justify-between active">
+                <div class="flex items-center gap-3">
+                    <div class="nav-icon"><i class="fa-solid fa-layer-group"></i></div>
+                    أقسام المعرض
+                </div>
+                <i id="deptArrow" class="fa-solid fa-chevron-down text-[10px] transition-transform duration-300" style="transform: rotate(180deg);"></i>
+            </button>
+            
+            <div id="deptSubMenu" class="flex flex-col gap-1 px-2 mt-1 open">
+                <a href="departments.html" class="dept-item">
+                    <div class="dept-icon"><i class="fa-solid fa-sitemap"></i></div>
+                    الرئيسية للأقسام
+                </a>
+                <a href="admin.html" class="dept-item">
+                    <div class="dept-icon"><i class="fa-solid fa-user-tie"></i></div>
+                    الإدارة العامة
+                </a>
+                <a href="marketing.html" class="dept-item active">
+                    <div class="dept-icon"><i class="fa-solid fa-bullhorn"></i></div>
+                    التسويق والإعلام
+                </a>
+                <a href="customer_service.html" class="dept-item">
+                    <div class="dept-icon"><i class="fa-solid fa-headset"></i></div>
+                    خدمة العملاء والردود
+                </a>
+                <a href="sales.html" class="dept-item">
+                    <div class="dept-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+                    قسم المبيعات
+                </a>
+                <a href="carpentry.html" class="dept-item">
+                    <div class="dept-icon"><i class="fa-solid fa-hammer"></i></div>
+                    النجارة والتركيب
+                </a>
+                <a href="warehouse.html" class="dept-item">
+                    <div class="dept-icon"><i class="fa-solid fa-truck-ramp-box"></i></div>
+                    المخازن والنقل
+                </a>
+                <a href="cleaning.html" class="dept-item">
+                    <div class="dept-icon"><i class="fa-solid fa-broom"></i></div>
+                    النظافة والخدمات
+                </a>
+            </div>
+        </div>
+
+        <a href="policy.html" class="nav-item mt-1">
+            <div class="nav-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+            سياسة المعرض
+        </a>
+    </nav>
+</aside>
+
+<div class="flex flex-col min-h-screen w-full lg:w-[calc(100%-280px)] lg:mr-auto">
+    
+    <header class="h-20 sticky top-0 z-30 px-5 sm:px-7 flex items-center justify-between bg-ivan-lightBg/80 dark:bg-ivan-darkBg/80 backdrop-blur-xl border-b border-gray-100 dark:border-ivan-darkBorder">
+        <div class="flex items-center gap-4">
+            <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-gray-50 dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center text-gray-900 dark:text-white text-lg">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="font-en text-lg font-black tracking-widest text-gray-900 dark:text-white">
+                IVAN <span class="text-ivan-red">MARKETING</span>
+            </div>
+        </div>
+        <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center text-indigo-500 dark:text-amber-400 hover:scale-105 transition-transform text-base">
+            <i class="fa-solid fa-moon dark:hidden"></i>
+            <i class="fa-solid fa-sun hidden dark:block"></i>
+        </button>
+    </header>
+
+    <main class="flex-1 w-full max-w-5xl mx-auto p-5 sm:p-7 lg:p-10 relative z-10">
+        
+        <div class="mb-10 border-r-4 border-ivan-red pr-4">
+            <h1 class="text-3xl sm:text-4xl font-black mb-2 text-gray-900 dark:text-white leading-tight">قسم <span class="text-ivan-red">التسويق والإعلام</span></h1>
+            <p class="text-sm sm:text-base text-gray-500 dark:text-gray-400 font-bold leading-relaxed">
+                هذا القسم مسؤول عن تقديم صورة معرض إيفان بطريقة راقية، بناء الثقة، وإظهار المنتجات بأفضل شكل.
+            </p>
+        </div>
+
+        <div class="content-card">
+            <h2 class="text-xl font-black text-ivan-red mb-5 flex items-center gap-2"><i class="fa-solid fa-users"></i> 1) مهمة القسم والأدوار</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="sub-box">
+                    <h3 class="text-base font-black mb-2 underline text-gray-900 dark:text-white">الهدف الأساسي:</h3>
+                    <p class="text-sm font-bold text-gray-600 dark:text-gray-400 leading-relaxed">نحن لا ننشر لمجرد الظهور، بل ننشر لزيادة الثقة وجذب الزبون بطريقة تليق باسم إيفان. الصدق قبل التجميل.</p>
+                </div>
+                <div class="sub-box">
+                    <h3 class="text-base font-black mb-2 underline text-gray-900 dark:text-white">المهام الأساسية:</h3>
+                    <ul class="text-sm font-bold space-y-1.5 list-none text-gray-600 dark:text-gray-400">
+                        <li><strong class="text-ivan-red">الإشراف:</strong> الموافقة النهائية قبل النشر.</li>
+                        <li><strong class="text-ivan-red">التقديم:</strong> الشرح كخبير وبناء الثقة.</li>
+                        <li><strong class="text-ivan-red">المونتاج:</strong> لقطات ثابتة وأنيقة تريح المشاهد.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2 class="text-xl font-black mb-5 text-gray-900 dark:text-white flex items-center gap-2"><i class="fa-solid fa-list-check text-ivan-red"></i> 2) المسموح والممنوع</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="sub-box border-emerald-500/20 bg-emerald-50/30 dark:bg-emerald-900/10">
+                    <h3 class="text-lg font-black text-emerald-600 mb-3">المسموح ✔️</h3>
+                    <ul class="text-sm font-bold space-y-2 list-disc pl-4 text-gray-700 dark:text-gray-300">
+                        <li>تصوير القطع بوضوح وإضاءة جيدة.</li>
+                        <li>شرح المقاس، اللون، والحالة بشكل مباشر.</li>
+                        <li>إبراز عيوب القطع المستعملة بكل شفافية.</li>
+                        <li>عمل فيديوهات قصيرة هادفة.</li>
+                    </ul>
+                </div>
+                <div class="sub-box border-red-500/20 bg-red-50/30 dark:bg-red-900/10">
+                    <h3 class="text-lg font-black text-red-600 mb-3">الممنوع ❌</h3>
+                    <ul class="text-sm font-bold space-y-2 list-disc pl-4 text-gray-700 dark:text-gray-300">
+                        <li>نشر أي محتوى دون مراجعة مسبقة.</li>
+                        <li>المبالغة الكاذبة في وصف جودة البضاعة.</li>
+                        <li>السخرية من المنافسين.</li>
+                        <li>الأغاني أو الموسيقى الصاخبة في الفيديوهات.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-card">
+            <h2 class="text-xl font-black text-amber-500 mb-5 flex items-center gap-2">
+                <i class="fa-solid fa-star"></i> 3) منهجية واجهة المعرض (التقديم)
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="sub-box">
+                    <h4 class="font-black underline mb-3 text-base text-gray-900 dark:text-white">العبارات المعتمدة (عربي):</h4>
+                    <ul class="text-sm font-bold space-y-2 text-gray-600 dark:text-gray-400">
+                        <li>• "تعالوا نشوف هالقطعة عن قرب أحسن."</li>
+                        <li>• "هذا الموديل عملي ومرتب جداً."</li>
+                        <li>• "هذي مو للمبالغة، هذي للناس اللي تحب الشغل الواضح."</li>
+                    </ul>
+                </div>
+                <div class="sub-box">
+                    <h4 class="font-black underline mb-3 text-base text-gray-900 dark:text-white">العبارات المعتمدة (باديني):</h4>
+                    <ul class="text-sm font-bold space-y-2 text-gray-600 dark:text-gray-400">
+                        <li>• "سلاڤ و رێز، ئەز ژ پێشانگەها ئاڤان."</li>
+                        <li>• "وەرن ڤێ پارچێ ژ نێزیکڤە ببینین."</li>
+                        <li>• "ئەڤ پارچە کارامە و ڕێکە."</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script>
+    // Theme setup
+    function toggleTheme() {
+        const html = document.documentElement;
+        html.classList.toggle('dark');
+        localStorage.setItem('ivanTheme', html.classList.contains('dark') ? 'dark' : 'light');
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
         if (localStorage.getItem('ivanTheme') === 'light') {
             document.documentElement.classList.remove('dark');
         } else {
-            document.documentElement.classList.add('dark'); // افتراضي داكن كما في صورك
+            document.documentElement.classList.add('dark');
         }
+    });
 
-        // فتح وإغلاق القائمة الجانبية (للموبايل)
-        function toggleSidebar() {
-            document.getElementById('sidebar').classList.toggle('translate-x-full');
-            document.getElementById('sidebarOverlay').classList.toggle('hidden');
-        }
+    // Sidebar setup
+    function toggleSidebar() {
+        const sb = document.getElementById('sidebar');
+        const ov = document.getElementById('sidebarOverlay');
+        sb.classList.toggle('translate-x-full');
+        ov.classList.toggle('hidden');
+    }
 
-        // كود القائمة المنسدلة للأقسام (Dropdown Logic)
-        function toggleDeptMenu() {
-            const dropdown = document.getElementById('deptDropdown');
-            const arrow = document.getElementById('deptMenuArrow');
-            
-            if (dropdown.classList.contains('hidden')) {
-                dropdown.classList.remove('hidden');
-                dropdown.classList.add('flex');
-                arrow.classList.add('rotate-180');
-            } else {
-                dropdown.classList.add('hidden');
-                dropdown.classList.remove('flex');
-                arrow.classList.remove('rotate-180');
-            }
+    // Dropdown Logic (القائمة المنسدلة للأقسام)
+    function toggleDeptMenu() {
+        const menu = document.getElementById('deptSubMenu');
+        const arrow = document.getElementById('deptArrow');
+        const btn = document.getElementById('deptMenuBtn');
+        
+        menu.classList.toggle('open');
+        if(menu.classList.contains('open')) {
+            arrow.style.transform = 'rotate(180deg)';
+            btn.classList.add('active');
+        } else {
+            arrow.style.transform = 'rotate(0deg)';
+            btn.classList.remove('active');
         }
-    </script>
+    }
+</script>
 </body>
 </html>
  
