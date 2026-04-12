@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التقييم ونظام النقاط | إيفان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class', theme: { extend: { colors: { ivan: { red: '#C8102E', darkBg: '#07090F', darkCard: '#0F1118', darkBorder: '#1A1E2E', lightBg: '#F5F7FA' } }, fontFamily: { cairo: ['Cairo', 'sans-serif'], outfit: ['Outfit', 'sans-serif'] } } } }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&family=Outfit:wght@900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Cairo', sans-serif; transition: 0.3s; }
+        .font-en { font-family: 'Outfit', sans-serif; }
+        body.dark { background-color: #07090F; color: #F0F4FF; }
+        body:not(.dark) { background-color: #F5F7FA; color: #0D1117; }
+        .point-card { background: #fff; border: 1px solid #E4E9F0; border-radius: 24px; padding: 24px; position: relative; overflow: hidden; transition: 0.3s; }
+        .dark .point-card { background: #0F1118; border-color: #1A1E2E; }
+        .point-card:hover { transform: translateY(-5px); }
+        .glow-green { box-shadow: 0 0 25px rgba(34, 197, 94, 0.15); border-color: rgba(34, 197, 94, 0.3); }
+        .glow-yellow { box-shadow: 0 0 25px rgba(234, 179, 8, 0.15); border-color: rgba(234, 179, 8, 0.3); }
+        .glow-red { box-shadow: 0 0 25px rgba(239, 68, 68, 0.15); border-color: rgba(239, 68, 68, 0.3); }
+    </style>
+</head>
+<body class="bg-ivan-lightBg dark:bg-ivan-darkBg text-gray-900 dark:text-white min-h-screen">
+
+    <header class="h-20 sticky top-0 z-50 px-6 flex items-center justify-between bg-ivan-lightBg/80 dark:bg-ivan-darkBg/80 backdrop-blur-xl border-b border-gray-100 dark:border-ivan-darkBorder">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="w-10 h-10 rounded-xl bg-white dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center hover:text-ivan-red transition-all"><i class="fa-solid fa-arrow-right"></i></a>
+            <div class="font-en text-lg font-black tracking-widest uppercase">IVAN <span class="text-ivan-red">REWARDS</span></div>
+        </div>
+        <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-white dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center text-indigo-500 dark:text-amber-400"><i class="fa-solid fa-moon dark:hidden"></i><i class="fa-solid fa-sun hidden dark:block"></i></button>
+    </header>
+
+    <main class="max-w-5xl mx-auto p-6 lg:p-10">
+        
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-black mb-3">نظام <span class="text-ivan-red">التقييم والنقاط</span></h1>
+            <p class="font-bold text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+                يتم تقييم أداء جميع الموظفين بشكل يومي ومباشر عبر مجموعة الواتساب الخاصة بكل قسم. كل تصرف له لون، ولكل لون نتيجة!
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            
+            <div class="point-card glow-green">
+                <div class="absolute -right-6 -top-6 w-24 h-24 bg-green-500/10 rounded-full blur-xl"></div>
+                <div class="w-16 h-16 bg-green-100 dark:bg-green-900/20 text-green-500 rounded-2xl flex items-center justify-center text-3xl mb-4 border border-green-200 dark:border-green-800"><i class="fa-solid fa-circle-check"></i></div>
+                <h2 class="text-2xl font-black text-green-600 dark:text-green-400 mb-2">النقطة الخضراء</h2>
+                <span class="inline-block px-3 py-1 bg-green-500/10 text-green-600 font-black text-xs rounded-lg mb-4">إنجاز ومكافأة</span>
+                <p class="text-sm font-bold text-gray-600 dark:text-gray-400 leading-relaxed">
+                    تُمنح للموظف عند إتمام المهام اليومية بامتياز، التعامل الراقي مع الزبائن، أو حل مشكلة بذكاء. <br><br>
+                    <strong class="text-green-600">النتيجة:</strong> كل نقطة خضراء تُرصد لك تعني <span class="underline">مكافأة مالية</span> أو إضافة لعمولتك نهاية الشهر.
+                </p>
+            </div>
+
+            <div class="point-card glow-yellow">
+                <div class="absolute -right-6 -top-6 w-24 h-24 bg-yellow-500/10 rounded-full blur-xl"></div>
+                <div class="w-16 h-16 bg-yellow-100 dark:bg-yellow-900/20 text-yellow-500 rounded-2xl flex items-center justify-center text-3xl mb-4 border border-yellow-200 dark:border-yellow-800"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <h2 class="text-2xl font-black text-yellow-600 dark:text-yellow-400 mb-2">النقطة الصفراء</h2>
+                <span class="inline-block px-3 py-1 bg-yellow-500/10 text-yellow-600 font-black text-xs rounded-lg mb-4">تنبيه لفت نظر</span>
+                <p class="text-sm font-bold text-gray-600 dark:text-gray-400 leading-relaxed">
+                    تُمنح عند وجود تقصير بسيط، نسيان مهمة، أو خطأ غير مقصود أثناء العمل. <br><br>
+                    <strong class="text-yellow-600">النتيجة:</strong> هي لفت نظر فقط ولا يرافقها خصم مالي، ولكن تكرارها يعرضك للنقطة الحمراء.
+                </p>
+            </div>
+
+            <div class="point-card glow-red">
+                <div class="absolute -right-6 -top-6 w-24 h-24 bg-red-500/10 rounded-full blur-xl"></div>
+                <div class="w-16 h-16 bg-red-100 dark:bg-red-900/20 text-red-500 rounded-2xl flex items-center justify-center text-3xl mb-4 border border-red-200 dark:border-red-800"><i class="fa-solid fa-circle-xmark"></i></div>
+                <h2 class="text-2xl font-black text-red-600 dark:text-red-400 mb-2">النقطة الحمراء</h2>
+                <span class="inline-block px-3 py-1 bg-red-500/10 text-red-600 font-black text-xs rounded-lg mb-4">مخالفة وخصم</span>
+                <p class="text-sm font-bold text-gray-600 dark:text-gray-400 leading-relaxed">
+                    تُسجل عند الإهمال المتعمد، الغياب أو التأخير بدون عذر، أو تجاوز القواعد الأساسية للمعرض. <br><br>
+                    <strong class="text-red-600">النتيجة:</strong> كل نقطة حمراء يرافقها <span class="underline">خصم مالي فوري</span> من الراتب أو العمولة.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="bg-gray-50 dark:bg-[#0F1118] border border-gray-200 dark:border-[#1A1E2E] rounded-3xl p-8 text-center mt-10">
+            <h3 class="text-2xl font-black mb-3">صندوق الضمان (الأمانات)</h3>
+            <p class="font-bold text-gray-600 dark:text-gray-400 mb-4">يتم الاحتفاظ بمبلغ <strong class="text-ivan-red">100,000 دينار</strong> كأمانة لضمان الالتزام بقوانين المعرض والحفاظ على الممتلكات.</p>
+            <p class="text-sm font-black text-emerald-600"><i class="fa-solid fa-shield-halved"></i> يُسترد هذا المبلغ كاملاً للموظف عند انتهاء الخدمة بشكل نظامي.</p>
+        </div>
+
+    </main>
+
+    <script>
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('ivanTheme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('ivanTheme') === 'light') { document.documentElement.classList.remove('dark'); }
+    </script>
+</body>
+</html>
