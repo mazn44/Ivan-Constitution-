@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" class="dark">
+<html lang="ar" dir="rtl" id="htmlTag" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -12,8 +12,8 @@
             theme: {
                 extend: {
                     colors: {
-                        ivan: { red: '#C8102E', darkBg: '#05050A', darkCard: '#0A0C14', lightBg: '#F1F3F9' },
-                        neon: { blue: '#00F0FF', pink: '#FF003C', purple: '#8A2BE2' }
+                        ivan: { red: '#C8102E', darkBg: '#050509', darkCard: '#0D0F18', lightBg: '#F3F4F6', lightCard: '#FFFFFF' },
+                        neon: { blue: '#00D4FF', purple: '#9D4EDD', pink: '#FF003C' }
                     },
                     fontFamily: { cairo: ['Cairo', 'sans-serif'], outfit: ['Outfit', 'sans-serif'] }
                 }
@@ -24,127 +24,143 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body { font-family: 'Cairo', sans-serif; transition: 0.3s; overflow-x: hidden; }
+        body { font-family: 'Cairo', sans-serif; transition: background-color 0.3s, color 0.3s; -webkit-tap-highlight-color: transparent; }
         .font-en { font-family: 'Outfit', sans-serif; }
         
-        .dark body { background-color: #05050A; color: #F0F4FF; }
-        body:not(.dark) { background-color: #F1F3F9; color: #0D1117; }
+        /* تدرج لوني للنصوص الفخمة */
+        .gradient-text { background: linear-gradient(90deg, #00D4FF, #9D4EDD, #FF003C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .neon-text { background: linear-gradient(90deg, #00F0FF, #8A2BE2, #FF003C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .neon-border { transition: 0.3s; border: 1px solid; }
-        .dark .neon-border { border-color: rgba(0, 240, 255, 0.1); }
-        body:not(.dark) .neon-border { border-color: rgba(0,0,0,0.05); }
-
-        .news-card { border-radius: 16px; padding: 16px; margin-bottom: 20px; transition: 0.3s ease; position: relative; }
-        .dark .news-card { background: rgba(10, 12, 20, 0.85); backdrop-filter: blur(10px); }
-        body:not(.dark) .news-card { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-
-        /* الحالات (Stories) - حقيقية */
+        /* الحالات (Stories) - مبنية بـ CSS نقي بدون صور خارجية */
         .story-circle {
-            width: 60px; height: 60px; border-radius: 50%; padding: 2.5px;
-            background: linear-gradient(45deg, #00F0FF, #8A2BE2, #FF003C);
-            cursor: pointer; flex-shrink: 0; transition: 0.3s; position: relative;
+            width: 64px; height: 64px; border-radius: 50%; padding: 3px;
+            background: linear-gradient(45deg, #00D4FF, #9D4EDD, #FF003C);
+            cursor: pointer; flex-shrink: 0; transition: transform 0.2s; position: relative;
         }
         .story-circle:active { transform: scale(0.95); }
-        .story-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid; }
-        .dark .story-img { border-color: #05050A; }
-        body:not(.dark) .story-img { border-color: #F1F3F9; }
-        .story-name { font-size: 11px; font-weight: 700; text-align: center; margin-top: 4px; width: 64px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .story-inner { width: 100%; height: 100%; border-radius: 50%; border: 3px solid; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 20px; color: white; overflow: hidden; }
+        .dark .story-inner { border-color: #050509; background: #131624; }
+        html:not(.dark) .story-inner { border-color: #F3F4F6; background: #FFFFFF; color: #0F172A; }
+        .story-img-preview { width: 100%; height: 100%; object-fit: cover; }
 
-        /* شاشة عرض الحالة (Full Screen Story Viewer) */
+        /* فلاتر الأقسام (التفرع) */
+        .category-tab {
+            padding: 8px 18px; border-radius: 20px; font-weight: 800; font-size: 13px; cursor: pointer;
+            transition: all 0.3s; white-space: nowrap; border: 1px solid;
+        }
+        .dark .category-tab { border-color: #1E2336; background: #131624; color: #94A3B8; }
+        html:not(.dark) .category-tab { border-color: #E5E7EB; background: #FFFFFF; color: #64748B; }
+        .category-tab.active { background: linear-gradient(135deg, #9D4EDD, #00D4FF); color: white; border-color: transparent; }
+
+        /* شاشة عرض الحالة (Full Screen Story) */
         #storyViewer { position: fixed; inset: 0; z-index: 9999; background: #000; display: none; flex-direction: column; }
         .story-progress-container { width: 100%; height: 3px; background: rgba(255,255,255,0.3); border-radius: 3px; overflow: hidden; margin-top: 10px; }
         .story-progress-bar { height: 100%; background: white; width: 0%; }
-        .story-media { flex: 1; width: 100%; object-fit: contain; margin-top: 10px; }
-        
+        .story-media { flex: 1; width: 100%; object-fit: contain; margin-top: 10px; border-radius: 12px; }
+
+        /* سكرول بار مخفي وناعم */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #9D4EDD; border-radius: 10px; }
+
+        /* حركات الظهور */
+        .fade-up { animation: fadeUp 0.4s ease both; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* لوحة الإدارة */
         #adminPanel { max-height: 0; overflow: hidden; opacity: 0; transition: 0.5s ease; }
         #adminPanel.open { max-height: 1000px; opacity: 1; padding-bottom: 20px; margin-top: 15px; }
-
-        .input-neon { width: 100%; border: 1px solid; border-radius: 12px; padding: 10px 14px; font-weight: 600; font-size: 14px; outline: none; transition: 0.3s; }
-        .dark .input-neon { background: rgba(0, 0, 0, 0.6); border-color: rgba(255,255,255,0.08); color: white; }
-        body:not(.dark) .input-neon { background: #F8FAFC; border-color: #E2E8F0; color: black; }
-
         .admin-controls { display: none; }
         .admin-active .admin-controls { display: flex; }
-
-        /* إخفاء سكرول بار */
-        .no-scrollbar::-webkit-scrollbar { display: none; }
         
-        /* أزرار الرفع المخفية */
+        /* إخفاء زر رفع الملفات الافتراضي */
         input[type="file"] { display: none; }
     </style>
 </head>
-<body class="min-h-screen relative pb-10">
+<body class="bg-ivan-lightBg dark:bg-ivan-darkBg text-gray-900 dark:text-white min-h-screen relative pb-12">
 
-    <header class="h-16 sticky top-0 z-50 px-4 flex items-center justify-between bg-white/90 dark:bg-[#05050A]/90 backdrop-blur-xl border-b border-gray-100 dark:border-white/5 shadow-sm dark:shadow-none">
-        <a href="index.html" class="w-9 h-9 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 flex items-center justify-center text-gray-900 dark:text-white">
+    <header class="h-16 sticky top-0 z-50 px-4 flex items-center justify-between bg-white/90 dark:bg-[#050509]/90 backdrop-blur-xl border-b border-gray-200 dark:border-white/5 shadow-sm dark:shadow-none">
+        <a href="index.html" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-[#131624] border border-gray-200 dark:border-white/10 flex items-center justify-center text-gray-800 dark:text-white transition-all hover:scale-105">
             <i class="fa-solid fa-house"></i>
         </a>
         
-        <div ondblclick="authenticateAdmin()" class="font-en text-lg font-black tracking-wider uppercase cursor-pointer select-none">
-            IVAN <span class="neon-text">NETWORK</span>
+        <div ondblclick="authenticateAdmin()" class="font-en text-xl font-black tracking-widest uppercase cursor-pointer select-none">
+            IVAN <span class="gradient-text">NET</span>
         </div>
         
         <div class="flex items-center gap-2">
-            <button onclick="setProfileName()" class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-600 dark:text-gray-400">
-                <i class="fa-solid fa-user-circle"></i>
+            <button onclick="setProfileName()" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-[#131624] border border-gray-200 dark:border-white/10 flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-ivan-red transition-all">
+                <i class="fa-solid fa-user-circle text-lg"></i>
             </button>
-            <button onclick="toggleTheme()" class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-white/5 flex items-center justify-center text-indigo-500 dark:text-amber-400">
-                <i class="fa-solid fa-moon dark:hidden"></i><i class="fa-solid fa-sun hidden dark:block"></i>
+            <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-[#131624] border border-gray-200 dark:border-white/10 flex items-center justify-center text-indigo-500 dark:text-amber-400 transition-all hover:scale-105">
+                <i class="fa-solid fa-moon dark:hidden text-lg"></i>
+                <i class="fa-solid fa-sun hidden dark:block text-lg"></i>
             </button>
         </div>
     </header>
 
-    <main class="max-w-2xl mx-auto p-3 sm:p-4 lg:p-6">
+    <main class="max-w-2xl mx-auto p-4 lg:p-6 mt-2">
         
-        <div class="mb-5 bg-white dark:bg-[#0A0C14] border border-gray-100 dark:border-white/5 rounded-2xl p-3 flex items-center gap-3 overflow-x-auto no-scrollbar shadow-sm dark:shadow-none">
+        <div class="mb-6 bg-white dark:bg-[#0D0F18] border border-gray-200 dark:border-white/5 rounded-2xl p-4 flex items-center gap-4 overflow-x-auto no-scrollbar shadow-sm dark:shadow-none">
             
             <div class="flex flex-col items-center cursor-pointer" onclick="document.getElementById('storyUploadInput').click()">
-                <div class="story-circle !bg-none border-2 border-dashed border-gray-300 dark:border-white/20 flex items-center justify-center bg-gray-50 dark:bg-white/5">
-                    <i class="fa-solid fa-plus text-xl text-gray-400 dark:text-gray-500"></i>
+                <div class="w-16 h-16 rounded-full border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center bg-gray-50 dark:bg-[#131624] hover:bg-gray-100 transition-all">
+                    <i class="fa-solid fa-plus text-2xl text-gray-400 dark:text-gray-500"></i>
                 </div>
-                <span class="story-name text-gray-600 dark:text-gray-400">إضافة حالة</span>
+                <span class="text-[11px] font-black text-gray-600 dark:text-gray-400 mt-2">إضافة حالة</span>
             </div>
-            
             <input type="file" id="storyUploadInput" accept="image/*, video/*" onchange="processNewStory(event)">
 
-            <div id="storiesFeed" class="flex items-center gap-3"></div>
+            <div id="storiesFeed" class="flex items-center gap-4"></div>
         </div>
 
-        <div class="mb-6 text-center">
-            <h1 class="text-3xl font-black mb-1.5">شبكة <span class="neon-text">المعرض الرسمية</span></h1>
-            <p class="font-bold text-gray-500 dark:text-gray-400 text-xs sm:text-sm">تابع التعميمات وتفاعل مع الزملاء.</p>
+        <div class="mb-5 text-center">
+            <h1 class="text-3xl font-black mb-2">شبكة <span class="gradient-text">إيفان الإخبارية</span></h1>
+            <p class="font-bold text-gray-500 dark:text-gray-400 text-sm">التواصل الداخلي، القرارات، والتحديثات المباشرة.</p>
+        </div>
+
+        <div class="mb-6 flex items-center justify-center gap-2 overflow-x-auto no-scrollbar pb-2">
+            <button onclick="filterPosts('الكل')" class="category-tab active" id="tab-الكل">الكل 🌍</button>
+            <button onclick="filterPosts('قرارات إدارية')" class="category-tab" id="tab-قرارات إدارية">إداري 📌</button>
+            <button onclick="filterPosts('أخبار المبيعات')" class="category-tab" id="tab-أخبار المبيعات">المبيعات 🛒</button>
+            <button onclick="filterPosts('أخرى')" class="category-tab" id="tab-أخرى">أخرى ✨</button>
         </div>
 
         <div id="adminPanel">
-            <div class="bg-white dark:bg-[#0A0C14] border-2 border-neon-purple/30 rounded-2xl p-5 shadow-xl relative">
-                <div class="absolute top-0 right-6 bg-gradient-to-r from-neon-purple to-neon-pink text-white text-[10px] font-black px-3 py-1 rounded-b-xl tracking-widest uppercase">Admin Post</div>
+            <div class="bg-white dark:bg-[#0D0F18] border-2 border-purple-500/30 rounded-3xl p-6 shadow-xl relative mb-6">
+                <div class="absolute -top-3 right-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest">Admin Control</div>
                 
-                <h3 class="text-xl font-black mb-5 mt-2 flex items-center gap-2">
-                    <i class="fa-solid fa-pen-nib text-neon-blue"></i> بث منشور رسمي
+                <h3 class="text-xl font-black mb-5 mt-2 flex items-center gap-2 text-gray-900 dark:text-white">
+                    <i class="fa-solid fa-pen-nib text-purple-500"></i> نشر إعلان جديد
                 </h3>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-                    <input type="text" id="postAuthor" value="معرض إيفان" placeholder="اسم الناشر..." class="input-neon">
-                    <input type="text" id="postTitle" placeholder="عنوان المنشور..." class="input-neon">
+                    <input type="text" id="postAuthor" value="الإدارة العليا" placeholder="اسم الناشر..." class="w-full bg-gray-50 dark:bg-[#131624] border border-gray-200 dark:border-gray-800 rounded-xl px-4 py-3 font-bold text-sm outline-none focus:border-purple-500 dark:focus:border-purple-500 transition-all text-gray-900 dark:text-white">
+                    <select id="postCategory" class="w-full bg-gray-50 dark:bg-[#131624] border border-gray-200 dark:border-gray-800 rounded-xl px-4 py-3 font-bold text-sm outline-none focus:border-purple-500 transition-all text-gray-900 dark:text-white">
+                        <option value="قرارات إدارية">قرارات إدارية</option>
+                        <option value="أخبار المبيعات">أخبار المبيعات</option>
+                        <option value="أخرى">أخرى (عام)</option>
+                    </select>
                 </div>
-                <textarea id="postContent" rows="3" placeholder="اكتب التفاصيل..." class="input-neon mb-3 resize-none"></textarea>
+                
+                <input type="text" id="postTitle" placeholder="عنوان المنشور..." class="w-full bg-gray-50 dark:bg-[#131624] border border-gray-200 dark:border-gray-800 rounded-xl px-4 py-3 font-bold text-sm outline-none focus:border-purple-500 transition-all text-gray-900 dark:text-white mb-3">
+                
+                <textarea id="postContent" rows="3" placeholder="اكتب تفاصيل الإعلان..." class="w-full bg-gray-50 dark:bg-[#131624] border border-gray-200 dark:border-gray-800 rounded-xl px-4 py-3 font-bold text-sm outline-none focus:border-purple-500 transition-all resize-none text-gray-900 dark:text-white mb-4"></textarea>
                 
                 <div class="mb-5 relative">
-                    <button onclick="document.getElementById('postMediaUpload').click()" class="w-full bg-gray-50 dark:bg-white/5 border border-dashed border-gray-200 dark:border-white/10 text-gray-500 font-bold py-3.5 rounded-xl flex justify-center gap-3 text-sm">
-                        <i class="fa-solid fa-cloud-arrow-up text-xl text-neon-blue"></i> <span id="fileNameDisplay">إرفاق ميديا (اختياري)</span>
+                    <button onclick="document.getElementById('postMediaUpload').click()" class="w-full bg-gray-100 dark:bg-[#1A1D2E] border border-dashed border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 font-bold py-3.5 rounded-xl flex justify-center items-center gap-3 text-sm hover:bg-gray-200 dark:hover:bg-[#252A40] transition-all">
+                        <i class="fa-solid fa-image text-lg text-purple-500"></i> <span id="fileNameDisplay">إرفاق صورة أو فيديو (اختياري)</span>
                     </button>
                     <input type="file" id="postMediaUpload" accept="image/*, video/*" onchange="updatePostFileName()">
                 </div>
 
-                <button onclick="publishPost()" class="w-full bg-gradient-to-r from-neon-blue to-neon-pink text-white font-black py-3.5 rounded-xl text-base transition-all">
-                    إطلاق المنشور <i class="fa-solid fa-rocket ml-1"></i>
+                <button onclick="publishPost()" class="w-full bg-gradient-to-r from-purple-600 to-blue-500 text-white font-black py-4 rounded-xl text-base transition-all hover:opacity-90 shadow-lg shadow-purple-500/20">
+                    نشر الإعلان <i class="fa-solid fa-paper-plane ml-1"></i>
                 </button>
             </div>
         </div>
 
-        <div id="newsFeed" class="space-y-6 mt-4 pb-10"></div>
+        <div id="newsFeed" class="space-y-6"></div>
 
     </main>
 
@@ -154,53 +170,58 @@
             
             <div class="flex items-center justify-between mt-4">
                 <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple p-0.5"><img id="sv-avatar" class="w-full h-full rounded-full object-cover"></div>
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple flex items-center justify-center font-bold text-white shadow-lg" id="sv-avatar-txt">م</div>
                     <div>
-                        <h4 class="font-bold text-white text-sm" id="sv-author">الاسم</h4>
-                        <span class="text-[10px] text-gray-400" id="sv-time">الوقت</span>
+                        <h4 class="font-black text-white text-sm" id="sv-author">الاسم</h4>
+                        <span class="text-[10px] text-gray-300 font-bold" id="sv-time">الوقت</span>
                     </div>
                 </div>
                 <div class="flex items-center gap-4">
-                    <button id="sv-delete-btn" class="text-red-500 text-xl hidden" title="حذف الحالة نهائياً"><i class="fa-solid fa-trash"></i></button>
-                    <button onclick="closeStory()" class="text-white text-2xl"><i class="fa-solid fa-times"></i></button>
+                    <button id="sv-delete-btn" class="text-red-500 text-xl hidden bg-white/10 w-8 h-8 rounded-full flex items-center justify-center" title="حذف الحالة"><i class="fa-solid fa-trash"></i></button>
+                    <button onclick="closeStory()" class="text-white text-2xl bg-white/10 w-8 h-8 rounded-full flex items-center justify-center"><i class="fa-solid fa-times"></i></button>
                 </div>
             </div>
 
             <div class="flex-1 flex flex-col items-center justify-center mt-4">
                 <div id="sv-media-container" class="w-full flex justify-center max-h-[70vh]"></div>
-                <p id="sv-text" class="text-white text-center mt-6 font-bold text-lg px-4"></p>
+                <p id="sv-text" class="text-white text-center mt-6 font-black text-xl px-4 drop-shadow-lg"></p>
             </div>
         </div>
     </div>
 
     <script>
-        // 1. إعدادات الثيم والبروفايل
-        function toggleTheme() { document.documentElement.classList.toggle('dark'); localStorage.setItem('ivanTheme', document.documentElement.classList.contains('dark') ? 'dark' : 'light'); }
-        if (localStorage.getItem('ivanTheme') === 'light') { document.documentElement.classList.remove('dark'); }
+        // 1. نظام الثيم الصارم (مستحيل يتعطل)
+        function toggleTheme() {
+            const html = document.getElementById('htmlTag');
+            html.classList.toggle('dark');
+            localStorage.setItem('ivanTheme', html.classList.contains('dark') ? 'dark' : 'light');
+        }
+        // التحقق عند التحميل
+        if (localStorage.getItem('ivanTheme') === 'light') {
+            document.getElementById('htmlTag').classList.remove('dark');
+        }
+
+        // 2. إدارة الأسماء والإدارة
         function getUserName() { return localStorage.getItem('ivan_user_name') || 'عضو بالفريق'; }
         function setProfileName() {
-            const newName = prompt('أدخل اسمك لعرضه في الحالات والتعليقات:', getUserName());
+            const current = localStorage.getItem('ivan_user_name') || '';
+            const newName = prompt('أدخل اسمك لعرضه في الشبكة:', current);
             if (newName && newName.trim()) { localStorage.setItem('ivan_user_name', newName.trim()); alert('تم حفظ الاسم!'); }
         }
 
-        // 2. إدارة المشرفين السريين
         let isAdmin = false;
         function authenticateAdmin() {
-            if (isAdmin) { isAdmin = false; document.body.classList.remove('admin-active'); document.getElementById('adminPanel').classList.remove('open'); alert('🔒 تم إغلاق لوحة التحكم.'); return; }
-            if (prompt('أدخل شفرة الإدارة العليا:') === 'Ivan@2026$$') { isAdmin = true; document.body.classList.add('admin-active'); document.getElementById('adminPanel').classList.add('open'); }
+            if (isAdmin) { isAdmin = false; document.body.classList.remove('admin-active'); document.getElementById('adminPanel').classList.remove('open'); alert('🔒 تم الإغلاق.'); return; }
+            if (prompt('أدخل شفرة الإدارة:') === 'Ivan@2026$$') { isAdmin = true; document.body.classList.add('admin-active'); document.getElementById('adminPanel').classList.add('open'); }
             else { alert('❌ الشفرة غير صحيحة!'); }
         }
 
-        // ==========================================
-        // 3. نظام الحالات (STORIES) - الحقيقي
-        // ==========================================
+        // 3. نظام الحالات (STORIES)
         let storyTimer;
         function loadStories() {
             let stories = JSON.parse(localStorage.getItem('ivan_stories_db')) || [];
-            const feed = document.getElementById('storiesFeed');
-            feed.innerHTML = '';
+            const feed = document.getElementById('storiesFeed'); feed.innerHTML = '';
             
-            // فلترة الحالات التي مر عليها أكثر من 24 ساعة
             const now = new Date().getTime();
             stories = stories.filter(s => (now - s.id) < 86400000); 
             localStorage.setItem('ivan_stories_db', JSON.stringify(stories));
@@ -209,160 +230,173 @@
                 const circle = document.createElement('div');
                 circle.className = 'flex flex-col items-center';
                 
-                // صورة مصغرة (Thumb) للحالة
-                let thumbSrc = story.mediaType.startsWith('image/') ? story.mediaData : 'https://via.placeholder.com/100/000000/FFFFFF?text=Video';
+                let innerContent = story.mediaType.startsWith('image/') 
+                    ? `<img src="${story.mediaData}" class="story-img-preview">` 
+                    : `<i class="fa-solid fa-play text-gray-300"></i>`;
                 
                 circle.innerHTML = `
                     <div class="story-circle" onclick="viewStory(${story.id})">
-                        <img src="${thumbSrc}" class="story-img">
+                        <div class="story-inner">${innerContent}</div>
                     </div>
-                    <span class="story-name text-gray-900 dark:text-gray-300">${story.author}</span>
+                    <span class="text-[11px] font-bold text-gray-700 dark:text-gray-400 mt-2 w-16 text-center truncate">${story.author}</span>
                 `;
                 feed.appendChild(circle);
             });
         }
 
-        // رفع حالة جديدة
         function processNewStory(event) {
             const file = event.target.files[0];
             if (!file) return;
-
-            const text = prompt('أضف تعليقاً أو نصاً على حالتك (اختياري):');
-            
+            const text = prompt('أضف نصاً على حالتك (اختياري):');
             const reader = new FileReader();
             reader.onload = function(e) {
                 const now = new Date();
-                const newStory = {
-                    id: now.getTime(),
-                    author: getUserName(),
-                    mediaData: e.target.result,
-                    mediaType: file.type,
-                    text: text || '',
-                    time: now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' })
-                };
-
+                const newStory = { id: now.getTime(), author: getUserName(), mediaData: e.target.result, mediaType: file.type, text: text || '', time: now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' }) };
                 try {
                     let stories = JSON.parse(localStorage.getItem('ivan_stories_db')) || [];
-                    stories.push(newStory);
-                    localStorage.setItem('ivan_stories_db', JSON.stringify(stories));
-                    loadStories();
-                } catch (err) {
-                    alert('❌ حجم الملف كبير جداً! يرجى اختيار ملف أصغر.');
-                }
-                event.target.value = ''; // تفريغ
+                    stories.push(newStory); localStorage.setItem('ivan_stories_db', JSON.stringify(stories)); loadStories();
+                } catch (err) { alert('❌ حجم الملف كبير جداً!'); }
+                event.target.value = '';
             };
             reader.readAsDataURL(file);
         }
 
-        // عرض الحالة بملء الشاشة
         function viewStory(id) {
             let stories = JSON.parse(localStorage.getItem('ivan_stories_db')) || [];
             let story = stories.find(s => s.id === id);
             if(!story) return;
 
-            const viewer = document.getElementById('storyViewer');
-            const mediaContainer = document.getElementById('sv-media-container');
-            const deleteBtn = document.getElementById('sv-delete-btn');
-            
             document.getElementById('sv-author').innerText = story.author;
             document.getElementById('sv-time').innerText = story.time;
             document.getElementById('sv-text').innerText = story.text;
+            document.getElementById('sv-avatar-txt').innerText = story.author.charAt(0);
+
+            const mediaContainer = document.getElementById('sv-media-container'); mediaContainer.innerHTML = '';
+            if (story.mediaType.startsWith('image/')) { mediaContainer.innerHTML = `<img src="${story.mediaData}" class="story-media shadow-2xl">`; } 
+            else if (story.mediaType.startsWith('video/')) { mediaContainer.innerHTML = `<video src="${story.mediaData}" class="story-media shadow-2xl" autoplay controls></video>`; }
+
+            const deleteBtn = document.getElementById('sv-delete-btn');
+            if(isAdmin) { deleteBtn.classList.remove('hidden'); deleteBtn.onclick = function() { deleteStory(id); }; } 
+            else { deleteBtn.classList.add('hidden'); }
+
+            document.getElementById('storyViewer').style.display = 'flex';
             
-            // ضبط الصورة المصغرة للحساب (عشوائية أو افتراضية)
-            document.getElementById('sv-avatar').src = 'https://via.placeholder.com/100/00F0FF/FFFFFF?text=' + story.author.charAt(0);
-
-            // عرض الميديا
-            mediaContainer.innerHTML = '';
-            if (story.mediaType.startsWith('image/')) {
-                mediaContainer.innerHTML = `<img src="${story.mediaData}" class="story-media rounded-lg">`;
-            } else if (story.mediaType.startsWith('video/')) {
-                mediaContainer.innerHTML = `<video src="${story.mediaData}" class="story-media rounded-lg" autoplay controls></video>`;
-            }
-
-            // إظهار زر الحذف إذا كان أدمن
-            if(isAdmin) {
-                deleteBtn.classList.remove('hidden');
-                deleteBtn.onclick = function() { deleteStory(id); };
-            } else {
-                deleteBtn.classList.add('hidden');
-            }
-
-            viewer.style.display = 'flex';
-            
-            // تشغيل شريط التقدم (يغلق بعد 7 ثواني)
             const bar = document.getElementById('storyProgressBar');
             bar.style.transition = 'none'; bar.style.width = '0%';
-            setTimeout(() => {
-                bar.style.transition = 'width 7s linear';
-                bar.style.width = '100%';
-            }, 50);
-
-            clearTimeout(storyTimer);
-            storyTimer = setTimeout(closeStory, 7000);
+            setTimeout(() => { bar.style.transition = 'width 7s linear'; bar.style.width = '100%'; }, 50);
+            clearTimeout(storyTimer); storyTimer = setTimeout(closeStory, 7000);
         }
 
-        function closeStory() {
-            document.getElementById('storyViewer').style.display = 'none';
-            document.getElementById('sv-media-container').innerHTML = ''; // إيقاف الفيديو
-            clearTimeout(storyTimer);
-        }
-
+        function closeStory() { document.getElementById('storyViewer').style.display = 'none'; document.getElementById('sv-media-container').innerHTML = ''; clearTimeout(storyTimer); }
         function deleteStory(id) {
-            if(confirm('هل تريد حذف هذه الحالة؟')) {
+            if(confirm('حذف هذه الحالة نهائياً؟')) {
                 let stories = JSON.parse(localStorage.getItem('ivan_stories_db')) || [];
-                stories = stories.filter(s => s.id !== id);
-                localStorage.setItem('ivan_stories_db', JSON.stringify(stories));
-                closeStory();
-                loadStories();
+                stories = stories.filter(s => s.id !== id); localStorage.setItem('ivan_stories_db', JSON.stringify(stories));
+                closeStory(); loadStories();
             }
         }
 
-        // ==========================================
-        // 4. نظام المنشورات (POSTS)
-        // ==========================================
+        // 4. نظام المنشورات والتفرع
+        let currentCategory = 'الكل';
         let currentPostMedia = null; let currentPostMediaType = null;
+
         function updatePostFileName() {
             const file = document.getElementById('postMediaUpload').files[0];
             if(file) {
-                document.getElementById('fileNameDisplay').innerText = "جاهز: " + file.name;
-                document.getElementById('fileNameDisplay').style.color = '#00F0FF';
+                document.getElementById('fileNameDisplay').innerText = "تم الرفاق: " + file.name;
+                document.getElementById('fileNameDisplay').style.color = '#9D4EDD';
                 const reader = new FileReader();
                 reader.onload = e => { currentPostMedia = e.target.result; currentPostMediaType = file.type; };
                 reader.readAsDataURL(file);
             }
         }
 
+        function filterPosts(category) {
+            currentCategory = category;
+            document.querySelectorAll('.category-tab').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('tab-' + category).classList.add('active');
+            loadPosts();
+        }
+
+        const defaultPosts = [
+            { id: 1, author: "الإدارة العليا", category: "قرارات إدارية", title: "مرحباً بكم في شبكة إيفان المتطورة", content: "تم تفعيل الوضع الفاتح بنجاح، وإضافة ميزة التفرع للأقسام. \nنتمنى لكم تجربة ممتعة.", time: "مثبت 📌", mediaType: null, mediaData: null, likes: 10, comments: [] }
+        ];
+
         function loadPosts() {
-            let posts = JSON.parse(localStorage.getItem('ivan_social_db')) || [];
+            let posts = JSON.parse(localStorage.getItem('ivan_posts_v2')) || [];
+            if(posts.length === 0) { posts = defaultPosts; localStorage.setItem('ivan_posts_v2', JSON.stringify(posts)); }
+            
             const feed = document.getElementById('newsFeed'); feed.innerHTML = ''; 
             
-            if(posts.length === 0) {
-                feed.innerHTML = '<p class="text-center text-gray-500 font-bold mt-10">لا توجد منشورات حتى الآن.</p>'; return;
+            let filteredPosts = posts.filter(p => currentCategory === 'الكل' || p.category === currentCategory);
+
+            if(filteredPosts.length === 0) {
+                feed.innerHTML = '<div class="text-center py-10"><i class="fa-solid fa-folder-open text-4xl text-gray-300 dark:text-gray-700 mb-3"></i><p class="font-bold text-gray-500">لا توجد منشورات في هذا القسم.</p></div>'; return;
             }
 
-            posts.sort((a, b) => b.id - a.id).forEach(post => {
+            filteredPosts.sort((a, b) => b.id - a.id).forEach(post => {
                 let mediaHTML = '';
                 if (post.mediaData) {
-                    if (post.mediaType.startsWith('image/')) { mediaHTML = `<img src="${post.mediaData}" class="media-preview">`; } 
-                    else if (post.mediaType.startsWith('video/')) { mediaHTML = `<video src="${post.mediaData}" class="media-preview" controls></video>`; }
+                    if (post.mediaType.startsWith('image/')) { mediaHTML = `<img src="${post.mediaData}" class="w-full mt-3 rounded-xl border border-gray-200 dark:border-gray-800 object-cover max-h-80">`; } 
+                    else if (post.mediaType.startsWith('video/')) { mediaHTML = `<video src="${post.mediaData}" class="w-full mt-3 rounded-xl border border-gray-200 dark:border-gray-800" controls></video>`; }
                 }
 
+                let commentsHTML = '';
+                if(post.comments && post.comments.length > 0) {
+                    post.comments.forEach(comment => { commentsHTML += `
+                        <div class="bg-gray-50 dark:bg-[#131624] border border-gray-100 dark:border-[#1E2336] rounded-xl p-3 mb-2 relative group">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-black text-xs text-purple-600 dark:text-purple-400">${comment.author}</span>
+                                <span class="text-[10px] text-gray-400 font-bold">${comment.time}</span>
+                            </div>
+                            <p class="text-sm font-bold text-gray-800 dark:text-gray-300">${comment.text}</p>
+                            <button onclick="deleteComment(${post.id}, ${comment.id})" class="admin-controls absolute top-2 left-2 text-red-500/50 hover:text-red-500 text-xs"><i class="fa-solid fa-trash"></i></button>
+                        </div>`; });
+                }
+
+                // لون القسم (Tag)
+                let tagColor = "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800";
+                if(post.category === "قرارات إدارية") tagColor = "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800";
+                if(post.category === "أخرى") tagColor = "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200 dark:border-purple-800";
+
                 const card = document.createElement('div');
-                card.className = 'news-card neon-border fade-up';
+                card.className = 'bg-white dark:bg-[#0D0F18] border border-gray-200 dark:border-[#1E2336] rounded-2xl p-5 fade-up shadow-sm dark:shadow-none';
                 card.innerHTML = `
-                    <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center gap-2">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-neon-purple to-neon-pink text-white flex items-center justify-center font-en font-black italic shadow-md">i</div>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 text-white flex items-center justify-center font-black shadow-md">${post.author.charAt(0)}</div>
                             <div>
                                 <h4 class="font-black text-sm text-gray-900 dark:text-white">${post.author}</h4>
                                 <span class="text-[10px] text-gray-500 font-bold">${post.time}</span>
                             </div>
                         </div>
-                        <button onclick="deletePost(${post.id})" class="admin-controls w-8 h-8 bg-red-500/10 text-red-500 rounded-lg items-center justify-center hover:bg-red-500 hover:text-white transition-all text-xs"><i class="fa-solid fa-trash-can"></i></button>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] font-black px-2 py-1 rounded-lg border ${tagColor}">${post.category}</span>
+                            <button onclick="deletePost(${post.id})" class="admin-controls w-8 h-8 bg-red-50 dark:bg-red-900/20 text-red-500 rounded-lg flex items-center justify-center hover:bg-red-500 hover:text-white transition-all text-xs"><i class="fa-solid fa-trash-can"></i></button>
+                        </div>
                     </div>
-                    <h3 class="text-lg font-black mb-1.5 text-gray-900 dark:text-white">${post.title}</h3>
-                    <p class="text-[13px] font-semibold text-gray-700 dark:text-gray-300 whitespace-pre-line">${post.content}</p>
+                    <h3 class="text-xl font-black mb-2 text-gray-900 dark:text-white">${post.title}</h3>
+                    <p class="text-[14px] font-bold text-gray-700 dark:text-gray-300 whitespace-pre-line leading-relaxed">${post.content}</p>
                     ${mediaHTML}
+                    
+                    <div class="flex items-center gap-5 mt-5 pt-4 border-t border-gray-100 dark:border-[#1E2336]">
+                        <div class="flex items-center gap-2 cursor-pointer transition-all hover:scale-110 ${post.liked ? 'text-red-500 drop-shadow-md' : 'text-gray-400 hover:text-red-500'}" onclick="toggleLike(${post.id}, this)">
+                            <i class="fa-solid fa-heart text-lg"></i>
+                            <span class="font-black text-sm" id="like-count-${post.id}">${post.likes || 0}</span>
+                        </div>
+                        <div class="flex items-center gap-2 cursor-pointer transition-all hover:scale-110 text-gray-400 hover:text-blue-500" onclick="document.getElementById('comments-${post.id}').classList.toggle('hidden')">
+                            <i class="fa-solid fa-comment-dots text-lg"></i>
+                            <span class="font-black text-sm">${post.comments ? post.comments.length : 0}</span>
+                        </div>
+                    </div>
+
+                    <div id="comments-${post.id}" class="hidden mt-4 pt-4 border-t border-gray-100 dark:border-[#1E2336]">
+                        <div class="max-h-48 overflow-y-auto pr-1 no-scrollbar mb-3">${commentsHTML}</div>
+                        <div class="flex gap-2">
+                            <input type="text" id="comment-text-${post.id}" placeholder="اكتب تعليقاً كـ ${getUserName()}..." class="flex-1 bg-gray-50 dark:bg-[#131624] border border-gray-200 dark:border-gray-800 rounded-xl px-4 py-2 font-bold text-sm outline-none focus:border-blue-500 transition-all text-gray-900 dark:text-white" onkeypress="if(event.key === 'Enter') addComment(${post.id})">
+                            <button onclick="addComment(${post.id})" class="bg-blue-500 text-white w-10 rounded-xl flex items-center justify-center hover:bg-blue-600 transition-all shadow-md shadow-blue-500/30"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
                 `;
                 feed.appendChild(card);
             });
@@ -370,36 +404,79 @@
 
         function publishPost() {
             const author = document.getElementById('postAuthor').value || 'معرض إيفان';
+            const category = document.getElementById('postCategory').value;
             const title = document.getElementById('postTitle').value;
             const content = document.getElementById('postContent').value;
+            
             if (!title || !content) { alert('❌ يرجى كتابة العنوان والمحتوى!'); return; }
             
             const now = new Date();
-            const newPost = { id: now.getTime(), author, title, content, time: now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' }), mediaType: currentPostMediaType, mediaData: currentPostMedia };
+            const newPost = { id: now.getTime(), author, category, title, content, time: now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' }), mediaType: currentPostMediaType, mediaData: currentPostMedia, likes: 0, liked: false, comments: [] };
+            
             try {
-                let posts = JSON.parse(localStorage.getItem('ivan_social_db')) || [];
-                posts.push(newPost); localStorage.setItem('ivan_social_db', JSON.stringify(posts));
-                loadPosts();
+                let posts = JSON.parse(localStorage.getItem('ivan_posts_v2')) || [];
+                posts.push(newPost); localStorage.setItem('ivan_posts_v2', JSON.stringify(posts));
+                
                 document.getElementById('postTitle').value = ''; document.getElementById('postContent').value = ''; 
                 document.getElementById('fileNameDisplay').innerText = 'إرفاق ميديا (اختياري)'; document.getElementById('fileNameDisplay').style.color = '';
                 currentPostMedia = null; currentPostMediaType = null;
-                authenticateAdmin();
+                
+                filterPosts(category); // التحويل لقسم المنشور مباشرة
+                authenticateAdmin(); // إغلاق
             } catch (e) { alert('❌ الملف كبير جداً!'); }
         }
 
         function deletePost(postId) {
-            if (confirm('هل تريد حذف الإعلان نهائياً؟')) {
-                let posts = JSON.parse(localStorage.getItem('ivan_social_db')) || [];
-                posts = posts.filter(p => p.id !== postId);
-                localStorage.setItem('ivan_social_db', JSON.stringify(posts));
-                loadPosts(); 
+            if (confirm('هل أنت متأكد من الحذف؟')) {
+                let posts = JSON.parse(localStorage.getItem('ivan_posts_v2')) || [];
+                posts = posts.filter(p => p.id !== postId); localStorage.setItem('ivan_posts_v2', JSON.stringify(posts)); loadPosts(); 
             }
         }
 
-        window.onload = function() {
-            loadStories();
-            loadPosts();
-        };
+        function toggleLike(postId, btnElement) {
+            let posts = JSON.parse(localStorage.getItem('ivan_posts_v2')) || [];
+            let post = posts.find(p => p.id === postId);
+            if (post) {
+                if (post.liked) { post.likes = Math.max(0, post.likes - 1); post.liked = false; btnElement.classList.remove('text-red-500', 'drop-shadow-md'); btnElement.classList.add('text-gray-400'); } 
+                else { post.likes = (post.likes || 0) + 1; post.liked = true; btnElement.classList.remove('text-gray-400'); btnElement.classList.add('text-red-500', 'drop-shadow-md'); }
+                document.getElementById(`like-count-${postId}`).innerText = post.likes;
+                localStorage.setItem('ivan_posts_v2', JSON.stringify(posts));
+            }
+        }
+
+        function addComment(postId) {
+            let authorName = localStorage.getItem('ivan_user_name');
+            if (!authorName) {
+                authorName = prompt('يرجى كتابة اسمك للتعليق:');
+                if (authorName && authorName.trim()) { localStorage.setItem('ivan_user_name', authorName.trim()); } 
+                else { alert('❌ الاسم مطلوب.'); return; }
+            }
+            const textInput = document.getElementById(`comment-text-${postId}`).value;
+            if (!textInput.trim()) return;
+
+            let posts = JSON.parse(localStorage.getItem('ivan_posts_v2')) || [];
+            let post = posts.find(p => p.id === postId);
+            if (post) {
+                if(!post.comments) post.comments = [];
+                const now = new Date();
+                post.comments.push({ id: now.getTime(), author: authorName.trim(), text: textInput, time: now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' }) });
+                localStorage.setItem('ivan_posts_v2', JSON.stringify(posts));
+                loadPosts(); setTimeout(() => { document.getElementById(`comments-${postId}`).classList.remove('hidden'); }, 50);
+            }
+        }
+
+        function deleteComment(postId, commentId) {
+            if (confirm('حذف التعليق؟')) {
+                let posts = JSON.parse(localStorage.getItem('ivan_posts_v2')) || [];
+                let post = posts.find(p => p.id === postId);
+                if (post && post.comments) {
+                    post.comments = post.comments.filter(c => c.id !== commentId); localStorage.setItem('ivan_posts_v2', JSON.stringify(posts));
+                    loadPosts(); setTimeout(() => { document.getElementById(`comments-${postId}`).classList.remove('hidden'); }, 50);
+                }
+            }
+        }
+
+        window.onload = function() { loadStories(); loadPosts(); };
     </script>
 </body>
 </html>
