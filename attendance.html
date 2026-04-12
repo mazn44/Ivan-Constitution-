@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>نظام الدوام والعطلات | إيفان</title>
+    <title>نظام الدوام والعطلات التفصيلي | إيفان</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -34,155 +34,234 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        * { box-sizing: border-box; }
-        body { font-family: 'Cairo', sans-serif; overflow-x: hidden; width: 100%; transition: background-color 0.4s, color 0.4s; }
+        body { font-family: 'Cairo', sans-serif; transition: background-color 0.4s, color 0.4s; overflow-x: hidden; }
         .font-en { font-family: 'Outfit', sans-serif; }
 
         body.dark { background-color: #07090F; color: #F0F4FF; }
         body:not(.dark) { background-color: #F5F7FA; color: #0D1117; }
 
-        /* الأكورديون (القوائم المنسدلة للدوام) */
+        /* الأكورديون المطور */
+        .accordion-item { margin-bottom: 12px; }
         .accordion-btn {
             width: 100%; display: flex; align-items: center; justify-content: space-between;
-            padding: 20px 24px; background: #fff; border: 1px solid #E4E9F0;
-            border-radius: 16px; font-weight: 800; font-size: 1.125rem;
-            color: #0D1117; cursor: pointer; transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-            margin-bottom: 8px;
+            padding: 22px 26px; background: #fff; border: 1px solid #E4E9F0;
+            border-radius: 20px; font-weight: 800; font-size: 1.1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer;
         }
-        .dark .accordion-btn { background: #0F1118; border-color: #1A1E2E; color: #fff; box-shadow: none; }
-        .accordion-btn:hover { border-color: #C8102E; color: #C8102E; }
-        .dark .accordion-btn:hover { border-color: #C8102E; color: #C8102E; }
+        .dark .accordion-btn { background: #0F1118; border-color: #1A1E2E; color: #fff; }
+        .accordion-btn:hover { border-color: #C8102E; transform: translateY(-2px); }
         
-        .accordion-icon {
-            width: 32px; height: 32px; border-radius: 8px; background: rgba(200,16,46,0.1);
-            color: #C8102E; display: flex; align-items: center; justify-content: center;
-            transition: transform 0.3s ease;
-        }
-
         .accordion-content {
             max-height: 0; overflow: hidden;
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #F5F7FA; border-radius: 0 0 16px 16px;
-            margin-top: -12px; margin-bottom: 16px;
-            border: 1px solid transparent;
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255,255,255,0.5); border-radius: 0 0 20px 20px;
+            margin-top: -10px; border: 1px solid transparent;
         }
-        .dark .accordion-content { background: #07090F; }
-        
-        .accordion-content.open {
-            border-color: #E4E9F0; border-top: none;
-        }
-        .dark .accordion-content.open { border-color: #1A1E2E; border-top: none; }
+        .dark .accordion-content { background: rgba(15,17,24,0.5); }
+        .accordion-content.open { border-color: #E4E9F0; border-top: none; padding-bottom: 20px; }
+        .dark .accordion-content.open { border-color: #1A1E2E; }
 
-        .content-inner { padding: 24px; padding-top: 20px; }
+        .info-card {
+            background: #fff; border: 1px solid #E4E9F0; padding: 16px; border-radius: 14px;
+        }
+        .dark .info-card { background: #07090F; border-color: #1A1E2E; }
+
+        .badge-red { background: rgba(200,16,46,0.1); color: #C8102E; padding: 4px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; }
     </style>
 </head>
 <body class="bg-ivan-lightBg dark:bg-ivan-darkBg text-gray-900 dark:text-white min-h-screen">
 
-    <header class="h-20 sticky top-0 z-30 px-5 sm:px-7 flex items-center justify-between bg-ivan-lightBg/80 dark:bg-ivan-darkBg/80 backdrop-blur-xl border-b border-gray-100 dark:border-ivan-darkBorder">
+    <header class="h-20 sticky top-0 z-50 px-6 flex items-center justify-between bg-ivan-lightBg/80 dark:bg-ivan-darkBg/80 backdrop-blur-xl border-b border-gray-100 dark:border-ivan-darkBorder">
         <div class="flex items-center gap-4">
-            <a href="index.html" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center text-gray-900 dark:text-white text-lg hover:text-ivan-red transition-all">
+            <a href="index.html" class="w-10 h-10 rounded-xl bg-white dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center text-gray-900 dark:text-white shadow-sm">
                 <i class="fa-solid fa-arrow-right"></i>
             </a>
-            <div class="font-en text-lg font-black tracking-widest text-gray-900 dark:text-white uppercase">
-                IVAN <span class="text-ivan-red">TIME</span>
-            </div>
+            <div class="font-en text-lg font-black tracking-widest uppercase">IVAN <span class="text-ivan-red">TIMING</span></div>
         </div>
-        <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center text-indigo-500 dark:text-amber-400 hover:scale-105 transition-transform text-base">
+        <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-white dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center text-indigo-500 dark:text-amber-400 text-base">
             <i class="fa-solid fa-moon dark:hidden"></i>
             <i class="fa-solid fa-sun hidden dark:block"></i>
         </button>
     </header>
 
-    <main class="w-full max-w-4xl mx-auto p-5 sm:p-7 lg:p-10">
+    <main class="max-w-4xl mx-auto p-6 lg:p-10">
         
-        <div class="mb-10 border-r-4 border-ivan-red pr-4">
-            <h1 class="text-3xl sm:text-4xl font-black mb-2 text-gray-900 dark:text-white leading-tight">نظام <span class="text-ivan-red">الدوام والعطلات</span></h1>
-            <p class="text-sm sm:text-base text-gray-500 dark:text-gray-400 font-bold leading-relaxed">
-                القواعد الرسمية لأوقات العمل، الاستراحات، والإجازات الخاصة بموظفي معرض إيفان.
+        <div class="mb-12 border-r-8 border-ivan-red pr-6">
+            <h1 class="text-4xl font-black mb-3">دليل <span class="text-ivan-red">الدوام والالتزام</span></h1>
+            <p class="text-gray-500 dark:text-gray-400 font-bold leading-relaxed">
+                التفاصيل الكاملة لساعات العمل، نظام المناوبات، العطلات الرسمية، وقواعد الثواب والعقاب المعتمدة في معرض إيفان.
             </p>
         </div>
 
-        <div>
-            <button class="accordion-btn" onclick="toggleAccordion('content1', 'icon1')">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-clock text-ivan-red"></i> أوقات الدوام الرسمي
+        <div class="accordion-item">
+            <button class="accordion-btn" onclick="toggleAccordion('normal-time', this)">
+                <div class="flex items-center gap-4">
+                    <i class="fa-solid fa-sun text-ivan-red text-xl"></i>
+                    <span>أوقات الدوام الاعتيادي</span>
                 </div>
-                <div class="accordion-icon" id="icon1"><i class="fa-solid fa-chevron-down"></i></div>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300 arrow"></i>
             </button>
-            <div id="content1" class="accordion-content">
-                <div class="content-inner space-y-4">
-                    <div class="bg-white dark:bg-[#0F1118] p-4 rounded-xl border border-gray-200 dark:border-[#1A1E2E]">
-                        <h4 class="font-black text-gray-900 dark:text-white mb-2 underline">الدوام الصباحي:</h4>
-                        <p class="text-sm font-bold text-gray-600 dark:text-gray-400">من الساعة 9:00 صباحاً حتى الساعة 3:00 عصراً.</p>
+            <div id="normal-time" class="accordion-content">
+                <div class="p-6 space-y-4">
+                    <div class="info-card flex items-center justify-between">
+                        <span class="font-bold">فترة العمل اليومية</span>
+                        <span class="font-black text-ivan-red">من 10:00 ص إلى 09:30 م</span>
                     </div>
-                    <div class="bg-white dark:bg-[#0F1118] p-4 rounded-xl border border-gray-200 dark:border-[#1A1E2E]">
-                        <h4 class="font-black text-gray-900 dark:text-white mb-2 underline">الدوام المسائي:</h4>
-                        <p class="text-sm font-bold text-gray-600 dark:text-gray-400">من الساعة 4:00 عصراً حتى الساعة 10:00 ليلاً.</p>
-                    </div>
-                    <p class="text-xs text-ivan-red font-bold">* ملاحظة: بانتظار تحديث الأوقات الرسمية من الإدارة.</p>
+                    <p class="text-sm font-bold text-gray-600 dark:text-gray-400 leading-relaxed bg-gray-50 dark:bg-[#12141D] p-4 rounded-xl border dark:border-gray-800">
+                        يلتزم جميع الموظفين بالتواجد في مواقعهم قبل بدء الدوام بـ 5 دقائق لضمان جاهزية الطوابق السبعة لاستقبال الزبائن فور الافتتاح.
+                    </p>
                 </div>
             </div>
         </div>
 
-        <div>
-            <button class="accordion-btn" onclick="toggleAccordion('content2', 'icon2')">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-mug-hot text-amber-500"></i> أوقات الاستراحة (Break)
+        <div class="accordion-item">
+            <button class="accordion-btn" onclick="toggleAccordion('ramadan-time', this)">
+                <div class="flex items-center gap-4">
+                    <i class="fa-solid fa-moon text-amber-500 text-xl"></i>
+                    <span>نظام دوام شهر رمضان</span>
                 </div>
-                <div class="accordion-icon" id="icon2" style="background: rgba(245,158,11,0.1); color: #F59E0B;"><i class="fa-solid fa-chevron-down"></i></div>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300 arrow"></i>
             </button>
-            <div id="content2" class="accordion-content">
-                <div class="content-inner space-y-3">
-                    <ul class="text-sm font-bold space-y-3 list-disc pl-5 text-gray-700 dark:text-gray-300">
-                        <li>يحق للموظف استراحة مدتها <strong class="text-amber-500">45 دقيقة</strong> مقسمة أو متصلة حسب ضغط العمل.</li>
-                        <li>يمنع أخذ الاستراحة في أوقات الذروة أو ترك القسم فارغاً.</li>
-                        <li>يجب التنسيق مع الزملاء قبل الخروج للاستراحة لضمان تغطية المكان.</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div>
-            <button class="accordion-btn" onclick="toggleAccordion('content3', 'icon3')">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-calendar-check text-emerald-500"></i> نظام العطلات والإجازات
-                </div>
-                <div class="accordion-icon" id="icon3" style="background: rgba(16,185,129,0.1); color: #10B981;"><i class="fa-solid fa-chevron-down"></i></div>
-            </button>
-            <div id="content3" class="accordion-content">
-                <div class="content-inner space-y-4">
-                    <div class="bg-emerald-50 dark:bg-emerald-900/10 p-4 rounded-xl border border-emerald-200 dark:border-emerald-900/30">
-                        <h4 class="font-black text-emerald-600 dark:text-emerald-500 mb-2">العطلة الأسبوعية:</h4>
-                        <p class="text-sm font-bold text-gray-700 dark:text-gray-300">يوم واحد في الأسبوع يحدد حسب جدول كل قسم بالاتفاق مع الإدارة.</p>
-                    </div>
-                    <div class="bg-gray-50 dark:bg-[#0F1118] p-4 rounded-xl border border-gray-200 dark:border-[#1A1E2E]">
-                        <h4 class="font-black text-gray-900 dark:text-white mb-2">الإجازات المرضية والطارئة:</h4>
-                        <p class="text-sm font-bold text-gray-600 dark:text-gray-400">يجب إبلاغ الإدارة قبل بدء الدوام بـ 3 ساعات على الأقل في الحالات الطارئة.</p>
+            <div id="ramadan-time" class="accordion-content">
+                <div class="p-6 space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="info-card border-amber-500/20 bg-amber-500/5">
+                            <h4 class="font-black text-amber-600 mb-2">الفترة الأولى (نهارية):</h4>
+                            <p class="text-sm font-bold">من الساعة 12:00 ظهراً <br> حتى ما قبل الأذان بـ 40 دقيقة.</p>
+                        </div>
+                        <div class="info-card border-indigo-500/20 bg-indigo-500/5">
+                            <h4 class="font-black text-indigo-600 mb-2">الفترة الثانية (ليلية):</h4>
+                            <p class="text-sm font-bold">من بعد صلاة التراويح مباشرة <br> حتى الساعة 01:00 صباحاً.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div>
-            <button class="accordion-btn" onclick="toggleAccordion('content4', 'icon4')">
-                <div class="flex items-center gap-3">
-                    <i class="fa-solid fa-triangle-exclamation text-ivan-red"></i> قوانين التأخير والغياب
+        <div class="accordion-item">
+            <button class="accordion-btn" onclick="toggleAccordion('holidays-info', this)">
+                <div class="flex items-center gap-4">
+                    <i class="fa-solid fa-calendar-star text-emerald-500 text-xl"></i>
+                    <span>العطلات الأسبوعية والرسمية</span>
                 </div>
-                <div class="accordion-icon" id="icon4"><i class="fa-solid fa-chevron-down"></i></div>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300 arrow"></i>
             </button>
-            <div id="content4" class="accordion-content">
-                <div class="content-inner space-y-3">
-                    <ul class="text-sm font-bold space-y-3 list-disc pl-5 text-gray-700 dark:text-gray-300">
-                        <li>التأخير لأكثر من <strong class="text-ivan-red">15 دقيقة</strong> بدون عذر مسبق يسجل كـ (تأخير) ويخصم من التقييم.</li>
-                        <li>الغياب بدون إبلاغ مسبق يعتبر مخالفة صريحة لنظام المعرض.</li>
-                        <li>ثلاثة إنذارات بسبب التأخير المستمر تعرض الموظف لخصم مالي.</li>
-                    </ul>
+            <div id="holidays-info" class="accordion-content">
+                <div class="p-6 space-y-4">
+                    <div class="info-card border-r-4 border-r-ivan-red">
+                        <h4 class="font-black mb-2 flex items-center justify-between">
+                            يوم الجمعة (العطلة الثابتة)
+                            <span class="badge-red">تنبيه هام</span>
+                        </h4>
+                        <p class="text-sm font-bold text-gray-600 dark:text-gray-400">
+                            يوم الجمعة هو عطلة أسبوعية ثابتة لجميع الكادر، <span class="text-ivan-red underline text-base">ما عدا:</span> الجمعة التي تسبق عيد الفطر والجمعة التي تسبق عيد الأضحى، حيث يكون الدوام فيها كاملاً لاستيعاب ضغط الزبائن.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="info-card text-center">
+                            <span class="block text-xs text-gray-500 mb-1">عيد الفطر</span>
+                            <span class="font-black text-emerald-600">3 أيام ونصف</span>
+                        </div>
+                        <div class="info-card text-center">
+                            <span class="block text-xs text-gray-500 mb-1">عيد الأضحى</span>
+                            <span class="font-black text-emerald-600">4 أيام</span>
+                        </div>
+                        <div class="info-card text-center">
+                            <span class="block text-xs text-gray-500 mb-1">عيد نوروز</span>
+                            <span class="font-black text-emerald-600">يوم واحد</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-btn" onclick="toggleAccordion('money-rules', this)">
+                <div class="flex items-center gap-4">
+                    <i class="fa-solid fa-file-invoice-dollar text-blue-500 text-xl"></i>
+                    <span>الإضافي، التأخير، والخصومات</span>
+                </div>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300 arrow"></i>
+            </button>
+            <div id="money-rules" class="accordion-content">
+                <div class="p-6 space-y-5">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="info-card border-emerald-500/20">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-black text-emerald-600">ساعات العمل الإضافي</h4>
+                                <i class="fa-solid fa-plus-circle text-emerald-500"></i>
+                            </div>
+                            <p class="text-sm font-bold">يتم دفع <span class="text-lg">5,000</span> دينار عن كل ساعة عمل إضافية بعد انتهاء الدوام الرسمي.</p>
+                        </div>
+                        <div class="info-card border-red-500/20">
+                            <div class="flex justify-between items-center mb-2">
+                                <h4 class="font-black text-red-600">غرامة التأخير</h4>
+                                <i class="fa-solid fa-minus-circle text-red-500"></i>
+                            </div>
+                            <p class="text-sm font-bold">يُخصم مبلغ <span class="text-lg">2,000</span> دينار عن كل ساعة تأخير (مبرر أو غير مبرر).</p>
+                        </div>
+                    </div>
+                    <div class="info-card bg-red-50 dark:bg-red-900/10 border-red-200">
+                        <h4 class="font-black text-red-700 dark:text-red-400 mb-2">قاعدة الانضباط:</h4>
+                        <p class="text-xs font-bold leading-relaxed">التأخير لثلاث مرات بدون عذر مسبق من (مدير العمليات) يعرض الموظف للمساءلة الإدارية والتحقيق الرسمي.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-btn" onclick="toggleAccordion('break-rules', this)">
+                <div class="flex items-center gap-4">
+                    <i class="fa-solid fa-chair text-purple-500 text-xl"></i>
+                    <span>سياسة الاستراحة وتغطية الطوابق</span>
+                </div>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300 arrow"></i>
+            </button>
+            <div id="break-rules" class="accordion-content">
+                <div class="p-6 space-y-4">
+                    <p class="text-sm font-bold text-gray-700 dark:text-gray-300 leading-relaxed">
+                        نظراً لأن المعرض يتكون من <span class="text-ivan-red">7 طوابق متكاملة</span>، يمنع منعاً باتاً ترك أي طابق فارغاً من الموظفين خلال ساعات العمل.
+                    </p>
+                    <div class="info-card">
+                        <ul class="text-sm font-bold space-y-3 list-disc pl-5">
+                            <li>تنظم فترات الاستراحة وتناول الطعام بالتناوب بين عمال وموظفي القسم الواحد.</li>
+                            <li>يجب تواجد عدد كافٍ من الموظفين دائماً في كل طابق لاستقبال الزبائن فوراً.</li>
+                            <li>لا يجوز الخروج للاستراحة إلا بعد التنسيق مع المدير المباشر وتأكيد وجود البديل في الطابق.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-btn" onclick="toggleAccordion('resignation-rules', this)">
+                <div class="flex items-center gap-4">
+                    <i class="fa-solid fa-handshake-slash text-gray-500 text-xl"></i>
+                    <span>سياسة الاستقالة وإنهاء الخدمة</span>
+                </div>
+                <i class="fa-solid fa-chevron-down text-xs transition-transform duration-300 arrow"></i>
+            </button>
+            <div id="resignation-rules" class="accordion-content">
+                <div class="p-6 space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="info-card">
+                            <h4 class="font-black mb-2 text-gray-900 dark:text-white underline">في حال الاستقالة:</h4>
+                            <p class="text-xs font-bold text-gray-600 dark:text-gray-400">يجب إبلاغ المدير المباشر والاستمرار في العمل لمدة <span class="text-ivan-red">أسبوع واحد</span> كفترة انتقالية لتدريب البديل.</p>
+                        </div>
+                        <div class="info-card">
+                            <h4 class="font-black mb-2 text-gray-900 dark:text-white underline">في حال إنهاء الخدمة:</h4>
+                            <p class="text-xs font-bold text-gray-600 dark:text-gray-400">تمنح الإدارة الموظف مهلة <span class="text-ivan-red">أسبوع واحد</span> كدعم له لإيجاد فرصة عمل أخرى (التزام أخلاقي من المعرض).</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
     </main>
+
+    <footer class="py-10 text-center border-t border-gray-100 dark:border-ivan-darkBorder mt-10">
+        <p class="text-xs font-bold text-gray-400 uppercase tracking-widest font-en">© 2026 IVAN SHOWROOM - INTERNAL PORTAL</p>
+    </footer>
 
     <script>
         // نظام الداكن والفاتح
@@ -192,29 +271,35 @@
         }
         if (localStorage.getItem('ivanTheme') === 'light') { document.documentElement.classList.remove('dark'); }
 
-        // كود تشغيل الأكورديون (القوائم المنسدلة للدوام)
-        function toggleAccordion(contentId, iconId) {
-            const content = document.getElementById(contentId);
-            const icon = document.getElementById(iconId);
+        // كود تشغيل الأكورديون (توسيع القوائم)
+        function toggleAccordion(id, btn) {
+            const content = document.getElementById(id);
+            const arrow = btn.querySelector('.arrow');
             
-            // إذا كانت مفتوحة، أغلقها
+            // إغلاق أي قسم آخر مفتوح ليبقى الشكل مرتباً
+            const allContents = document.querySelectorAll('.accordion-content');
+            const allArrows = document.querySelectorAll('.arrow');
+            const allBtns = document.querySelectorAll('.accordion-btn');
+
             if (content.style.maxHeight) {
+                // إذا كان مفتوحاً، أغلقه
                 content.style.maxHeight = null;
                 content.classList.remove('open');
-                icon.style.transform = 'rotate(0deg)';
+                arrow.style.transform = 'rotate(0deg)';
+                btn.style.borderColor = '';
             } else {
-                // أغلق كل الأقسام الأخرى أولاً (اختياري، يخلي الصفحة مرتبة)
-                const allContents = document.querySelectorAll('.accordion-content');
-                const allIcons = document.querySelectorAll('.accordion-icon');
+                // أغلق الجميع وافتح الحالي
                 allContents.forEach(c => { c.style.maxHeight = null; c.classList.remove('open'); });
-                allIcons.forEach(i => i.style.transform = 'rotate(0deg)');
+                allArrows.forEach(a => a.style.transform = 'rotate(0deg)');
+                allBtns.forEach(b => b.style.borderColor = '');
 
-                // افتح القسم المطلوب
                 content.classList.add('open');
                 content.style.maxHeight = content.scrollHeight + "px";
-                icon.style.transform = 'rotate(180deg)';
+                arrow.style.transform = 'rotate(180deg)';
+                btn.style.borderColor = '#C8102E';
             }
         }
     </script>
 </body>
 </html>
+ 
