@@ -86,6 +86,29 @@
 </head>
 <body class="bg-ivan-lightBg dark:bg-ivan-darkBg text-gray-900 dark:text-white transition-colors duration-300 relative">
 
+    <div id="loginOverlay" class="fixed inset-0 z-[200] bg-ivan-lightBg dark:bg-ivan-darkBg flex items-center justify-center transition-all duration-500">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-ivan-red/20 rounded-full filter blur-[100px]"></div>
+        <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full filter blur-[100px]"></div>
+        
+        <div class="bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder p-8 md:p-12 rounded-3xl shadow-2xl max-w-md w-full mx-4 relative z-10 text-center transform transition-all duration-500" id="loginBox">
+            <div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-ivan-red to-red-900 flex items-center justify-center shadow-lg shadow-ivan-red/30 mb-6">
+                <span class="font-en text-4xl font-black italic text-white">i</span>
+            </div>
+            <h2 class="text-3xl font-black text-gray-900 dark:text-white mb-2 font-en tracking-widest uppercase">Ivan Show</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-8 font-bold">بوابة الموظفين - النظام الداخلي</p>
+            
+            <div class="relative mb-6">
+                <input type="password" id="passwordInput" placeholder="أدخل رمز الدخول..." class="w-full bg-gray-50 dark:bg-[#080A10] border border-gray-200 dark:border-ivan-darkBorder rounded-xl px-5 py-4 text-gray-900 dark:text-white focus:outline-none focus:border-ivan-red dark:focus:border-ivan-red transition-all text-center text-xl tracking-[0.2em]" dir="ltr">
+                <p id="loginError" class="text-ivan-red text-sm font-bold mt-3 opacity-0 transition-opacity">الرمز غير صحيح، يرجى المحاولة مجدداً</p>
+            </div>
+            
+            <button onclick="checkPassword()" class="w-full bg-ivan-red hover:bg-red-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-ivan-red/30 text-lg flex items-center justify-center gap-3">
+                <span>تسجيل الدخول</span>
+                <i class="fa-solid fa-lock-open text-sm"></i>
+            </button>
+        </div>
+    </div>
+
     <div class="glow-circle glow-1"></div>
     <div class="glow-circle glow-2"></div>
 
@@ -192,7 +215,7 @@
                 <p class="text-base sm:text-lg lg:text-2xl max-w-4xl leading-relaxed text-gray-600 dark:text-ivan-textDarkSub font-semibold editable">
                     نظام داخلي متكامل يهدف إلى تنظيم العمل، توحيد الإجراءات، ورفع مستوى الأداء داخل جميع أقسام المعرض.
                 </p>
-                </div>
+            </div>
 
             <div class="mb-12 lg:mb-16 border-r-4 border-ivan-red pr-4 lg:pr-6">
                 <h3 class="text-xl sm:text-2xl font-bold mb-3 text-gray-900 dark:text-white editable">نظرة عامة</h3>
@@ -218,7 +241,7 @@
                         </div>
                         <h4 class="text-xl lg:text-2xl font-bold mb-3 text-gray-900 dark:text-white editable">المهام اليومية</h4>
                         <p class="text-sm lg:text-base text-gray-600 dark:text-ivan-textDarkSub leading-relaxed editable mb-6">متابعة جدول الأعمال اليومي الخاص بك وتحديث حالة الإنجاز.</p>
-                        <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all">
+                        <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all cursor-pointer">
                             <span class="editable">الدخول إلى المهام</span> <i class="fa-solid fa-arrow-left"></i>
                         </div>
                     </div>
@@ -232,7 +255,7 @@
                         </div>
                         <h4 class="text-xl lg:text-2xl font-bold mb-3 text-gray-900 dark:text-white editable">الإعلانات والتنبيهات</h4>
                         <p class="text-sm lg:text-base text-gray-600 dark:text-ivan-textDarkSub leading-relaxed editable mb-6">الاطلاع على آخر القرارات الإدارية والتعميمات الصادرة حديثاً.</p>
-                        <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all">
+                        <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all cursor-pointer">
                             <span class="editable">اقرأ آخر التنبيهات</span> <i class="fa-solid fa-arrow-left"></i>
                         </div>
                     </div>
@@ -245,7 +268,7 @@
                         </div>
                         <h4 class="text-xl lg:text-2xl font-bold mb-3 text-gray-900 dark:text-white editable">أقسام المعرض</h4>
                         <p class="text-sm lg:text-base text-gray-600 dark:text-ivan-textDarkSub leading-relaxed editable mb-6">تصفح أقسام العمل المختلفة والدخول للتعليمات المخصصة لكل قسم.</p>
-                        <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all">
+                        <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all cursor-pointer">
                             <span class="editable">اقرأ تفاصيل الأقسام</span> <i class="fa-solid fa-arrow-left"></i>
                         </div>
                     </div>
@@ -258,7 +281,7 @@
                         </div>
                         <h4 class="text-xl lg:text-2xl font-bold mb-3 text-gray-900 dark:text-white editable">الشكاوى والملاحظات</h4>
                         <p class="text-sm lg:text-base text-gray-600 dark:text-ivan-textDarkSub leading-relaxed editable mb-6">رفع المقترحات أو الملاحظات للإدارة بسرية تامة لضمان التطوير.</p>
-                        <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all">
+                        <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all cursor-pointer">
                             <span class="editable">تقديم ملاحظة</span> <i class="fa-solid fa-arrow-left"></i>
                         </div>
                     </div>
@@ -337,13 +360,55 @@
                     <span>تفعيل وضع تعديل النصوص</span>
                     <i id="editIconStatus" class="fa-solid fa-pen text-ivan-red"></i>
                 </button>
-                <button class="w-full text-right px-5 py-4 bg-gray-50 dark:bg-[#080A10] hover:bg-ivan-red/10 border border-gray-200 dark:border-ivan-darkBorder hover:border-ivan-red text-gray-900 dark:text-white font-bold rounded-2xl transition-all">إعدادات النظام</button>
                 <button onclick="closeAdminModal()" class="w-full text-center px-5 py-4 bg-ivan-red hover:bg-red-700 text-white font-bold rounded-2xl transition-all mt-4 shadow-lg shadow-red-500/30">إغلاق اللوحة</button>
             </div>
         </div>
     </div>
 
     <script>
+        // --- نظام تسجيل الدخول (كلمة السر) ---
+        document.addEventListener("DOMContentLoaded", () => {
+            const loginOverlay = document.getElementById('loginOverlay');
+            const isAuth = localStorage.getItem('ivan_auth_portal');
+            
+            // تحقق إذا كان مسجل دخول مسبقاً
+            if (isAuth === 'true') {
+                loginOverlay.style.display = 'none';
+            }
+        });
+
+        function checkPassword() {
+            const pass = document.getElementById('passwordInput').value;
+            const errorMsg = document.getElementById('loginError');
+            const loginBox = document.getElementById('loginBox');
+            
+            if (pass === 'ivanahuw321') {
+                localStorage.setItem('ivan_auth_portal', 'true');
+                loginBox.style.transform = 'scale(0.9)';
+                document.getElementById('loginOverlay').style.opacity = '0';
+                
+                setTimeout(() => {
+                    document.getElementById('loginOverlay').style.display = 'none';
+                }, 500);
+            } else {
+                errorMsg.style.opacity = '1';
+                loginBox.classList.add('animate-pulse');
+                
+                setTimeout(() => {
+                    errorMsg.style.opacity = '0';
+                    loginBox.classList.remove('animate-pulse');
+                }, 3000);
+            }
+        }
+
+        // دعم الضغط على زر Enter لتسجيل الدخول
+        document.getElementById('passwordInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+
+        // --- باقي وظائف الصفحة (الثيم والإدارة) ---
         function toggleTheme() {
             const html = document.documentElement;
             html.classList.toggle('dark');
