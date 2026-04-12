@@ -47,13 +47,13 @@
 </head>
 <body class="min-h-screen">
 
-    <aside id="sidebar" class="fixed top-0 right-0 h-full w-72 bg-white dark:bg-ivan-card border-l border-gray-200 dark:border-ivan-border transform translate-x-full lg:translate-x-0 shadow-2xl">
+    <aside id="sidebar" aria-hidden="true" class="fixed top-0 right-0 h-full w-72 bg-white dark:bg-ivan-card border-l border-gray-200 dark:border-ivan-border transform translate-x-full lg:translate-x-0 shadow-2xl">
         <div class="p-6 border-b border-gray-100 dark:border-ivan-border flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-ivan-red flex items-center justify-center text-white font-bold italic">i</div>
                 <span class="font-black text-ivan-red">IVAN MENU</span>
             </div>
-            <button onclick="toggleMenu()" class="lg:hidden text-2xl">&times;</button>
+            <button onclick="toggleMenu()" class="lg:hidden text-2xl" aria-label="اغلاق القائمة">&times;</button>
         </div>
         <nav class="p-4 space-y-2">
             <a href="index.html" class="block p-4 rounded-xl font-bold hover:bg-gray-50 dark:hover:bg-white/5">الرئيسية</a>
@@ -63,7 +63,7 @@
     </aside>
 
     <header class="h-20 sticky top-0 z-50 px-6 flex items-center justify-between bg-white/80 dark:bg-ivan-dark/80 backdrop-blur-md border-b border-gray-200 dark:border-ivan-border">
-        <button onclick="toggleMenu()" class="w-12 h-12 flex items-center justify-center text-2xl border border-gray-200 dark:border-ivan-border rounded-xl">
+        <button onclick="toggleMenu()" aria-controls="sidebar" aria-expanded="false" class="w-12 h-12 flex items-center justify-center text-2xl border border-gray-200 dark:border-ivan-border rounded-xl">
             <i class="fa-solid fa-bars-staggered"></i>
         </button>
         <span class="font-black text-xl">IVAN <span class="text-ivan-red">DEPARTMENTS</span></span>
@@ -121,15 +121,22 @@
 
     <script>
         // كود القائمة الجانبية المضمون (فتح وإغلاق مباشر)
+        // Use class toggling instead of checking inline style so Tailwind classes behave correctly.
         function toggleMenu() {
             const sidebar = document.getElementById('sidebar');
-            if (sidebar.style.transform === 'translateX(0px)') {
-                sidebar.style.transform = 'translateX(100%)';
-            } else {
-                sidebar.style.transform = 'translateX(0px)';
-            }
+
+            // detect whether the sidebar is currently hidden by the base class
+            const isHidden = sidebar.classList.contains('translate-x-full');
+
+            // set or remove classes accordingly
+            sidebar.classList.toggle('translate-x-full', !isHidden);
+            sidebar.classList.toggle('translate-x-0', isHidden);
+
+            // accessibility attributes and header button aria-expanded (if present)
+            sidebar.setAttribute('aria-hidden', String(!isHidden));
+            const btn = document.querySelector('header button[aria-controls="sidebar"]');
+            if (btn) btn.setAttribute('aria-expanded', String(isHidden));
         }
     </script>
 </body>
-</html>
- 
+</html> 
