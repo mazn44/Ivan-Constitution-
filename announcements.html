@@ -12,258 +12,273 @@
             theme: {
                 extend: {
                     colors: {
-                        ivan: { red: '#C8102E', darkBg: '#07090F', darkCard: '#0F1118', darkBorder: '#1A1E2E', lightBg: '#F5F7FA', lightCard: '#FFFFFF', lightBorder: '#E4E9F0' }
+                        ivan: { red: '#C8102E', darkBg: '#05050A', darkCard: '#0A0C14', darkBorder: '#1A1E2E' },
+                        neon: { blue: '#00F0FF', pink: '#FF003C', purple: '#8A2BE2' }
                     },
                     fontFamily: { cairo: ['Cairo', 'sans-serif'], outfit: ['Outfit', 'sans-serif'] }
                 }
             }
         }
     </script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body { font-family: 'Cairo', sans-serif; transition: background-color 0.4s, color 0.4s; overflow-x: hidden; }
+        body { font-family: 'Cairo', sans-serif; background-color: #05050A; color: #F0F4FF; overflow-x: hidden; }
         .font-en { font-family: 'Outfit', sans-serif; }
-        body.dark { background-color: #07090F; color: #F0F4FF; }
-        body:not(.dark) { background-color: #F5F7FA; color: #0D1117; }
-
-        /* البطاقات الإخبارية */
-        .news-card {
-            background: #fff; border: 1px solid #E4E9F0; border-radius: 24px;
-            padding: 24px; margin-bottom: 24px; transition: all 0.3s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.02); position: relative; overflow: hidden;
-        }
-        .dark .news-card { background: #0F1118; border-color: #1A1E2E; box-shadow: none; }
-        .news-card:hover { transform: translateY(-3px); border-color: rgba(200,16,46,0.3); }
-
-        /* شريط جانبي مضيء للبطاقة */
-        .news-card::before {
-            content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%;
-            background: linear-gradient(to bottom, #C8102E, transparent); opacity: 0.5;
-        }
-
-        /* لوحة الأدمن (مخفية افتراضياً) */
-        #adminPanel {
-            max-height: 0; overflow: hidden; transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0;
-        }
-        #adminPanel.open { max-height: 800px; opacity: 1; padding-bottom: 24px; }
-
-        /* حقول الإدخال */
-        .input-modern {
-            width: 100%; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 16px;
-            padding: 16px; font-weight: 600; outline: none; transition: 0.3s;
-        }
-        .dark .input-modern { background: #07090F; border-color: #1A1E2E; color: white; }
-        .input-modern:focus { border-color: #C8102E; box-shadow: 0 0 0 4px rgba(200,16,46,0.1); }
-
-        /* زر رفع الملفات المخفي */
-        .file-upload-wrapper { position: relative; overflow: hidden; display: inline-block; width: 100%; }
-        .file-upload-wrapper input[type=file] { font-size: 100px; position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; height: 100%; }
         
-        .pulse-btn { animation: pulse-red 2s infinite; }
-        @keyframes pulse-red {
-            0% { box-shadow: 0 0 0 0 rgba(200,16,46,0.4); }
-            70% { box-shadow: 0 0 0 10px rgba(200,16,46,0); }
-            100% { box-shadow: 0 0 0 0 rgba(200,16,46,0); }
+        /* تأثيرات النيون من الصورة التي أرسلتها */
+        .neon-text { background: linear-gradient(90deg, #00F0FF, #8A2BE2, #FF003C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .neon-border { border: 1px solid rgba(0, 240, 255, 0.2); box-shadow: 0 0 15px rgba(0, 240, 255, 0.05); }
+        .neon-border:hover { border-color: rgba(138, 43, 226, 0.5); box-shadow: 0 0 25px rgba(138, 43, 226, 0.2); }
+
+        .news-card {
+            background: rgba(10, 12, 20, 0.8); backdrop-filter: blur(10px);
+            border-radius: 20px; padding: 24px; margin-bottom: 24px;
+            transition: all 0.4s ease; position: relative; overflow: hidden;
         }
 
-        /* تصميم الميديا المرفوعة */
-        .media-preview { border-radius: 16px; margin-top: 16px; max-height: 300px; object-fit: cover; width: 100%; border: 1px solid #E2E8F0; }
-        .dark .media-preview { border-color: #1A1E2E; }
-        audio { width: 100%; margin-top: 16px; border-radius: 12px; }
+        /* لوحة الإدارة المخفية */
+        #adminPanel { max-height: 0; overflow: hidden; opacity: 0; transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        #adminPanel.open { max-height: 1000px; opacity: 1; padding-bottom: 24px; margin-top: 20px; }
+
+        .input-neon {
+            width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px; padding: 16px; font-weight: 600; outline: none; transition: 0.3s; color: white;
+        }
+        .input-neon:focus { border-color: #00F0FF; box-shadow: 0 0 15px rgba(0, 240, 255, 0.2); }
+
+        .file-btn { position: relative; overflow: hidden; display: inline-block; width: 100%; cursor: pointer; }
+        .file-btn input[type=file] { position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; height: 100%; width: 100%; }
+
+        .media-preview { border-radius: 12px; margin-top: 16px; max-height: 400px; width: 100%; object-fit: cover; border: 1px solid rgba(255,255,255,0.1); }
+        
+        .delete-btn { display: none; } /* مخفي للكل، يظهر للأدمن فقط عبر JS */
+        .admin-active .delete-btn { display: flex; }
     </style>
 </head>
-<body class="bg-ivan-lightBg dark:bg-ivan-darkBg text-gray-900 dark:text-white min-h-screen">
+<body class="min-h-screen relative">
 
-    <header class="h-20 sticky top-0 z-50 px-6 flex items-center justify-between bg-ivan-lightBg/80 dark:bg-ivan-darkBg/80 backdrop-blur-xl border-b border-gray-100 dark:border-ivan-darkBorder">
-        <div class="flex items-center gap-4">
-            <a href="index.html" class="w-10 h-10 rounded-xl bg-white dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center hover:text-ivan-red transition-all"><i class="fa-solid fa-arrow-right"></i></a>
-            <div class="font-en text-lg font-black tracking-widest uppercase">IVAN <span class="text-ivan-red">NEWS</span></div>
+    <div class="fixed top-0 left-0 w-96 h-96 bg-neon-blue/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
+    <div class="fixed bottom-0 right-0 w-96 h-96 bg-neon-purple/10 rounded-full blur-[150px] -z-10 pointer-events-none"></div>
+
+    <header class="h-20 sticky top-0 z-50 px-6 flex items-center justify-between bg-[#05050A]/80 backdrop-blur-xl border-b border-white/5">
+        <a href="index.html" class="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center hover:bg-white/10 transition-all text-white">
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        
+        <div ondblclick="authenticateAdmin()" class="font-en text-xl font-black tracking-widest uppercase cursor-pointer select-none" title="سر الإدارة هنا">
+            IVAN <span class="neon-text">NEWS</span>
         </div>
-        <div class="flex items-center gap-3">
-            <button onclick="toggleAdminAuth()" class="w-10 h-10 rounded-xl bg-red-50 dark:bg-red-900/10 text-ivan-red flex items-center justify-center border border-red-100 dark:border-red-900/20 hover:bg-red-100 transition-all">
-                <i class="fa-solid fa-lock" id="adminLockIcon"></i>
-            </button>
-            <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-white dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center text-indigo-500 dark:text-amber-400">
-                <i class="fa-solid fa-moon dark:hidden"></i>
-                <i class="fa-solid fa-sun hidden dark:block"></i>
-            </button>
-        </div>
-    </header>
+        
+        <div class="w-10 h-10"></div> </header>
 
     <main class="max-w-3xl mx-auto p-6 lg:p-10">
         
-        <div class="mb-10 text-center">
-            <h1 class="text-4xl font-black mb-3">حائط <span class="text-ivan-red">الإعلانات والتنبيهات</span></h1>
-            <p class="font-bold text-gray-500 dark:text-gray-400">تابع أحدث القرارات، الأخبار، والتحديثات اليومية الخاصة بمعرض إيفان.</p>
+        <div class="mb-8 text-center">
+            <h1 class="text-4xl font-black mb-3">شبكة <span class="neon-text">الأخبار الرسمية</span></h1>
+            <p class="font-bold text-gray-400 text-sm">تابع التعميمات، التحديثات، وأخبار المعرض فور حدوثها.</p>
         </div>
 
         <div id="adminPanel">
-            <div class="bg-gradient-to-br from-white to-gray-50 dark:from-ivan-darkCard dark:to-[#07090F] border border-ivan-red/30 rounded-3xl p-6 shadow-2xl shadow-ivan-red/10 relative">
-                <div class="absolute top-0 right-10 bg-ivan-red text-white text-xs font-black px-4 py-1 rounded-b-xl tracking-widest font-en uppercase">Admin Mode</div>
-                <h3 class="text-2xl font-black mb-6 mt-2 text-gray-900 dark:text-white"><i class="fa-solid fa-pen-nib text-ivan-red"></i> نشر إعلان جديد</h3>
+            <div class="bg-gray-900/50 border border-neon-purple/30 rounded-3xl p-6 shadow-[0_0_30px_rgba(138,43,226,0.15)] relative">
+                <div class="absolute top-0 right-6 bg-gradient-to-r from-neon-purple to-neon-pink text-white text-xs font-black px-4 py-1 rounded-b-xl tracking-widest font-en">CONTROL PANEL</div>
                 
-                <input type="text" id="postTitle" placeholder="عنوان الإعلان..." class="input-modern mb-4">
-                <textarea id="postContent" rows="3" placeholder="تفاصيل الإعلان أو التنبيه..." class="input-modern mb-4 resize-none"></textarea>
+                <h3 class="text-2xl font-black mb-6 mt-2 text-white"><i class="fa-solid fa-satellite-dish text-neon-blue mr-2"></i> بث خبر جديد</h3>
                 
-                <div class="file-upload-wrapper mb-6">
-                    <button class="w-full bg-indigo-50 dark:bg-indigo-900/10 border border-dashed border-indigo-300 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 font-bold py-4 rounded-xl flex items-center justify-center gap-3 transition-all hover:bg-indigo-100 dark:hover:bg-indigo-900/20">
-                        <i class="fa-solid fa-cloud-arrow-up text-2xl"></i> 
-                        <span id="fileNameDisplay">إرفاق صورة، فيديو، أو مقطع صوتي</span>
-                    </button>
-                    <input type="file" id="mediaUpload" accept="image/*, video/*, audio/*" onchange="updateFileName()">
+                <input type="text" id="postTitle" placeholder="اكتب العنوان هنا..." class="input-neon mb-4">
+                <textarea id="postContent" rows="4" placeholder="اكتب التفاصيل بدقة..." class="input-neon mb-4 resize-none"></textarea>
+                
+                <div class="file-btn mb-6">
+                    <div class="w-full bg-white/5 border border-dashed border-white/20 text-gray-300 font-bold py-4 rounded-xl flex items-center justify-center gap-3 hover:bg-white/10 transition-all">
+                        <i class="fa-solid fa-cloud-arrow-up text-2xl text-neon-blue"></i> 
+                        <span id="fileNameDisplay">إرفاق صورة أو فيديو (اختياري)</span>
+                    </div>
+                    <input type="file" id="mediaUpload" accept="image/*, video/*" onchange="updateFileName()">
                 </div>
 
-                <button onclick="publishPost()" class="w-full bg-ivan-red text-white font-black py-4 rounded-xl text-lg hover:bg-red-700 transition-all pulse-btn">
-                    <i class="fa-solid fa-paper-plane"></i> نشر الإعلان فوراً
+                <button onclick="publishPost()" class="w-full bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink text-white font-black py-4 rounded-xl text-lg hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all">
+                    نشر في الشبكة <i class="fa-solid fa-paper-plane ml-2"></i>
                 </button>
             </div>
         </div>
 
-        <div id="newsFeed" class="mt-8 space-y-6">
-            
-            <div class="news-card border-2 border-ivan-red/50">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-ivan-red text-white flex items-center justify-center font-en font-black text-xl italic">i</div>
-                        <div>
-                            <h4 class="font-black text-lg text-gray-900 dark:text-white">الإدارة العليا</h4>
-                            <span class="text-xs text-gray-500 font-bold">تنبيه إداري ثابت 📌</span>
-                        </div>
-                    </div>
-                </div>
-                <h3 class="text-xl font-black mb-2 text-ivan-red">قانون استخدام الهاتف</h3>
-                <p class="text-sm font-bold text-gray-700 dark:text-gray-300 leading-relaxed">
-                    يمنع منعاً باتاً استخدام الهاتف للتصوير الشخصي أثناء أوقات الدوام الرسمي. أي مخالفة لهذا القرار تعرض الموظف للمساءلة الفورية ونقطة حمراء في التقييم.
-                </p>
+        <div id="newsFeed" class="space-y-6">
             </div>
 
-            <div class="news-card">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400 flex items-center justify-center font-black"><i class="fa-solid fa-user-tie"></i></div>
-                        <div>
-                            <h4 class="font-black text-lg text-gray-900 dark:text-white">مدير العمليات</h4>
-                            <span class="text-xs text-gray-500 font-bold">أمس، 10:30 صباحاً</span>
-                        </div>
-                    </div>
-                </div>
-                <h3 class="text-xl font-black mb-2">تعليمات بخصوص دوام الجمعة</h3>
-                <p class="text-sm font-bold text-gray-700 dark:text-gray-300 leading-relaxed">
-                    يرجى من جميع موظفي المبيعات الاستماع للمقطع الصوتي المرفق بخصوص ترتيبات العمل ليوم الجمعة القادمة قبل العيد.
-                </p>
-                <div class="mt-4 p-4 bg-gray-50 dark:bg-[#07090F] border border-gray-100 dark:border-[#1A1E2E] rounded-xl flex items-center gap-4">
-                    <button class="w-12 h-12 rounded-full bg-ivan-red text-white flex items-center justify-center text-lg hover:scale-105 transition-transform"><i class="fa-solid fa-play ml-1"></i></button>
-                    <div class="flex-1">
-                        <div class="h-2 bg-gray-200 dark:bg-gray-800 rounded-full overflow-hidden">
-                            <div class="h-full bg-ivan-red w-1/3"></div>
-                        </div>
-                        <span class="text-xs font-bold text-gray-500 mt-1 block">0:45 / 2:30</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
     </main>
 
     <script>
-        // الثيم
-        function toggleTheme() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('ivanTheme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-        }
-        if (localStorage.getItem('ivanTheme') === 'light') { document.documentElement.classList.remove('dark'); }
+        // --- 1. إعدادات الإدارة السرية ---
+        let isAdmin = false;
+        
+        function authenticateAdmin() {
+            if (isAdmin) {
+                // إذا كان أدمن، نغلق اللوحة
+                isAdmin = false;
+                document.body.classList.remove('admin-active');
+                document.getElementById('adminPanel').classList.remove('open');
+                alert('🔒 تم تسجيل الخروج من وضع الإدارة.');
+                return;
+            }
 
-        // نظام الأدمن السري (كلمة السر: admin123)
-        function toggleAdminAuth() {
-            const panel = document.getElementById('adminPanel');
-            const icon = document.getElementById('adminLockIcon');
-            
-            if (panel.classList.contains('open')) {
-                panel.classList.remove('open');
-                icon.classList.replace('fa-unlock', 'fa-lock');
-            } else {
-                const pass = prompt('أدخل كلمة مرور الإدارة للنشر:');
-                if (pass === 'admin123') {
-                    panel.classList.add('open');
-                    icon.classList.replace('fa-lock', 'fa-unlock');
-                } else if (pass !== null) {
-                    alert('كلمة المرور خاطئة!');
-                }
+            // طلب كلمة المرور المخفية
+            const pass = prompt('أدخل شفرة الإدارة العليا:');
+            // كلمة السر الجديدة والصعبة
+            if (pass === 'Ivan@2026$$') {
+                isAdmin = true;
+                document.body.classList.add('admin-active'); // لإظهار أزرار الحذف
+                document.getElementById('adminPanel').classList.add('open');
+            } else if (pass !== null) {
+                alert('❌ الشفرة غير صحيحة!');
             }
         }
 
-        // تغيير اسم الملف عند اختياره
+        // --- 2. إدارة رفع الملفات ---
+        let currentMediaData = null; // سيحفظ الصورة كـ Base64
+        let currentMediaType = null;
+
         function updateFileName() {
             const input = document.getElementById('mediaUpload');
             const display = document.getElementById('fileNameDisplay');
+            
             if (input.files.length > 0) {
-                display.innerText = "تم إرفاق: " + input.files[0].name;
-                display.classList.add('text-green-600', 'dark:text-green-400');
+                const file = input.files[0];
+                display.innerText = "تم إرفاق: " + file.name;
+                display.style.color = '#00F0FF';
+
+                // تحويل الملف إلى رابط بيانات (Base64) لحفظه في المتصفح
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentMediaData = e.target.result;
+                    currentMediaType = file.type;
+                };
+                reader.readAsDataURL(file);
             }
         }
 
-        // نشر البوست الجديد في الحائط (يعمل بالتفاعل المباشر)
+        // --- 3. نظام الحفظ والاسترجاع (Local Storage) ---
+        
+        // أخبار افتراضية في حال كانت الصفحة فارغة
+        const defaultPosts = [
+            {
+                id: 1713000000000,
+                title: "قانون استخدام الهاتف",
+                content: "يمنع منعاً باتاً استخدام الهاتف للتصوير الشخصي أثناء أوقات الدوام الرسمي. أي مخالفة لهذا القرار تعرض الموظف للمساءلة الفورية ونقطة حمراء في التقييم.",
+                time: "تنبيه إداري ثابت 📌",
+                mediaType: null,
+                mediaData: null
+            }
+        ];
+
+        // جلب الأخبار من الذاكرة أو وضع الافتراضي
+        function loadPosts() {
+            let posts = JSON.parse(localStorage.getItem('ivan_news_db'));
+            if (!posts || posts.length === 0) {
+                posts = defaultPosts;
+                localStorage.setItem('ivan_news_db', JSON.stringify(posts));
+            }
+            renderPosts(posts);
+        }
+
+        // رسم الأخبار على الشاشة
+        function renderPosts(posts) {
+            const feed = document.getElementById('newsFeed');
+            feed.innerHTML = ''; // مسح القديم
+            
+            // ترتيب من الأحدث للأقدم
+            posts.sort((a, b) => b.id - a.id).forEach(post => {
+                
+                let mediaHTML = '';
+                if (post.mediaData) {
+                    if (post.mediaType.startsWith('image/')) {
+                        mediaHTML = `<img src="${post.mediaData}" class="media-preview">`;
+                    } else if (post.mediaType.startsWith('video/')) {
+                        mediaHTML = `<video src="${post.mediaData}" class="media-preview" controls></video>`;
+                    }
+                }
+
+                const card = document.createElement('div');
+                card.className = 'news-card neon-border';
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-neon-purple to-neon-pink text-white flex items-center justify-center font-en font-black text-xl italic shadow-[0_0_10px_rgba(255,0,60,0.5)]">i</div>
+                            <div>
+                                <h4 class="font-black text-lg text-white">الإدارة العليا</h4>
+                                <span class="text-xs text-gray-400 font-bold">${post.time}</span>
+                            </div>
+                        </div>
+                        <button onclick="deletePost(${post.id})" class="delete-btn w-8 h-8 bg-red-500/10 text-red-500 rounded-lg items-center justify-center hover:bg-red-500/20 transition-all" title="حذف الخبر">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                    <h3 class="text-xl font-black mb-2 text-white">${post.title}</h3>
+                    <p class="text-sm font-bold text-gray-300 leading-relaxed whitespace-pre-line">${post.content}</p>
+                    ${mediaHTML}
+                `;
+                feed.appendChild(card);
+            });
+        }
+
+        // إضافة خبر جديد
         function publishPost() {
             const title = document.getElementById('postTitle').value;
             const content = document.getElementById('postContent').value;
-            const fileInput = document.getElementById('mediaUpload');
             
-            if (!title || !content) { alert('يرجى كتابة العنوان والمحتوى!'); return; }
+            if (!title || !content) { alert('❌ يرجى كتابة العنوان والمحتوى!'); return; }
 
-            // إنشاء كرت إخباري جديد
-            const newCard = document.createElement('div');
-            newCard.className = 'news-card fade-up'; // كلاس الأنيميشن
-            
-            let mediaHTML = '';
-            // إذا تم رفع ملف (صورة أو فيديو أو صوت)، يتم قراءته وعرضه
-            if (fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const fileURL = URL.createObjectURL(file);
-                
-                if (file.type.startsWith('image/')) {
-                    mediaHTML = `<img src="${fileURL}" class="media-preview">`;
-                } else if (file.type.startsWith('video/')) {
-                    mediaHTML = `<video src="${fileURL}" class="media-preview" controls></video>`;
-                } else if (file.type.startsWith('audio/')) {
-                    mediaHTML = `<audio src="${fileURL}" controls></audio>`;
-                }
-            }
-
-            // الوقت الحالي
             const now = new Date();
-            const timeString = now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' });
+            const timeString = 'اليوم، ' + now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' });
 
-            newCard.innerHTML = `
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-full bg-ivan-red text-white flex items-center justify-center font-en font-black text-xl italic">i</div>
-                        <div>
-                            <h4 class="font-black text-lg text-gray-900 dark:text-white">الإدارة العليا</h4>
-                            <span class="text-xs text-gray-500 font-bold">اليوم، ${timeString}</span>
-                        </div>
-                    </div>
-                    <span class="bg-green-100 dark:bg-green-900/20 text-green-600 text-xs font-black px-2 py-1 rounded-lg">جديد</span>
-                </div>
-                <h3 class="text-xl font-black mb-2">${title}</h3>
-                <p class="text-sm font-bold text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">${content}</p>
-                ${mediaHTML}
-            `;
+            const newPost = {
+                id: now.getTime(), // رقم تعريفي مميز للحذف لاحقاً
+                title: title,
+                content: content,
+                time: timeString,
+                mediaType: currentMediaType,
+                mediaData: currentMediaData
+            };
 
-            // إدراج المنشور الجديد في أعلى القائمة
-            const feed = document.getElementById('newsFeed');
-            feed.insertBefore(newCard, feed.firstChild);
+            // جلب البيانات، إضافتها، ثم حفظها
+            try {
+                let posts = JSON.parse(localStorage.getItem('ivan_news_db')) || [];
+                posts.push(newPost);
+                localStorage.setItem('ivan_news_db', JSON.stringify(posts));
+                
+                // تحديث الشاشة
+                renderPosts(posts);
 
-            // تفريغ الحقول وإغلاق اللوحة
-            document.getElementById('postTitle').value = '';
-            document.getElementById('postContent').value = '';
-            fileInput.value = '';
-            document.getElementById('fileNameDisplay').innerText = 'إرفاق صورة، فيديو، أو مقطع صوتي';
-            document.getElementById('fileNameDisplay').classList.remove('text-green-600', 'dark:text-green-400');
-            toggleAdminAuth();
+                // تفريغ الحقول
+                document.getElementById('postTitle').value = '';
+                document.getElementById('postContent').value = '';
+                document.getElementById('mediaUpload').value = '';
+                document.getElementById('fileNameDisplay').innerText = 'إرفاق صورة أو فيديو (اختياري)';
+                document.getElementById('fileNameDisplay').style.color = '';
+                currentMediaData = null;
+                currentMediaType = null;
+                
+                alert('✅ تم نشر الخبر بنجاح لجميع الموظفين!');
+            } catch (e) {
+                // خطأ يحصل إذا كانت الصورة المرفوعة ضخمة جداً على ذاكرة المتصفح
+                alert('❌ حجم الملف المرفق كبير جداً! يرجى اختيار ملف بحجم أصغر.');
+            }
         }
+
+        // حذف خبر
+        function deletePost(postId) {
+            if (confirm('⚠️ هل أنت متأكد أنك تريد حذف هذا الإعلان نهائياً؟')) {
+                let posts = JSON.parse(localStorage.getItem('ivan_news_db')) || [];
+                posts = posts.filter(post => post.id !== postId); // إزالة الخبر
+                localStorage.setItem('ivan_news_db', JSON.stringify(posts));
+                renderPosts(posts); // إعادة رسم الصفحة
+            }
+        }
+
+        // تشغيل الوظائف عند فتح الصفحة
+        window.onload = loadPosts;
+
     </script>
 </body>
 </html>
+ 
