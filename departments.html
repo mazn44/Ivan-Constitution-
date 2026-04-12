@@ -20,101 +20,131 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* ضبط جذور الألوان للفاتح والداكن */
-        :root { --bg: #F8FAFC; --text: #0F172A; }
-        .dark { --bg: #080A10; --text: #F8FAFC; }
-        body { background-color: var(--bg); color: var(--text); font-family: 'Cairo', sans-serif; overflow-y: auto; }
-        .dept-card { transition: all 0.3s ease; border: 1px solid transparent; }
-        .dark .dept-card { background: #12141D; border-color: #1F2332; }
-        .dept-card:hover { border-color: #D91A2A; transform: translateY(-5px); }
+        body { 
+            background-color: #F8FAFC; color: #0F172A; font-family: 'Cairo', sans-serif; 
+            transition: all 0.3s ease;
+        }
+        .dark body { background-color: #080A10; color: #F8FAFC; }
+        
+        /* تصميم البطاقة الفخم */
+        .dept-btn {
+            background: white;
+            border: 1px solid #E2E8F0;
+            border-radius: 24px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .dark .dept-btn {
+            background: #12141D;
+            border-color: #1F2332;
+        }
+        .dept-btn:active { transform: scale(0.95); }
+        .dept-btn:hover { border-color: #D91A2A; box-shadow: 0 10px 20px -10px rgba(217, 26, 42, 0.3); }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen pb-10">
 
-    <aside id="mainSidebar" class="fixed top-0 right-0 h-screen w-72 z-50 bg-white dark:bg-ivan-card border-l border-gray-200 dark:border-ivan-border transform translate-x-full transition-transform duration-300 shadow-2xl">
+    <div id="sideMenu" class="fixed top-0 right-0 h-full w-72 bg-white dark:bg-ivan-card z-[100] border-l border-gray-200 dark:border-ivan-border transform translate-x-full transition-transform duration-300">
         <div class="p-6 border-b border-gray-100 dark:border-ivan-border flex justify-between items-center">
-            <span class="font-black text-ivan-red text-xl">IVAN MENU</span>
-            <button onclick="closeMenu()" class="text-2xl text-gray-500">&times;</button>
+            <span class="font-black text-ivan-red">قائمة إيفان</span>
+            <button onclick="toggleMenu()" class="text-2xl">&times;</button>
         </div>
-        <nav class="p-4 space-y-2">
-            <a href="index.html" class="block p-4 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 font-bold">الرئيسية</a>
-            <a href="departments.html" class="block p-4 rounded-xl bg-red-50 dark:bg-red-900/20 text-ivan-red font-bold">أقسام المعرض</a>
-            <a href="policy.html" class="block p-4 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 font-bold">سياسة المعرض</a>
-        </nav>
-    </aside>
+        <div class="p-4 space-y-2">
+            <a href="index.html" class="block p-4 rounded-xl font-bold hover:bg-gray-50 dark:hover:bg-white/5">الرئيسية</a>
+            <a href="departments.html" class="block p-4 rounded-xl font-bold bg-red-50 dark:bg-red-900/20 text-ivan-red">أقسام المعرض</a>
+            <a href="policy.html" class="block p-4 rounded-xl font-bold hover:bg-gray-50 dark:hover:bg-white/5">سياسة المعرض</a>
+        </div>
+    </div>
+    <div id="overlay" class="fixed inset-0 bg-black/50 z-[90] hidden" onclick="toggleMenu()"></div>
 
     <header class="h-20 sticky top-0 z-40 px-6 flex items-center justify-between bg-white/80 dark:bg-ivan-dark/80 backdrop-blur-md border-b border-gray-200 dark:border-ivan-border">
-        <button onclick="openMenu()" class="w-12 h-12 flex items-center justify-center text-2xl border border-gray-200 dark:border-ivan-border rounded-xl">
+        <button onclick="toggleMenu()" class="w-12 h-12 flex items-center justify-center text-2xl border border-gray-200 dark:border-ivan-border rounded-xl">
             <i class="fa-solid fa-bars-staggered"></i>
         </button>
-        <span class="font-black text-xl tracking-tighter">IVAN <span class="text-ivan-red">DEPARTMENTS</span></span>
-        <button onclick="document.documentElement.classList.toggle('dark')" class="w-10 h-10 rounded-full border border-gray-200 dark:border-ivan-border"><i class="fa-solid fa-circle-half-stroke"></i></button>
+        <div class="font-black text-xl">IVAN <span class="text-ivan-red">DEPT</span></div>
+        <button onclick="changeTheme()" class="w-10 h-10 rounded-full border border-gray-200 dark:border-ivan-border flex items-center justify-center">
+            <i class="fa-solid fa-circle-half-stroke"></i>
+        </button>
     </header>
 
     <main class="p-6 lg:p-12 max-w-6xl mx-auto">
-        <div class="mb-10">
+        <div class="mb-10 text-right">
             <h1 class="text-4xl font-black mb-2">أقسام <span class="text-ivan-red">المعرض</span></h1>
-            <p class="text-gray-500 font-bold">اختر القسم لاستعراض التعليمات والسياسات الخاصة به</p>
+            <p class="text-gray-500 font-bold">يرجى اختيار القسم لعرض التفاصيل الخاصة به:</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             
-            <a href="admin.html" class="dept-card p-6 rounded-3xl block group">
-                <div class="w-14 h-14 bg-red-100 dark:bg-red-900/20 text-ivan-red rounded-2xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-user-tie"></i></div>
-                <h3 class="text-xl font-black mb-2">الأقسام الرئيسية (الإدارة)</h3>
-                <p class="text-sm text-gray-500 font-bold">المسؤوليات العليا والقرارات</p>
+            <a href="marketing.html" class="dept-btn p-8 block group">
+                <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/20 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-ivan-red group-hover:text-white transition-all">
+                    <i class="fa-solid fa-bullhorn"></i>
+                </div>
+                <h3 class="text-2xl font-black mb-2">التسويق والإعلام</h3>
+                <p class="text-gray-500 font-bold">قسم أيوب، فوائد القسم، والمسموح والممنوع.</p>
+                <div class="mt-6 flex items-center gap-2 text-ivan-red font-bold">
+                    <span>فتح القسم</span> <i class="fa-solid fa-arrow-left"></i>
+                </div>
             </a>
 
-            <a href="marketing.html" class="dept-card p-6 rounded-3xl block group">
-                <div class="w-14 h-14 bg-blue-100 dark:bg-blue-900/20 text-blue-600 rounded-2xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-bullhorn"></i></div>
-                <h3 class="text-xl font-black mb-2">التسويق والإعلام</h3>
-                <p class="text-sm text-gray-500 font-bold">قسم أيوب وصورة المعرض</p>
+            <a href="sales.html" class="dept-btn p-8 block group">
+                <div class="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/20 text-emerald-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-ivan-red group-hover:text-white transition-all">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </div>
+                <h3 class="text-2xl font-black mb-2">قسم المبيعات</h3>
+                <p class="text-gray-500 font-bold">إدارة الصالة، المندوبين، وطرق التعامل.</p>
+                <div class="mt-6 flex items-center gap-2 text-ivan-red font-bold">
+                    <span>فتح القسم</span> <i class="fa-solid fa-arrow-left"></i>
+                </div>
             </a>
 
-            <a href="customer_service.html" class="dept-card p-6 rounded-3xl block group">
-                <div class="w-14 h-14 bg-purple-100 dark:bg-purple-900/20 text-purple-600 rounded-2xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-headset"></i></div>
-                <h3 class="text-xl font-black mb-2">خدمة العملاء والردود</h3>
-                <p class="text-sm text-gray-500 font-bold">الردود البادينية والعربية</p>
+            <a href="carpentry.html" class="dept-btn p-8 block group">
+                <div class="w-16 h-16 bg-amber-100 dark:bg-amber-900/20 text-amber-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-ivan-red group-hover:text-white transition-all">
+                    <i class="fa-solid fa-hammer"></i>
+                </div>
+                <h3 class="text-2xl font-black mb-2">النجارة والتركيب</h3>
+                <p class="text-gray-500 font-bold">فنيين التركيب، الصيانة، وشد الأخشاب.</p>
+                <div class="mt-6 flex items-center gap-2 text-ivan-red font-bold">
+                    <span>فتح القسم</span> <i class="fa-solid fa-arrow-left"></i>
+                </div>
             </a>
 
-            <a href="sales.html" class="dept-card p-6 rounded-3xl block group">
-                <div class="w-14 h-14 bg-emerald-100 dark:bg-emerald-900/20 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-cart-shopping"></i></div>
-                <h3 class="text-xl font-black mb-2">المبيعات</h3>
-                <p class="text-sm text-gray-500 font-bold">إدارة الصالة والمندوبين</p>
-            </a>
-
-            <a href="carpentry.html" class="dept-card p-6 rounded-3xl block group">
-                <div class="w-14 h-14 bg-amber-100 dark:bg-amber-900/20 text-amber-600 rounded-2xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-hammer"></i></div>
-                <h3 class="text-xl font-black mb-2">النجارة والتركيب</h3>
-                <p class="text-sm text-gray-500 font-bold">الفنيين والصيانة</p>
-            </a>
-
-            <a href="warehouse.html" class="dept-card p-6 rounded-3xl block group">
-                <div class="w-14 h-14 bg-indigo-100 dark:bg-indigo-900/20 text-indigo-600 rounded-2xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-truck-ramp-box"></i></div>
-                <h3 class="text-xl font-black mb-2">المخازن والنقل</h3>
-                <p class="text-sm text-gray-500 font-bold">الجرد وحركة السيارات</p>
-            </a>
-
-            <a href="cleaning.html" class="dept-card p-6 rounded-3xl block group">
-                <div class="w-14 h-14 bg-cyan-100 dark:bg-cyan-900/20 text-cyan-600 rounded-2xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-broom"></i></div>
-                <h3 class="text-xl font-black mb-2">النظافة والخدمات</h3>
-                <p class="text-sm text-gray-500 font-bold">نظافة المعرض والقطع</p>
-            </a>
-
-            <a href="quick_contact.html" class="dept-card p-6 rounded-3xl block group">
-                <div class="w-14 h-14 bg-orange-100 dark:bg-orange-900/20 text-orange-600 rounded-2xl flex items-center justify-center text-2xl mb-4"><i class="fa-solid fa-bolt"></i></div>
-                <h3 class="text-xl font-black mb-2">التواصل السريع</h3>
-                <p class="text-sm text-gray-500 font-bold">أرقام المسؤولين المباشرة</p>
+            <a href="customer.html" class="dept-btn p-8 block group">
+                <div class="w-16 h-16 bg-purple-100 dark:bg-purple-900/20 text-purple-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:bg-ivan-red group-hover:text-white transition-all">
+                    <i class="fa-solid fa-headset"></i>
+                </div>
+                <h3 class="text-2xl font-black mb-2">خدمة العملاء</h3>
+                <p class="text-gray-500 font-bold">الردود المعتمدة (عربي وباديني).</p>
+                <div class="mt-6 flex items-center gap-2 text-ivan-red font-bold">
+                    <span>فتح القسم</span> <i class="fa-solid fa-arrow-left"></i>
+                </div>
             </a>
 
         </div>
     </main>
 
     <script>
-        // كود القائمة المضمون
-        const sidebar = document.getElementById('mainSidebar');
-        function openMenu() { sidebar.style.transform = 'translateX(0)'; }
-        function closeMenu() { sidebar.style.transform = 'translateX(100%)'; }
+        // كود القائمة الجانبية - بسيط جداً لمنع التعليق
+        function toggleMenu() {
+            const menu = document.getElementById('sideMenu');
+            const overlay = document.getElementById('overlay');
+            if (menu.style.transform === 'translateX(0px)') {
+                menu.style.transform = 'translateX(100%)';
+                overlay.style.display = 'none';
+            } else {
+                menu.style.transform = 'translateX(0px)';
+                overlay.style.display = 'block';
+            }
+        }
+
+        // كود الثيم - يغير ألوان الصفحة والخطوط
+        function changeTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        }
+        
+        // حفظ الثيم عند التحميل
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+        }
     </script>
 </body>
 </html>
