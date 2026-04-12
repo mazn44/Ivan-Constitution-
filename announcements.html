@@ -12,7 +12,7 @@
             theme: {
                 extend: {
                     colors: {
-                        ivan: { red: '#C8102E', darkBg: '#05050A', darkCard: '#0A0C14', darkBorder: '#1A1E2E', lightBg: '#F1F3F9', lightCard: '#FFFFFF', lightBorder: '#E1E5F1' },
+                        ivan: { red: '#C8102E', darkBg: '#05050A', darkCard: '#0A0C14', lightBg: '#F1F3F9' },
                         neon: { blue: '#00F0FF', pink: '#FF003C', purple: '#8A2BE2' }
                     },
                     fontFamily: { cairo: ['Cairo', 'sans-serif'], outfit: ['Outfit', 'sans-serif'] }
@@ -27,101 +27,71 @@
         body { font-family: 'Cairo', sans-serif; transition: 0.3s; overflow-x: hidden; }
         .font-en { font-family: 'Outfit', sans-serif; }
         
-        /* تفعيل الوضع الفاتح والداكن بدقة */
         .dark body { background-color: #05050A; color: #F0F4FF; }
         body:not(.dark) { background-color: #F1F3F9; color: #0D1117; }
 
-        /* تأثيرات النيون - أصغر وأدق */
         .neon-text { background: linear-gradient(90deg, #00F0FF, #8A2BE2, #FF003C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
         .neon-border { transition: 0.3s; border: 1px solid; }
         .dark .neon-border { border-color: rgba(0, 240, 255, 0.1); }
         body:not(.dark) .neon-border { border-color: rgba(0,0,0,0.05); }
 
-        .neon-border:hover { border-color: rgba(138, 43, 226, 0.4); box-shadow: 0 0 15px rgba(138, 43, 226, 0.1); }
-        .dark .neon-border:hover { box-shadow: 0 0 15px rgba(138, 43, 226, 0.2); }
-
-        /* البطاقات ملمومة وأصغر */
-        .news-card {
-            border-radius: 16px; padding: 16px; margin-bottom: 20px;
-            transition: 0.3s ease; position: relative;
-        }
+        .news-card { border-radius: 16px; padding: 16px; margin-bottom: 20px; transition: 0.3s ease; position: relative; }
         .dark .news-card { background: rgba(10, 12, 20, 0.85); backdrop-filter: blur(10px); }
         body:not(.dark) .news-card { background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
 
-        /* لوحة الإدارة المخفية */
-        #adminPanel { max-height: 0; overflow: hidden; opacity: 0; transition: 0.5s ease; }
-        #adminPanel.open { max-height: 1000px; opacity: 1; padding-bottom: 20px; margin-top: 15px; }
-
-        /* حقول إدخال أنيقة وأصغر */
-        .input-neon {
-            width: 100%; border: 1px solid; border-radius: 12px;
-            padding: 10px 14px; font-weight: 600; font-size: 14px; outline: none; transition: 0.3s;
-        }
-        .dark .input-neon { background: rgba(0, 0, 0, 0.6); border-color: rgba(255,255,255,0.08); color: white; }
-        body:not(.dark) .input-neon { background: #F8FAFC; border-color: #E2E8F0; color: black; }
-        .input-neon:focus { border-color: #00F0FF; box-shadow: 0 0 10px rgba(0, 240, 255, 0.15); }
-
-        /* الميديا أصغر والمبار */
-        .file-btn input[type=file] { position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; height: 100%; width: 100%; }
-        .media-preview { border-radius: 12px; margin-top: 12px; max-height: 300px; width: 100%; object-fit: cover; border: 1px solid rgba(255,255,255,0.05); }
-        
-        .admin-controls { display: none; }
-        .admin-active .admin-controls { display: flex; }
-
-        .action-btn { transition: 0.2s; cursor: pointer; font-size: 13px; font-weight: 700; color: #64748B; }
-        .action-btn:hover { transform: scale(1.05); color: #C8102E; }
-        .action-btn.liked { color: #FF003C !important; }
-
-        /* سكشن التعليقات أصغر */
-        .comments-section { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; opacity: 0; }
-        .comments-section.open { max-height: 800px; opacity: 1; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.05); }
-        .dark .comments-section.open { border-color: #1A1E2E; }
-        body:not(.dark) .comments-section.open { border-color: #E2E8F0; }
-        
-        .comment-bubble { border-radius: 12px; padding: 10px 12px; margin-bottom: 8px; position: relative; }
-        .dark .comment-bubble { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.04); }
-        body:not(.dark) .comment-bubble { background: #F8FAFC; border: 1px solid #E2E8F0; }
-
-        /* الحالات (Stories) - ملمومة */
+        /* الحالات (Stories) - حقيقية */
         .story-circle {
-            width: 56px; height: 56px; border-radius: 50%; padding: 2px;
+            width: 60px; height: 60px; border-radius: 50%; padding: 2.5px;
             background: linear-gradient(45deg, #00F0FF, #8A2BE2, #FF003C);
-            cursor: pointer; flex-shrink: 0; transition: 0.3s;
+            cursor: pointer; flex-shrink: 0; transition: 0.3s; position: relative;
         }
         .story-circle:active { transform: scale(0.95); }
         .story-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid; }
         .dark .story-img { border-color: #05050A; }
         body:not(.dark) .story-img { border-color: #F1F3F9; }
-        .story-name { font-size: 10px; font-weight: 700; text-align: center; margin-top: 4px; color: #64748B; width: 60px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .story-name { font-size: 11px; font-weight: 700; text-align: center; margin-top: 4px; width: 64px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        /* سكرول بار أنيق */
-        ::-webkit-scrollbar { width: 4px; height: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(200,16,46,0.2); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #C8102E; }
+        /* شاشة عرض الحالة (Full Screen Story Viewer) */
+        #storyViewer { position: fixed; inset: 0; z-index: 9999; background: #000; display: none; flex-direction: column; }
+        .story-progress-container { width: 100%; height: 3px; background: rgba(255,255,255,0.3); border-radius: 3px; overflow: hidden; margin-top: 10px; }
+        .story-progress-bar { height: 100%; background: white; width: 0%; }
+        .story-media { flex: 1; width: 100%; object-fit: contain; margin-top: 10px; }
         
-        .fade-up { animation: fadeUp 0.4s ease both; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #adminPanel { max-height: 0; overflow: hidden; opacity: 0; transition: 0.5s ease; }
+        #adminPanel.open { max-height: 1000px; opacity: 1; padding-bottom: 20px; margin-top: 15px; }
+
+        .input-neon { width: 100%; border: 1px solid; border-radius: 12px; padding: 10px 14px; font-weight: 600; font-size: 14px; outline: none; transition: 0.3s; }
+        .dark .input-neon { background: rgba(0, 0, 0, 0.6); border-color: rgba(255,255,255,0.08); color: white; }
+        body:not(.dark) .input-neon { background: #F8FAFC; border-color: #E2E8F0; color: black; }
+
+        .admin-controls { display: none; }
+        .admin-active .admin-controls { display: flex; }
+
+        /* إخفاء سكرول بار */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        
+        /* أزرار الرفع المخفية */
+        input[type="file"] { display: none; }
     </style>
 </head>
 <body class="min-h-screen relative pb-10">
 
     <header class="h-16 sticky top-0 z-50 px-4 flex items-center justify-between bg-white/90 dark:bg-[#05050A]/90 backdrop-blur-xl border-b border-gray-100 dark:border-white/5 shadow-sm dark:shadow-none">
-        <a href="index.html" class="w-9 h-9 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 flex items-center justify-center hover:bg-gray-50 dark:hover:bg-white/10 transition-all text-gray-900 dark:text-white">
+        <a href="index.html" class="w-9 h-9 rounded-lg bg-white dark:bg-white/5 border border-gray-100 dark:border-white/10 flex items-center justify-center text-gray-900 dark:text-white">
             <i class="fa-solid fa-house"></i>
         </a>
         
-        <div ondblclick="authenticateAdmin()" class="font-en text-lg font-black tracking-wider uppercase cursor-pointer select-none" title="سر الإدارة">
+        <div ondblclick="authenticateAdmin()" class="font-en text-lg font-black tracking-wider uppercase cursor-pointer select-none">
             IVAN <span class="neon-text">NETWORK</span>
         </div>
         
         <div class="flex items-center gap-2">
-            <button onclick="setProfileName()" class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center text-gray-600 dark:text-gray-400" title="تعيين اسمك">
+            <button onclick="setProfileName()" class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-white/5 flex items-center justify-center text-gray-600 dark:text-gray-400">
                 <i class="fa-solid fa-user-circle"></i>
             </button>
-            <button onclick="toggleTheme()" class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center text-indigo-500 dark:text-amber-400">
-                <i class="fa-solid fa-moon dark:hidden"></i>
-                <i class="fa-solid fa-sun hidden dark:block"></i>
+            <button onclick="toggleTheme()" class="w-9 h-9 rounded-lg bg-gray-100 dark:bg-white/5 flex items-center justify-center text-indigo-500 dark:text-amber-400">
+                <i class="fa-solid fa-moon dark:hidden"></i><i class="fa-solid fa-sun hidden dark:block"></i>
             </button>
         </div>
     </header>
@@ -130,317 +100,307 @@
         
         <div class="mb-5 bg-white dark:bg-[#0A0C14] border border-gray-100 dark:border-white/5 rounded-2xl p-3 flex items-center gap-3 overflow-x-auto no-scrollbar shadow-sm dark:shadow-none">
             
-            <div class="flex flex-col items-center">
-                <div class="story-circle !bg-none border border-dashed border-gray-300 dark:border-white/20 flex items-center justify-center" onclick="alert('سيتم تفعيل إضافة الحالات قريباً!')">
-                    <i class="fa-solid fa-plus text-gray-400"></i>
+            <div class="flex flex-col items-center cursor-pointer" onclick="document.getElementById('storyUploadInput').click()">
+                <div class="story-circle !bg-none border-2 border-dashed border-gray-300 dark:border-white/20 flex items-center justify-center bg-gray-50 dark:bg-white/5">
+                    <i class="fa-solid fa-plus text-xl text-gray-400 dark:text-gray-500"></i>
                 </div>
-                <span class="story-name">إضافة حالة</span>
+                <span class="story-name text-gray-600 dark:text-gray-400">إضافة حالة</span>
             </div>
+            
+            <input type="file" id="storyUploadInput" accept="image/*, video/*" onchange="processNewStory(event)">
 
-            <div class="flex flex-col items-center">
-                <div class="story-circle">
-                    <img src="https://via.placeholder.com/100/A0102E/FFFFFF?text=ivan" class="story-img">
-                </div>
-                <span class="story-name">معرض إيفان</span>
-            </div>
-            <div class="flex flex-col items-center">
-                <div class="story-circle">
-                    <img src="https://via.placeholder.com/100/00A0A0/FFFFFF?text=sale" class="story-img">
-                </div>
-                <span class="story-name">تخفيضات 💥</span>
-            </div>
-            <div class="flex flex-col items-center">
-                <div class="story-circle">
-                    <img src="https://via.placeholder.com/100/8A2BE2/FFFFFF?text=new" class="story-img">
-                </div>
-                <span class="story-name">وصول جديد</span>
-            </div>
+            <div id="storiesFeed" class="flex items-center gap-3"></div>
         </div>
 
         <div class="mb-6 text-center">
             <h1 class="text-3xl font-black mb-1.5">شبكة <span class="neon-text">المعرض الرسمية</span></h1>
-            <p class="font-bold text-gray-500 dark:text-gray-400 text-xs sm:text-sm">تابع التعميمات، التفاعل بالقلوب، وشارك رأيك.</p>
+            <p class="font-bold text-gray-500 dark:text-gray-400 text-xs sm:text-sm">تابع التعميمات وتفاعل مع الزملاء.</p>
         </div>
 
         <div id="adminPanel">
-            <div class="bg-white dark:bg-[#0A0C14] border-2 border-neon-purple/30 rounded-2xl p-5 shadow-2xl dark:shadow-[0_0_30px_rgba(138,43,226,0.1)] relative">
-                <div class="absolute top-0 right-6 bg-gradient-to-r from-neon-purple to-neon-pink text-white text-[10px] font-black px-3 py-1 rounded-b-xl tracking-widest font-en uppercase">Control Room</div>
+            <div class="bg-white dark:bg-[#0A0C14] border-2 border-neon-purple/30 rounded-2xl p-5 shadow-xl relative">
+                <div class="absolute top-0 right-6 bg-gradient-to-r from-neon-purple to-neon-pink text-white text-[10px] font-black px-3 py-1 rounded-b-xl tracking-widest uppercase">Admin Post</div>
                 
-                <h3 class="text-xl font-black mb-5 mt-2 text-gray-900 dark:text-white flex items-center gap-2">
-                    <i class="fa-solid fa-satellite-dish text-neon-blue animate-pulse"></i> بث منشور رسمي
+                <h3 class="text-xl font-black mb-5 mt-2 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-nib text-neon-blue"></i> بث منشور رسمي
                 </h3>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                     <input type="text" id="postAuthor" value="معرض إيفان" placeholder="اسم الناشر..." class="input-neon">
                     <input type="text" id="postTitle" placeholder="عنوان المنشور..." class="input-neon">
                 </div>
-                
                 <textarea id="postContent" rows="3" placeholder="اكتب التفاصيل..." class="input-neon mb-3 resize-none"></textarea>
                 
-                <div class="file-btn mb-5">
-                    <div class="w-full bg-gray-50 dark:bg-white/5 border border-dashed border-gray-200 dark:border-white/10 text-gray-500 font-bold py-3.5 rounded-xl flex items-center justify-center gap-3 text-sm hover:border-neon-blue transition-all">
-                        <i class="fa-solid fa-cloud-arrow-up text-xl text-neon-blue"></i> 
-                        <span id="fileNameDisplay">إرفاق ميديا (اختياري)</span>
-                    </div>
-                    <input type="file" id="mediaUpload" accept="image/*, video/*" onchange="updateFileName()">
+                <div class="mb-5 relative">
+                    <button onclick="document.getElementById('postMediaUpload').click()" class="w-full bg-gray-50 dark:bg-white/5 border border-dashed border-gray-200 dark:border-white/10 text-gray-500 font-bold py-3.5 rounded-xl flex justify-center gap-3 text-sm">
+                        <i class="fa-solid fa-cloud-arrow-up text-xl text-neon-blue"></i> <span id="fileNameDisplay">إرفاق ميديا (اختياري)</span>
+                    </button>
+                    <input type="file" id="postMediaUpload" accept="image/*, video/*" onchange="updatePostFileName()">
                 </div>
 
-                <button onclick="publishPost()" class="w-full bg-gradient-to-r from-neon-blue via-neon-purple to-neon-pink text-white font-black py-3.5 rounded-xl text-base hover:shadow-[0_0_20px_rgba(0,240,255,0.3)] transition-all">
-                    إطلاق المنشور للجميع <i class="fa-solid fa-rocket ml-1.5"></i>
+                <button onclick="publishPost()" class="w-full bg-gradient-to-r from-neon-blue to-neon-pink text-white font-black py-3.5 rounded-xl text-base transition-all">
+                    إطلاق المنشور <i class="fa-solid fa-rocket ml-1"></i>
                 </button>
             </div>
         </div>
 
-        <div id="newsFeed" class="space-y-6 mt-4 pb-10">
-            </div>
+        <div id="newsFeed" class="space-y-6 mt-4 pb-10"></div>
 
     </main>
 
-    <footer class="text-center py-6 border-t border-gray-100 dark:border-white/5 mt-10">
-        <p class="text-[10px] font-bold text-gray-400 font-en uppercase tracking-wider">© 2026 IVAN 사회 Network - Internal ONLY</p>
-    </footer>
+    <div id="storyViewer">
+        <div class="w-full max-w-lg mx-auto h-full flex flex-col p-4 relative">
+            <div class="story-progress-container"><div class="story-progress-bar" id="storyProgressBar"></div></div>
+            
+            <div class="flex items-center justify-between mt-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-neon-blue to-neon-purple p-0.5"><img id="sv-avatar" class="w-full h-full rounded-full object-cover"></div>
+                    <div>
+                        <h4 class="font-bold text-white text-sm" id="sv-author">الاسم</h4>
+                        <span class="text-[10px] text-gray-400" id="sv-time">الوقت</span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button id="sv-delete-btn" class="text-red-500 text-xl hidden" title="حذف الحالة نهائياً"><i class="fa-solid fa-trash"></i></button>
+                    <button onclick="closeStory()" class="text-white text-2xl"><i class="fa-solid fa-times"></i></button>
+                </div>
+            </div>
+
+            <div class="flex-1 flex flex-col items-center justify-center mt-4">
+                <div id="sv-media-container" class="w-full flex justify-center max-h-[70vh]"></div>
+                <p id="sv-text" class="text-white text-center mt-6 font-bold text-lg px-4"></p>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // --- 1. نظام الثيم المطور (داكن/فاتح) ---
-        function toggleTheme() {
-            const html = document.documentElement;
-            html.classList.toggle('dark');
-            localStorage.setItem('ivanTheme', html.classList.contains('dark') ? 'dark' : 'light');
-        }
-        
-        // التحقق من الثيم المفضل عند التحميل
-        if (localStorage.getItem('ivanTheme') === 'light') {
-            document.documentElement.classList.remove('dark');
-        } else {
-            document.documentElement.classList.add('dark'); // الافتراضي داكن
+        // 1. إعدادات الثيم والبروفايل
+        function toggleTheme() { document.documentElement.classList.toggle('dark'); localStorage.setItem('ivanTheme', document.documentElement.classList.contains('dark') ? 'dark' : 'light'); }
+        if (localStorage.getItem('ivanTheme') === 'light') { document.documentElement.classList.remove('dark'); }
+        function getUserName() { return localStorage.getItem('ivan_user_name') || 'عضو بالفريق'; }
+        function setProfileName() {
+            const newName = prompt('أدخل اسمك لعرضه في الحالات والتعليقات:', getUserName());
+            if (newName && newName.trim()) { localStorage.setItem('ivan_user_name', newName.trim()); alert('تم حفظ الاسم!'); }
         }
 
-        // --- 2. نظام الإدارة السري (نفس الشفرة) ---
+        // 2. إدارة المشرفين السريين
         let isAdmin = false;
         function authenticateAdmin() {
-            if (isAdmin) {
-                isAdmin = false;
-                document.body.classList.remove('admin-active');
-                document.getElementById('adminPanel').classList.remove('open');
-                alert('🔒 تم الخروج من وضع الإدارة.');
-                return;
+            if (isAdmin) { isAdmin = false; document.body.classList.remove('admin-active'); document.getElementById('adminPanel').classList.remove('open'); alert('🔒 تم إغلاق لوحة التحكم.'); return; }
+            if (prompt('أدخل شفرة الإدارة العليا:') === 'Ivan@2026$$') { isAdmin = true; document.body.classList.add('admin-active'); document.getElementById('adminPanel').classList.add('open'); }
+            else { alert('❌ الشفرة غير صحيحة!'); }
+        }
+
+        // ==========================================
+        // 3. نظام الحالات (STORIES) - الحقيقي
+        // ==========================================
+        let storyTimer;
+        function loadStories() {
+            let stories = JSON.parse(localStorage.getItem('ivan_stories_db')) || [];
+            const feed = document.getElementById('storiesFeed');
+            feed.innerHTML = '';
+            
+            // فلترة الحالات التي مر عليها أكثر من 24 ساعة
+            const now = new Date().getTime();
+            stories = stories.filter(s => (now - s.id) < 86400000); 
+            localStorage.setItem('ivan_stories_db', JSON.stringify(stories));
+
+            stories.sort((a, b) => b.id - a.id).forEach(story => {
+                const circle = document.createElement('div');
+                circle.className = 'flex flex-col items-center';
+                
+                // صورة مصغرة (Thumb) للحالة
+                let thumbSrc = story.mediaType.startsWith('image/') ? story.mediaData : 'https://via.placeholder.com/100/000000/FFFFFF?text=Video';
+                
+                circle.innerHTML = `
+                    <div class="story-circle" onclick="viewStory(${story.id})">
+                        <img src="${thumbSrc}" class="story-img">
+                    </div>
+                    <span class="story-name text-gray-900 dark:text-gray-300">${story.author}</span>
+                `;
+                feed.appendChild(circle);
+            });
+        }
+
+        // رفع حالة جديدة
+        function processNewStory(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const text = prompt('أضف تعليقاً أو نصاً على حالتك (اختياري):');
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const now = new Date();
+                const newStory = {
+                    id: now.getTime(),
+                    author: getUserName(),
+                    mediaData: e.target.result,
+                    mediaType: file.type,
+                    text: text || '',
+                    time: now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' })
+                };
+
+                try {
+                    let stories = JSON.parse(localStorage.getItem('ivan_stories_db')) || [];
+                    stories.push(newStory);
+                    localStorage.setItem('ivan_stories_db', JSON.stringify(stories));
+                    loadStories();
+                } catch (err) {
+                    alert('❌ حجم الملف كبير جداً! يرجى اختيار ملف أصغر.');
+                }
+                event.target.value = ''; // تفريغ
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // عرض الحالة بملء الشاشة
+        function viewStory(id) {
+            let stories = JSON.parse(localStorage.getItem('ivan_stories_db')) || [];
+            let story = stories.find(s => s.id === id);
+            if(!story) return;
+
+            const viewer = document.getElementById('storyViewer');
+            const mediaContainer = document.getElementById('sv-media-container');
+            const deleteBtn = document.getElementById('sv-delete-btn');
+            
+            document.getElementById('sv-author').innerText = story.author;
+            document.getElementById('sv-time').innerText = story.time;
+            document.getElementById('sv-text').innerText = story.text;
+            
+            // ضبط الصورة المصغرة للحساب (عشوائية أو افتراضية)
+            document.getElementById('sv-avatar').src = 'https://via.placeholder.com/100/00F0FF/FFFFFF?text=' + story.author.charAt(0);
+
+            // عرض الميديا
+            mediaContainer.innerHTML = '';
+            if (story.mediaType.startsWith('image/')) {
+                mediaContainer.innerHTML = `<img src="${story.mediaData}" class="story-media rounded-lg">`;
+            } else if (story.mediaType.startsWith('video/')) {
+                mediaContainer.innerHTML = `<video src="${story.mediaData}" class="story-media rounded-lg" autoplay controls></video>`;
             }
-            const pass = prompt('أدخل شفرة الإدارة العليا:');
-            // كلمة السر المتفق عليها Ivan@2026$$
-            if (pass === 'Ivan@2026$$') {
-                isAdmin = true;
-                document.body.classList.add('admin-active'); 
-                document.getElementById('adminPanel').classList.add('open');
-            } else if (pass !== null) {
-                alert('❌ الشفرة غير صحيحة!');
+
+            // إظهار زر الحذف إذا كان أدمن
+            if(isAdmin) {
+                deleteBtn.classList.remove('hidden');
+                deleteBtn.onclick = function() { deleteStory(id); };
+            } else {
+                deleteBtn.classList.add('hidden');
+            }
+
+            viewer.style.display = 'flex';
+            
+            // تشغيل شريط التقدم (يغلق بعد 7 ثواني)
+            const bar = document.getElementById('storyProgressBar');
+            bar.style.transition = 'none'; bar.style.width = '0%';
+            setTimeout(() => {
+                bar.style.transition = 'width 7s linear';
+                bar.style.width = '100%';
+            }, 50);
+
+            clearTimeout(storyTimer);
+            storyTimer = setTimeout(closeStory, 7000);
+        }
+
+        function closeStory() {
+            document.getElementById('storyViewer').style.display = 'none';
+            document.getElementById('sv-media-container').innerHTML = ''; // إيقاف الفيديو
+            clearTimeout(storyTimer);
+        }
+
+        function deleteStory(id) {
+            if(confirm('هل تريد حذف هذه الحالة؟')) {
+                let stories = JSON.parse(localStorage.getItem('ivan_stories_db')) || [];
+                stories = stories.filter(s => s.id !== id);
+                localStorage.setItem('ivan_stories_db', JSON.stringify(stories));
+                closeStory();
+                loadStories();
             }
         }
 
-        // --- 3. إدارة الملفات ---
-        let currentMediaData = null; 
-        let currentMediaType = null;
-        function updateFileName() {
-            const input = document.getElementById('mediaUpload');
-            const display = document.getElementById('fileNameDisplay');
-            if (input.files.length > 0) {
-                const file = input.files[0];
-                display.innerText = "جاهز: " + file.name;
-                display.style.color = '#00F0FF';
+        // ==========================================
+        // 4. نظام المنشورات (POSTS)
+        // ==========================================
+        let currentPostMedia = null; let currentPostMediaType = null;
+        function updatePostFileName() {
+            const file = document.getElementById('postMediaUpload').files[0];
+            if(file) {
+                document.getElementById('fileNameDisplay').innerText = "جاهز: " + file.name;
+                document.getElementById('fileNameDisplay').style.color = '#00F0FF';
                 const reader = new FileReader();
-                reader.onload = function(e) {
-                    currentMediaData = e.target.result;
-                    currentMediaType = file.type;
-                };
+                reader.onload = e => { currentPostMedia = e.target.result; currentPostMediaType = file.type; };
                 reader.readAsDataURL(file);
             }
         }
 
-        // --- 4. قاعدة البيانات المحلية (LocalStorage) ---
-        const defaultPosts = [{
-            id: 1713000000000,
-            author: "معرض إيفان",
-            title: "شبكة إيفان ملمومة الآن!",
-            content: "قمنا بتصغير حجم الواجهة بناءً على الطلب، وتفعيل الوضع الفاتح، وإضافة شريط الحالات في الأعلى. \n\nتابع الأخبار بسهولة!",
-            time: "منذ قليل 📌",
-            mediaType: null,
-            mediaData: null,
-            likes: 7,
-            comments: [{ id: 1, author: "النظام", text: "التعليقات أصبحت أصغر الآن!", time: "الآن" }]
-        }];
-
         function loadPosts() {
-            let posts = JSON.parse(localStorage.getItem('ivan_social_db'));
-            if (!posts || posts.length === 0) {
-                posts = defaultPosts;
-                localStorage.setItem('ivan_social_db', JSON.stringify(posts));
+            let posts = JSON.parse(localStorage.getItem('ivan_social_db')) || [];
+            const feed = document.getElementById('newsFeed'); feed.innerHTML = ''; 
+            
+            if(posts.length === 0) {
+                feed.innerHTML = '<p class="text-center text-gray-500 font-bold mt-10">لا توجد منشورات حتى الآن.</p>'; return;
             }
-            renderPosts(posts);
-        }
 
-        // --- 5. رسم المنشورات (الواجهة الملمومة) ---
-        function renderPosts(posts) {
-            const feed = document.getElementById('newsFeed');
-            feed.innerHTML = ''; 
             posts.sort((a, b) => b.id - a.id).forEach(post => {
                 let mediaHTML = '';
                 if (post.mediaData) {
                     if (post.mediaType.startsWith('image/')) { mediaHTML = `<img src="${post.mediaData}" class="media-preview">`; } 
                     else if (post.mediaType.startsWith('video/')) { mediaHTML = `<video src="${post.mediaData}" class="media-preview" controls></video>`; }
                 }
-                let commentsHTML = '';
-                if(post.comments && post.comments.length > 0) {
-                    post.comments.forEach(comment => { commentsHTML += `
-                        <div class="comment-bubble group relative">
-                            <div class="flex items-center justify-between mb-0.5">
-                                <span class="font-black text-[11px] text-neon-blue">${comment.author}</span>
-                                <span class="text-[9px] text-gray-500">${comment.time}</span>
-                            </div>
-                            <p class="text-[12px] font-semibold text-gray-700 dark:text-gray-300">${comment.text}</p>
-                            <button onclick="deleteComment(${post.id}, ${comment.id})" class="admin-controls absolute top-1 left-1 text-red-500/50 hover:text-red-500 text-[10px]" title="حذف التعليق"><i class="fa-solid fa-trash"></i></button>
-                        </div>`; });
-                } else { commentsHTML = '<p class="text-[10px] text-gray-500 text-center my-2 font-bold">لا تعليقات.</p>'; }
 
                 const card = document.createElement('div');
                 card.className = 'news-card neon-border fade-up';
                 card.innerHTML = `
                     <div class="flex items-center justify-between mb-3">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-9 h-9 rounded-full bg-ivan-red text-white flex items-center justify-center font-en font-black text-lg italic shadow-[0_0_10px_rgba(200,16,46,0.2)]">i</div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-neon-purple to-neon-pink text-white flex items-center justify-center font-en font-black italic shadow-md">i</div>
                             <div>
-                                <h4 class="font-black text-sm text-gray-900 dark:text-white">${post.author} <i class="fa-solid fa-circle-check text-neon-blue text-[10px]" title="حساب رسمي"></i></h4>
+                                <h4 class="font-black text-sm text-gray-900 dark:text-white">${post.author}</h4>
                                 <span class="text-[10px] text-gray-500 font-bold">${post.time}</span>
                             </div>
                         </div>
-                        <button onclick="deletePost(${post.id})" class="admin-controls w-8 h-8 bg-red-500/10 text-red-500 rounded-lg items-center justify-center hover:bg-red-500 hover:text-white transition-all text-xs" title="حذف المنشور"><i class="fa-solid fa-trash-can"></i></button>
+                        <button onclick="deletePost(${post.id})" class="admin-controls w-8 h-8 bg-red-500/10 text-red-500 rounded-lg items-center justify-center hover:bg-red-500 hover:text-white transition-all text-xs"><i class="fa-solid fa-trash-can"></i></button>
                     </div>
                     <h3 class="text-lg font-black mb-1.5 text-gray-900 dark:text-white">${post.title}</h3>
-                    <p class="text-[13px] font-semibold text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-line">${post.content}</p>
+                    <p class="text-[13px] font-semibold text-gray-700 dark:text-gray-300 whitespace-pre-line">${post.content}</p>
                     ${mediaHTML}
-                    <div class="flex items-center gap-4 mt-4 pt-3 border-t border-gray-100 dark:border-white/5">
-                        <div class="flex items-center gap-1.5 action-btn liked-zone" onclick="toggleLike(${post.id}, this)">
-                            <i class="fa-solid fa-heart text-sm"></i>
-                            <span class="font-black" id="like-count-${post.id}">${post.likes || 0}</span>
-                        </div>
-                        <div class="flex items-center gap-1.5 action-btn hover:text-neon-blue" onclick="toggleComments(${post.id})">
-                            <i class="fa-solid fa-comment-dots text-sm"></i>
-                            <span class="font-black">${post.comments ? post.comments.length : 0} تعليق</span>
-                        </div>
-                    </div>
-                    <div id="comments-section-${post.id}" class="comments-section">
-                        <div class="mb-3 max-h-40 overflow-y-auto pr-1 no-scrollbar">${commentsHTML}</div>
-                        <div class="flex gap-1.5">
-                            <input type="text" id="comment-text-${post.id}" placeholder="اكتب تعليقاً..." class="flex-1 input-neon text-[12px] !py-2" onkeypress="if(event.key === 'Enter') addComment(${post.id})">
-                            <button onclick="addComment(${post.id})" class="bg-neon-blue text-white w-9 rounded-lg flex items-center justify-center text-xs hover:bg-black transition-all"><i class="fa-solid fa-paper-plane"></i></button>
-                        </div>
-                    </div>
                 `;
                 feed.appendChild(card);
             });
         }
 
-        // --- 6. وظائف الحساب (البروفايل الملموم) ---
-        function getUserName() {
-            return localStorage.getItem('ivan_user_name') || null;
-        }
-
-        function setProfileName() {
-            const currentName = getUserName() || '';
-            const newName = prompt('أدخل اسمك لعرضه في التعليقات (مرة واحدة):', currentName);
-            if (newName !== null && newName.trim()) {
-                localStorage.setItem('ivan_user_name', newName.trim());
-                alert('✅ تم حفظ اسمك. سيظهر عند التعليق.');
-            }
-        }
-
-        // --- 7. التفاعلات ---
         function publishPost() {
             const author = document.getElementById('postAuthor').value || 'معرض إيفان';
             const title = document.getElementById('postTitle').value;
             const content = document.getElementById('postContent').value;
             if (!title || !content) { alert('❌ يرجى كتابة العنوان والمحتوى!'); return; }
+            
             const now = new Date();
-            const timeString = 'اليوم، ' + now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' });
-            const newPost = { id: now.getTime(), author: author, title: title, content: content, time: timeString, mediaType: currentMediaType, mediaData: currentMediaData, likes: 0, comments: [] };
+            const newPost = { id: now.getTime(), author, title, content, time: now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' }), mediaType: currentPostMediaType, mediaData: currentPostMedia };
             try {
                 let posts = JSON.parse(localStorage.getItem('ivan_social_db')) || [];
-                posts.push(newPost);
-                localStorage.setItem('ivan_social_db', JSON.stringify(posts));
-                renderPosts(posts);
-                document.getElementById('postTitle').value = ''; document.getElementById('postContent').value = ''; document.getElementById('mediaUpload').value = '';
-                document.getElementById('fileNameDisplay').innerText = 'إرفاق ميديا (اختياري)';
-                currentMediaData = null; currentMediaType = null;
-                alert('🚀 تم نشر الإعلان!'); authenticateAdmin();
+                posts.push(newPost); localStorage.setItem('ivan_social_db', JSON.stringify(posts));
+                loadPosts();
+                document.getElementById('postTitle').value = ''; document.getElementById('postContent').value = ''; 
+                document.getElementById('fileNameDisplay').innerText = 'إرفاق ميديا (اختياري)'; document.getElementById('fileNameDisplay').style.color = '';
+                currentPostMedia = null; currentPostMediaType = null;
+                authenticateAdmin();
             } catch (e) { alert('❌ الملف كبير جداً!'); }
         }
 
         function deletePost(postId) {
-            if (confirm('هل تريد حذف الإعلان؟')) {
+            if (confirm('هل تريد حذف الإعلان نهائياً؟')) {
                 let posts = JSON.parse(localStorage.getItem('ivan_social_db')) || [];
-                posts = posts.filter(post => post.id !== postId);
+                posts = posts.filter(p => p.id !== postId);
                 localStorage.setItem('ivan_social_db', JSON.stringify(posts));
-                renderPosts(posts); 
+                loadPosts(); 
             }
         }
 
-        function toggleLike(postId, btnElement) {
-            let posts = JSON.parse(localStorage.getItem('ivan_social_db')) || [];
-            let post = posts.find(p => p.id === postId);
-            if (post) {
-                if (btnElement.classList.contains('liked')) { post.likes = Math.max(0, (post.likes || 1) - 1); btnElement.classList.remove('liked'); } 
-                else { post.likes = (post.likes || 0) + 1; btnElement.classList.add('liked'); }
-                document.getElementById(`like-count-${postId}`).innerText = post.likes;
-                localStorage.setItem('ivan_social_db', JSON.stringify(posts));
-            }
-        }
-
-        function toggleComments(postId) {
-            document.getElementById(`comments-section-${postId}`).classList.toggle('open');
-        }
-
-        function addComment(postId) {
-            // التحقق من وجود اسم بروفايل
-            let authorName = getUserName();
-            if (!authorName) {
-                authorName = prompt('يرجى كتابة اسمك للتعليق (سيحفظ في جهازك):');
-                if (authorName && authorName.trim()) {
-                    localStorage.setItem('ivan_user_name', authorName.trim());
-                    authorName = authorName.trim();
-                } else {
-                    alert('❌ يجب كتابة اسم للتعليق.'); return;
-                }
-            }
-
-            const textInput = document.getElementById(`comment-text-${postId}`).value;
-            if (!textInput.trim()) return;
-            let posts = JSON.parse(localStorage.getItem('ivan_social_db')) || [];
-            let post = posts.find(p => p.id === postId);
-            if (post) {
-                if(!post.comments) post.comments = [];
-                const now = new Date();
-                post.comments.push({ id: now.getTime(), author: authorName, text: textInput, time: now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' }) });
-                localStorage.setItem('ivan_social_db', JSON.stringify(posts));
-                renderPosts(posts);
-                // إبقاء التعليقات مفتوحة
-                setTimeout(() => { document.getElementById(`comments-section-${postId}`).classList.add('open'); }, 50);
-            }
-        }
-
-        function deleteComment(postId, commentId) {
-            if (confirm('حذف التعليق؟')) {
-                let posts = JSON.parse(localStorage.getItem('ivan_social_db')) || [];
-                let post = posts.find(p => p.id === postId);
-                if (post && post.comments) {
-                    post.comments = post.comments.filter(c => c.id !== commentId);
-                    localStorage.setItem('ivan_social_db', JSON.stringify(posts));
-                    renderPosts(posts);
-                    setTimeout(() => { document.getElementById(`comments-section-${postId}`).classList.add('open'); }, 50);
-                }
-            }
-        }
-
-        // تشغيل الوظائف عند فتح الصفحة
-        window.onload = loadPosts;
-
+        window.onload = function() {
+            loadStories();
+            loadPosts();
+        };
     </script>
 </body>
 </html>
+ 
