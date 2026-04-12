@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ivan Showroom - Internal Portal</title>
+    <title>بوابة موظفي إيفان | Ivan Portal</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -13,12 +13,17 @@
                 extend: {
                     colors: {
                         ivan: {
-                            base: '#0B0D14',    /* خلفية داكنة جداً ومريحة للعين */
-                            card: '#151822',    /* لون البطاقات لضمان وضوح النص */
-                            border: '#2A2E3D',  /* حدود ناعمة */
-                            red: '#D91A2A',     /* أحمر إيفان العصري */
-                            textMain: '#F8FAFC',
-                            textSub: '#94A3B8'
+                            red: '#D91A2A',
+                            darkBg: '#0B0D14',
+                            darkCard: '#151822',
+                            darkBorder: '#2A2E3D',
+                            lightBg: '#F3F4F6',
+                            lightCard: '#FFFFFF',
+                            lightBorder: '#E5E7EB',
+                            textDark: '#F8FAFC',
+                            textDarkSub: '#94A3B8',
+                            textLight: '#111827',
+                            textLightSub: '#4B5563'
                         }
                     },
                     fontFamily: {
@@ -36,32 +41,50 @@
     <style>
         body {
             font-family: 'Cairo', sans-serif;
-            background-color: #0B0D14;
-            color: #F8FAFC;
             -webkit-tap-highlight-color: transparent;
             overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         .font-en { font-family: 'Outfit', sans-serif; }
 
-        /* بطاقات حديثة عالية الوضوح (بدون زجاج مزعج) */
+        /* الألوان والخلفيات للوضع الفاتح والداكن */
+        body.dark { background-color: #0B0D14; color: #F8FAFC; }
+        body:not(.dark) { background-color: #F3F4F6; color: #111827; }
+
+        /* البطاقات الفخمة */
         .premium-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 20px;
+        }
+        
+        .dark .premium-card {
             background-color: #151822;
             border: 1px solid #2A2E3D;
-            border-radius: 20px;
             box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
         }
-        .premium-card:hover {
+        .dark .premium-card:hover {
             border-color: #D91A2A;
             transform: translateY(-3px);
             box-shadow: 0 15px 35px -10px rgba(217, 26, 42, 0.15);
         }
 
+        body:not(.dark) .premium-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E5E7EB;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+        }
+        body:not(.dark) .premium-card:hover {
+            border-color: #D91A2A;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px -10px rgba(217, 26, 42, 0.1);
+        }
+
         /* شريط التمرير */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0B0D14; }
-        ::-webkit-scrollbar-thumb { background: #2A2E3D; border-radius: 10px; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        .dark ::-webkit-scrollbar-thumb { background: #2A2E3D; border-radius: 10px; }
+        body:not(.dark) ::-webkit-scrollbar-thumb { background: #D1D5DB; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #D91A2A; }
         .no-scrollbar::-webkit-scrollbar { display: none; }
 
@@ -70,218 +93,273 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 12px 16px;
-            border-radius: 12px;
-            color: #94A3B8;
+            padding: 14px 18px;
+            border-radius: 14px;
             transition: all 0.3s ease;
             position: relative;
+            font-weight: 600;
         }
+        .dark .nav-item { color: #94A3B8; }
+        body:not(.dark) .nav-item { color: #4B5563; }
+
         .nav-item:hover, .nav-item.active {
             background: rgba(217, 26, 42, 0.1);
-            color: #F8FAFC;
         }
+        .dark .nav-item:hover, .dark .nav-item.active { color: #F8FAFC; }
+        body:not(.dark) .nav-item:hover, body:not(.dark) .nav-item.active { color: #D91A2A; }
+
         .nav-item.active::after {
             content: '';
             position: absolute;
             right: 0;
-            top: 20%;
-            height: 60%;
+            top: 25%;
+            height: 50%;
             width: 4px;
             background: #D91A2A;
             border-radius: 4px 0 0 4px;
-            box-shadow: 0 0 10px rgba(217,26,42,0.5);
         }
 
-        /* تأثيرات التعديل */
-        [contenteditable="true"] {
-            border-bottom: 1px dashed #D91A2A;
-            outline: none;
-            background: rgba(255,255,255,0.05);
-            padding: 2px 5px;
-            border-radius: 4px;
-        }
-
-        /* تأثيرات الإضاءة الخلفية الناعمة */
+        /* الإضاءة الخلفية المائية (الداكن فقط) */
         .glow-bg {
             position: absolute;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(217,26,42,0.08) 0%, rgba(0,0,0,0) 70%);
+            width: 400px;
+            height: 400px;
             border-radius: 50%;
             pointer-events: none;
             z-index: -1;
+            transition: opacity 0.5s ease;
+        }
+        .dark .glow-bg-1 { background: radial-gradient(circle, rgba(217,26,42,0.06) 0%, rgba(0,0,0,0) 70%); opacity: 1; }
+        .dark .glow-bg-2 { background: radial-gradient(circle, rgba(56,189,248,0.03) 0%, rgba(0,0,0,0) 70%); opacity: 1; }
+        body:not(.dark) .glow-bg { opacity: 0; }
+
+        /* زر الواتساب الناعم */
+        .whatsapp-btn {
+            background: #25D366;
+            box-shadow: 0 4px 15px rgba(37,211,102,0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .whatsapp-btn:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 8px 25px rgba(37,211,102,0.4);
+        }
+
+        /* حاوية الأيقونات */
+        .icon-box {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+        .dark .icon-box { background: #0B0D14; border: 1px solid #2A2E3D; color: #F8FAFC; }
+        body:not(.dark) .icon-box { background: #F3F4F6; border: 1px solid #E5E7EB; color: #111827; }
+        .premium-card:hover .icon-box { background: #D91A2A; border-color: #D91A2A; color: #FFFFFF; }
+
+        /* نافذة الإعدادات المخفية (للمشرفين) */
+        #adminPanel {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
     </style>
 </head>
 <body class="flex min-h-screen">
 
-    <div class="glow-bg top-0 right-0"></div>
-    <div class="glow-bg bottom-0 left-0" style="background: radial-gradient(circle, rgba(56,189,248,0.03) 0%, rgba(0,0,0,0) 70%);"></div>
+    <div class="glow-bg glow-bg-1 top-0 right-0"></div>
+    <div class="glow-bg glow-bg-2 bottom-0 left-0"></div>
 
-    <div id="sidebarOverlay" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 hidden lg:hidden" onclick="toggleSidebar()"></div>
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="toggleSidebar()"></div>
 
-    <aside id="sidebar" class="fixed top-0 right-0 h-screen w-72 bg-ivan-card border-l border-ivan-border z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-400 flex flex-col shadow-2xl">
+    <aside id="sidebar" class="fixed top-0 right-0 h-screen w-72 z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-400 flex flex-col shadow-2xl dark:bg-ivan-darkCard bg-ivan-lightCard dark:border-ivan-darkBorder border-ivan-lightBorder border-l">
         
-        <div class="h-24 flex items-center px-6 border-b border-ivan-border cursor-pointer select-none relative group" onclick="enableEditMode()">
-            <div class="flex flex-col">
-                <h1 class="font-en text-3xl tracking-widest text-white uppercase font-black">
-                    IVAN <span class="font-light text-ivan-red">SHOW</span>
-                </h1>
-                <span class="text-[10px] text-ivan-textSub tracking-[0.2em] uppercase mt-1 editable-text">Internal System V3</span>
+        <div class="h-24 flex items-center px-6 dark:border-ivan-darkBorder border-ivan-lightBorder border-b relative">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-[#D91A2A] to-red-900 flex items-center justify-center shadow-[0_0_15px_rgba(217,26,42,0.4)]">
+                    <span class="font-en text-2xl font-black italic text-white">i</span>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="font-en text-2xl tracking-widest uppercase font-black dark:text-white text-gray-900">
+                        IVAN
+                    </h1>
+                    <span class="text-[10px] dark:text-ivan-textDarkSub text-ivan-textLightSub tracking-[0.2em] uppercase mt-0.5">Showroom Portal</span>
+                </div>
             </div>
-            <i id="editIndicator" class="fa-solid fa-pen absolute left-6 text-ivan-red opacity-0 transition-opacity"></i>
-            <button onclick="event.stopPropagation(); toggleSidebar()" class="absolute left-6 lg:hidden text-ivan-textSub hover:text-white">
+            <button onclick="toggleSidebar()" class="absolute left-6 lg:hidden dark:text-ivan-textDarkSub text-ivan-textLightSub hover:text-ivan-red">
                 <i class="fa-solid fa-times text-xl"></i>
             </button>
         </div>
 
         <nav class="flex-1 overflow-y-auto no-scrollbar py-6 px-4 space-y-1">
-            <div class="text-xs font-bold text-ivan-textSub mb-3 px-3 uppercase tracking-wider editable-text">القائمة الرئيسية</div>
+            <div class="text-xs font-bold dark:text-ivan-textDarkSub text-ivan-textLightSub mb-3 px-3 uppercase tracking-wider">القائمة الرئيسية</div>
             
             <a href="index.html" class="nav-item active">
                 <i class="fa-solid fa-border-all w-6 text-center text-ivan-red"></i>
-                <span class="font-bold editable-text">الرئيسية</span>
+                <span>الرئيسية</span>
             </a>
 
             <a href="#" class="nav-item">
                 <i class="fa-solid fa-book-bookmark w-6 text-center"></i>
-                <span class="font-bold editable-text">سياسة المعرض الشاملة</span>
+                <span>سياسة المعرض الشاملة</span>
             </a>
 
-            <div class="text-xs font-bold text-ivan-textSub mb-3 mt-6 px-3 uppercase tracking-wider editable-text">أقسام المعرض</div>
+            <div class="text-xs font-bold dark:text-ivan-textDarkSub text-ivan-textLightSub mb-3 mt-6 px-3 uppercase tracking-wider">أقسام المعرض</div>
 
             <a href="#" class="nav-item">
                 <i class="fa-solid fa-tags w-6 text-center"></i>
-                <span class="font-bold editable-text">قسم المبيعات</span>
+                <span>قسم المبيعات</span>
             </a>
 
             <a href="#" class="nav-item">
                 <i class="fa-solid fa-bullhorn w-6 text-center"></i>
-                <span class="font-bold editable-text">قسم التسويق</span>
+                <span>قسم التسويق</span>
             </a>
 
             <a href="#" class="nav-item">
                 <i class="fa-solid fa-hammer w-6 text-center"></i>
-                <span class="font-bold editable-text">قسم النجارين</span>
+                <span>قسم النجارين</span>
             </a>
 
             <a href="#" class="nav-item">
                 <i class="fa-solid fa-truck-fast w-6 text-center"></i>
-                <span class="font-bold editable-text">قسم السائقين</span>
+                <span>قسم السائقين</span>
             </a>
 
             <a href="#" class="nav-item">
                 <i class="fa-solid fa-boxes-stacked w-6 text-center"></i>
-                <span class="font-bold editable-text">قسم المخازن والمناولة</span>
+                <span>قسم المخازن والمناولة</span>
             </a>
 
             <a href="#" class="nav-item">
                 <i class="fa-solid fa-spray-can-sparkles w-6 text-center"></i>
-                <span class="font-bold editable-text">قسم العمال والتنظيفات</span>
+                <span>قسم العمال والتنظيفات</span>
             </a>
 
             <a href="#" class="nav-item">
                 <i class="fa-solid fa-handshake-angle w-6 text-center"></i>
-                <span class="font-bold editable-text">قسم الخدمات العامة</span>
+                <span>قسم الخدمات العامة</span>
             </a>
         </nav>
 
-        <div class="p-5 border-t border-ivan-border bg-[#0B0D14]">
-            <p class="text-xs text-center text-ivan-textSub mb-4 font-bold editable-text">المنصات الرسمية والموقع</p>
+        <div class="p-5 dark:border-ivan-darkBorder border-ivan-lightBorder border-t dark:bg-[#0B0D14] bg-gray-50">
             <div class="flex justify-center gap-3">
-                <a href="https://www.facebook.com/share/1BLDRvJGzr/" target="_blank" class="w-10 h-10 rounded-xl bg-ivan-card border border-ivan-border flex items-center justify-center text-ivan-textSub hover:text-[#1877F2] hover:border-[#1877F2] transition-all">
+                <a href="https://www.facebook.com/share/1BLDRvJGzr/" target="_blank" class="w-10 h-10 rounded-xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-ivan-textLightSub hover:text-[#1877F2] hover:border-[#1877F2] transition-all shadow-sm">
                     <i class="fa-brands fa-facebook-f"></i>
                 </a>
-                <a href="https://www.instagram.com/ma3rd_ivan1?igsh=dDF4Y2dnYXZ5eGZ3" target="_blank" class="w-10 h-10 rounded-xl bg-ivan-card border border-ivan-border flex items-center justify-center text-ivan-textSub hover:text-[#E1306C] hover:border-[#E1306C] transition-all">
+                <a href="https://www.instagram.com/ma3rd_ivan1?igsh=dDF4Y2dnYXZ5eGZ3" target="_blank" class="w-10 h-10 rounded-xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-ivan-textLightSub hover:text-[#E1306C] hover:border-[#E1306C] transition-all shadow-sm">
                     <i class="fa-brands fa-instagram text-lg"></i>
                 </a>
-                <a href="https://www.tiktok.com/@ma3rdivan1?_r=1&_d=em9ma8k92df7mi" target="_blank" class="w-10 h-10 rounded-xl bg-ivan-card border border-ivan-border flex items-center justify-center text-ivan-textSub hover:text-white hover:border-white transition-all">
+                <a href="https://www.tiktok.com/@ma3rdivan1?_r=1&_d=em9ma8k92df7mi" target="_blank" class="w-10 h-10 rounded-xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-ivan-textLightSub hover:text-black dark:hover:text-white dark:hover:border-white hover:border-black transition-all shadow-sm">
                     <i class="fa-brands fa-tiktok"></i>
                 </a>
-                <a href="https://maps.app.goo.gl/u6zP3XLVnA5xSKRGA?g_st=ac" target="_blank" class="w-10 h-10 rounded-xl bg-ivan-card border border-ivan-border flex items-center justify-center text-ivan-textSub hover:text-[#34A853] hover:border-[#34A853] transition-all">
+                <a href="https://maps.app.goo.gl/u6zP3XLVnA5xSKRGA?g_st=ac" target="_blank" class="w-10 h-10 rounded-xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-ivan-textDarkSub text-ivan-textLightSub hover:text-[#34A853] hover:border-[#34A853] transition-all shadow-sm">
                     <i class="fa-solid fa-location-dot"></i>
                 </a>
             </div>
             <div class="text-center mt-4">
-                <p class="font-en text-xs text-ivan-textSub tracking-widest editable-text">DUHOK - ZARKA</p>
+                <p class="font-en text-[10px] dark:text-ivan-textDarkSub text-ivan-textLightSub tracking-widest uppercase">Ivan Showroom • Duhok</p>
             </div>
         </div>
     </aside>
 
     <div class="flex-1 lg:mr-72 min-h-screen flex flex-col relative z-10">
         
-        <header class="h-24 sticky top-0 z-30 px-6 lg:px-10 flex items-center justify-between bg-[#0B0D14]/90 backdrop-blur-md border-b border-ivan-border">
+        <header class="h-20 sticky top-0 z-30 px-6 lg:px-10 flex items-center justify-between dark:bg-[#0B0D14]/80 bg-[#F3F4F6]/80 backdrop-blur-md dark:border-ivan-darkBorder border-ivan-lightBorder border-b">
+            
             <div class="flex items-center gap-4">
-                <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-lg bg-ivan-card border border-ivan-border flex items-center justify-center text-white">
+                <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-lg dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-white text-gray-800 shadow-sm">
                     <i class="fa-solid fa-bars"></i>
                 </button>
-                <div class="hidden md:block">
-                    <h2 class="text-xl font-bold editable-text text-white">بوابة الموظفين</h2>
-                    <p class="text-xs text-ivan-textSub font-en tracking-wider"><span class="text-green-500 mr-1">●</span> SYSTEM ONLINE</p>
+                <div class="hidden md:flex items-center gap-2 px-4 py-2 rounded-full dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    <span class="text-xs font-bold dark:text-ivan-textDarkSub text-ivan-textLightSub font-en tracking-wider">SYSTEM ONLINE</span>
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
-                <div class="bg-ivan-card border border-ivan-border px-4 py-2 rounded-full hidden sm:flex items-center gap-2">
-                    <i class="fa-regular fa-calendar text-ivan-textSub"></i>
-                    <span id="currentDate" class="text-sm text-ivan-textSub font-en font-bold"></span>
+            <div class="flex items-center gap-6">
+                <div class="hidden sm:block font-en text-xl font-black tracking-[0.2em] uppercase select-none cursor-pointer" onclick="triggerAdminPanel()">
+                    IVAN <span class="text-ivan-red">SHOW</span>
                 </div>
+                
+                <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl dark:bg-ivan-darkCard bg-white dark:border-ivan-darkBorder border-ivan-lightBorder border flex items-center justify-center dark:text-yellow-400 text-gray-600 hover:scale-105 transition-transform shadow-sm">
+                    <i class="fa-solid fa-moon dark:hidden text-lg"></i>
+                    <i class="fa-solid fa-sun hidden dark:block text-lg"></i>
+                </button>
             </div>
         </header>
 
         <main class="flex-1 p-6 lg:p-10">
             
-            <div class="premium-card p-8 lg:p-10 mb-8 relative overflow-hidden bg-gradient-to-l from-ivan-card to-[#11131a]">
-                <div class="absolute -right-20 -top-20 text-[15rem] text-white/[0.02] pointer-events-none font-en font-black italic">IV</div>
+            <div class="premium-card p-8 lg:p-12 mb-10 relative overflow-hidden">
+                <div class="absolute -left-10 -bottom-10 text-[12rem] dark:text-white/[0.02] text-black/[0.02] pointer-events-none font-en font-black italic select-none">IV</div>
                 
                 <div class="relative z-10">
-                    <span class="inline-block px-4 py-1.5 bg-ivan-red/10 text-ivan-red border border-ivan-red/20 text-sm font-bold rounded-full mb-5 editable-text">النظام الداخلي 2026</span>
-                    <h2 class="text-3xl lg:text-5xl font-bold text-white mb-4 editable-text leading-tight">واجهة العمل الرئيسية<br>لإدارة <span class="text-ivan-red">إيفان شو</span></h2>
-                    <p class="text-ivan-textSub text-base lg:text-lg max-w-3xl leading-relaxed editable-text mt-4">
-                        الواجهة الشاملة لتنظيم وتوجيه طاقم عمل إيفان. يرجى من كل موظف الدخول للقسم الخاص به لمعرفة المهام والتحديثات والسياسات. الانضباط والفخامة هما أساس عملنا.
+                    <h2 class="text-3xl lg:text-5xl font-extrabold mb-4 leading-tight dark:text-white text-gray-900">
+                        مرحبًا بكم في بوابة <span class="text-ivan-red">موظفي إيفان</span>
+                    </h2>
+                    <p class="text-base lg:text-xl max-w-3xl leading-relaxed dark:text-ivan-textDarkSub text-ivan-textLightSub font-medium">
+                        نظام داخلي متكامل يهدف إلى تنظيم العمل، توحيد الإجراءات، ورفع مستوى الأداء داخل جميع أقسام المعرض.
                     </p>
                 </div>
             </div>
 
-            <h3 class="text-2xl font-bold text-white mb-6 flex items-center gap-3 editable-text">
-                <i class="fa-solid fa-layer-group text-ivan-red text-xl"></i>
-                الوصول السريع للأقسام
+            <h3 class="text-2xl font-bold mb-6 flex items-center gap-3 dark:text-white text-gray-900">
+                <i class="fa-solid fa-layer-group text-ivan-red"></i>
+                لوحة الأقسام
             </h3>
 
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 
-                <a href="#" class="premium-card p-6 flex flex-col h-full relative group">
-                    <div class="w-14 h-14 rounded-2xl bg-[#0B0D14] border border-ivan-border flex items-center justify-center text-2xl text-white group-hover:bg-ivan-red group-hover:border-ivan-red transition-all mb-5">
+                <a href="#" class="premium-card p-7 flex flex-col h-full group">
+                    <div class="icon-box mb-5">
                         <i class="fa-solid fa-tags"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-white mb-3 editable-text">المبيعات والاستقبال</h4>
-                    <p class="text-sm text-ivan-textSub leading-relaxed editable-text">إدارة التعامل المباشر مع الزبائن، عرض البضائع، وتحقيق الأهداف البيعية بأرقى الأساليب.</p>
+                    <h4 class="text-xl font-bold mb-3 dark:text-white text-gray-900">المبيعات والاستقبال</h4>
+                    <p class="text-sm dark:text-ivan-textDarkSub text-ivan-textLightSub leading-relaxed">إدارة التعامل المباشر مع الزبائن، عرض البضائع، وتحقيق الأهداف البيعية بأرقى الأساليب.</p>
                 </a>
 
-                <a href="#" class="premium-card p-6 flex flex-col h-full relative group">
-                    <div class="w-14 h-14 rounded-2xl bg-[#0B0D14] border border-ivan-border flex items-center justify-center text-2xl text-white group-hover:bg-ivan-red group-hover:border-ivan-red transition-all mb-5">
+                <a href="#" class="premium-card p-7 flex flex-col h-full group">
+                    <div class="icon-box mb-5">
                         <i class="fa-solid fa-bullhorn"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-white mb-3 editable-text">قسم التسويق</h4>
-                    <p class="text-sm text-ivan-textSub leading-relaxed editable-text">إدارة الصفحات، تصوير المنتجات، وكتابة المحتوى الترويجي لجذب العملاء للمعرض.</p>
+                    <h4 class="text-xl font-bold mb-3 dark:text-white text-gray-900">قسم التسويق</h4>
+                    <p class="text-sm dark:text-ivan-textDarkSub text-ivan-textLightSub leading-relaxed">إدارة الصفحات، تصوير المنتجات، وكتابة المحتوى الترويجي لجذب العملاء للمعرض.</p>
                 </a>
 
-                <a href="#" class="premium-card p-6 flex flex-col h-full relative group">
-                    <div class="w-14 h-14 rounded-2xl bg-[#0B0D14] border border-ivan-border flex items-center justify-center text-2xl text-white group-hover:bg-ivan-red group-hover:border-ivan-red transition-all mb-5">
+                <a href="#" class="premium-card p-7 flex flex-col h-full group">
+                    <div class="icon-box mb-5">
                         <i class="fa-solid fa-truck-fast"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-white mb-3 editable-text">السائقين والتوصيل</h4>
-                    <p class="text-sm text-ivan-textSub leading-relaxed editable-text">نقل الأثاث بأمان تام، الالتزام بالمواعيد المحددة للزبائن، وتسليم البضائع بحالة ممتازة.</p>
+                    <h4 class="text-xl font-bold mb-3 dark:text-white text-gray-900">السائقين والتوصيل</h4>
+                    <p class="text-sm dark:text-ivan-textDarkSub text-ivan-textLightSub leading-relaxed">نقل الأثاث بأمان تام، الالتزام بالمواعيد المحددة للزبائن، وتسليم البضائع بحالة ممتازة.</p>
                 </a>
 
-                <a href="#" class="premium-card p-6 flex flex-col h-full relative group border-t-4 border-t-ivan-red">
-                    <div class="w-14 h-14 rounded-2xl bg-[#0B0D14] border border-ivan-border flex items-center justify-center text-2xl text-white group-hover:bg-ivan-red group-hover:border-ivan-red transition-all mb-5">
+                <a href="#" class="premium-card p-7 flex flex-col h-full group">
+                    <div class="icon-box mb-5">
+                        <i class="fa-solid fa-hammer"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 dark:text-white text-gray-900">قسم النجارين</h4>
+                    <p class="text-sm dark:text-ivan-textDarkSub text-ivan-textLightSub leading-relaxed">تنفيذ وصيانة الأعمال الخشبية، التركيب في منازل الزبائن، وضمان جودة المنتجات.</p>
+                </a>
+
+                <a href="#" class="premium-card p-7 flex flex-col h-full group">
+                    <div class="icon-box mb-5">
+                        <i class="fa-solid fa-boxes-stacked"></i>
+                    </div>
+                    <h4 class="text-xl font-bold mb-3 dark:text-white text-gray-900">المخازن والمناولة</h4>
+                    <p class="text-sm dark:text-ivan-textDarkSub text-ivan-textLightSub leading-relaxed">تنظيم حركة البضائع، الجرد المستمر، وتحميل وتنزيل الأثاث بطريقة منظمة وآمنة.</p>
+                </a>
+
+                <a href="#" class="premium-card p-7 flex flex-col h-full group border-b-4 border-b-ivan-red">
+                    <div class="icon-box mb-5 text-ivan-red">
                         <i class="fa-solid fa-book-open"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-white mb-3 editable-text">سياسة المعرض الكاملة</h4>
-                    <p class="text-sm text-ivan-textSub leading-relaxed editable-text">المرجع الأساسي لجميع الموظفين. يحتوي على القوانين، الممنوعات، والمبادئ الأساسية للعمل.</p>
+                    <h4 class="text-xl font-bold mb-3 dark:text-white text-gray-900">سياسة المعرض الكاملة</h4>
+                    <p class="text-sm dark:text-ivan-textDarkSub text-ivan-textLightSub leading-relaxed">المرجع الأساسي لجميع الموظفين. يحتوي على القوانين، الممنوعات، والمبادئ الأساسية للعمل.</p>
                     <div class="mt-auto pt-4 text-ivan-red text-sm font-bold flex items-center gap-2">
-                        <span>الدخول للملف</span>
+                        <span>قراءة الدستور</span>
                         <i class="fa-solid fa-arrow-left text-xs"></i>
                     </div>
                 </a>
@@ -291,52 +369,102 @@
         </main>
     </div>
 
-    <a href="https://wa.me/9647514844125" target="_blank" class="fixed bottom-6 left-6 z-40 w-12 h-12 bg-[#25D366] rounded-full shadow-[0_0_15px_rgba(37,211,102,0.4)] flex items-center justify-center text-white text-2xl hover:scale-110 transition-transform duration-300">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
+    <div class="fixed bottom-6 left-6 z-40 group">
+        <a href="https://wa.me/9647514844125" target="_blank" class="whatsapp-btn w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl relative">
+            <i class="fa-brands fa-whatsapp"></i>
+            <span class="absolute left-14 bg-gray-900 text-white text-xs font-bold px-3 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                تواصل مع الإدارة
+            </span>
+        </a>
+    </div>
+
+    <div id="adminPanel" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center opacity-0 transition-opacity duration-300">
+        <div class="bg-ivan-darkCard border border-ivan-red/50 rounded-2xl p-8 max-w-md w-full mx-4 transform scale-95 transition-transform duration-300" id="adminPanelContent">
+            <div class="flex justify-between items-center mb-6 border-b border-ivan-darkBorder pb-4">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-ivan-red"></i> لوحة تحكم المشرفين
+                </h3>
+                <button onclick="closeAdminPanel()" class="text-gray-400 hover:text-white">
+                    <i class="fa-solid fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="space-y-3">
+                <button class="w-full text-right px-4 py-3 bg-[#0B0D14] hover:bg-ivan-red/10 border border-ivan-darkBorder hover:border-ivan-red text-white rounded-xl transition-all">تعديل نصوص الأقسام</button>
+                <button class="w-full text-right px-4 py-3 bg-[#0B0D14] hover:bg-ivan-red/10 border border-ivan-darkBorder hover:border-ivan-red text-white rounded-xl transition-all">إدارة صلاحيات العمال</button>
+                <button class="w-full text-right px-4 py-3 bg-[#0B0D14] hover:bg-ivan-red/10 border border-ivan-darkBorder hover:border-ivan-red text-white rounded-xl transition-all">مراجعة سجل النشاطات</button>
+                <button class="w-full text-right px-4 py-3 bg-ivan-red hover:bg-red-700 text-white font-bold rounded-xl transition-all mt-4">حفظ وإغلاق</button>
+            </div>
+        </div>
+    </div>
 
     <script>
-        // فتح وإغلاق القائمة في الموبايل
+        // إعدادات الوضع الداكن والفاتح
+        function toggleTheme() {
+            const html = document.documentElement;
+            const body = document.body;
+            
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                body.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                body.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // الحفاظ على الوضع المختار عند تحديث الصفحة
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+            document.body.classList.remove('dark');
+        }
+
+        // فتح وإغلاق القائمة الجانبية في الموبايل
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('translate-x-full');
             document.getElementById('sidebarOverlay').classList.toggle('hidden');
         }
 
-        // تاريخ اليوم
-        const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
-        document.getElementById('currentDate').innerText = new Date().toLocaleDateString('en-US', dateOptions).toUpperCase();
+        // --- نظام المشرفين السري المتقدم ---
+        // يمكنك فتح هذه القائمة المخفية عبر النقر السريع 7 مرات متتالية على كلمة "IVAN SHOW" الموجودة في الشريط العلوي (الزاوية اليسرى)
+        let adminClicks = 0;
+        let adminTimer;
 
-        // نظام التعديل السري (5 ضغطات)
-        let clickCount = 0;
-        let clickTimer;
-        
-        function enableEditMode() {
-            clickCount++;
-            clearTimeout(clickTimer);
+        function triggerAdminPanel() {
+            adminClicks++;
+            clearTimeout(adminTimer);
             
-            // إعادة ضبط العداد بعد ثانيتين
-            clickTimer = setTimeout(() => {
-                clickCount = 0;
+            // إذا لم يكمل الضغطات خلال ثانيتين، يتم تصفير العداد
+            adminTimer = setTimeout(() => {
+                adminClicks = 0;
             }, 2000);
 
-            if (clickCount === 5) {
-                const editableElements = document.querySelectorAll('.editable-text');
-                const isEditing = editableElements[0].isContentEditable;
-                const icon = document.getElementById('editIndicator');
-
-                editableElements.forEach(el => {
-                    el.contentEditable = !isEditing;
-                });
-
-                if (!isEditing) {
-                    icon.classList.remove('opacity-0');
-                    alert("🔓 تم تفعيل وضع التعديل بنجاح. يمكنك الآن الضغط على أي نص لتغييره. (تذكر نسخ الكود بعد الانتهاء لحفظه)");
-                } else {
-                    icon.classList.add('opacity-0');
-                    alert("🔒 تم إيقاف وضع التعديل.");
-                }
-                clickCount = 0;
+            if (adminClicks === 7) {
+                const panel = document.getElementById('adminPanel');
+                const content = document.getElementById('adminPanelContent');
+                
+                panel.classList.remove('hidden');
+                // تفعيل الأنميشن بعد إزالة الـ hidden بجزء من الثانية
+                setTimeout(() => {
+                    panel.classList.remove('opacity-0');
+                    content.classList.remove('scale-95');
+                }, 10);
+                
+                adminClicks = 0; // تصفير العداد بعد الفتح
             }
+        }
+
+        function closeAdminPanel() {
+            const panel = document.getElementById('adminPanel');
+            const content = document.getElementById('adminPanelContent');
+            
+            panel.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            
+            setTimeout(() => {
+                panel.classList.add('hidden');
+            }, 300);
         }
     </script>
 </body>
