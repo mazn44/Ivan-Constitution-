@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>خدمة العملاء والردود | إيفان</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ivan: {
+                            red: '#C8102E',
+                            darkBg: '#07090F',
+                            darkCard: '#0F1118',
+                            darkBorder: '#1A1E2E',
+                            lightBg: '#F5F7FA',
+                            lightCard: '#FFFFFF',
+                            lightBorder: '#E4E9F0',
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { font-family: 'Cairo', sans-serif; transition: background-color 0.4s, color 0.4s; overflow-y: auto; }
+        .dark body { background-color: #07090F; color: #F5F7FA; }
+        body:not(.dark) { background-color: #F5F7FA; color: #0F172A; }
+
+        .ivan-card { border-radius: 24px; padding: 24px; margin-bottom: 24px; transition: all 0.3s; }
+        .dark .ivan-card { background-color: #0F1118; border: 1px solid #1A1E2E; }
+        body:not(.dark) .ivan-card { background-color: #FFFFFF; border: 1px solid #E4E9F0; box-shadow: 0 10px 30px rgba(0,0,0,0.03); }
+
+        .sub-box { border-radius: 16px; padding: 20px; border: 1px solid; }
+        .dark .sub-box { background-color: #07090F; border-color: #1A1E2E; }
+        body:not(.dark) .sub-box { background-color: #F5F7FA; border-color: #E4E9F0; }
+    </style>
+</head>
+<body class="bg-ivan-lightBg dark:bg-ivan-darkBg text-gray-900 dark:text-white pb-20">
+
+    <header class="h-20 sticky top-0 z-50 px-6 lg:px-12 flex items-center justify-between bg-ivan-lightBg/90 dark:bg-ivan-darkBg/90 backdrop-blur-xl border-b border-ivan-lightBorder dark:border-ivan-darkBorder">
+        <a href="departments.html" class="flex items-center gap-2 text-ivan-red font-bold hover:scale-105 transition-transform">
+            <i class="fa-solid fa-arrow-right"></i> <span class="hidden sm:inline">العودة للأقسام</span>
+        </a>
+        <div class="font-en text-xl font-black uppercase tracking-widest text-gray-900 dark:text-white">
+            IVAN <span class="text-ivan-red">CS</span>
+        </div>
+        <button onclick="toggleTheme()" class="w-10 h-10 rounded-full border border-ivan-lightBorder dark:border-ivan-darkBorder flex items-center justify-center text-gray-600 dark:text-gray-300 hover:scale-110 transition-transform">
+            <i class="fa-solid fa-moon dark:hidden"></i>
+            <i class="fa-solid fa-sun hidden dark:block"></i>
+        </button>
+    </header>
+
+    <main class="max-w-4xl mx-auto p-6 lg:p-12">
+        <div class="mb-12 border-r-8 border-ivan-red pr-6">
+            <h1 class="text-4xl lg:text-5xl font-black mb-4 leading-tight">
+                قسم <span class="text-ivan-red">خدمة العملاء والردود</span>
+            </h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400 font-bold">المسؤول عن إدارة رسائل الإنترنت، الاستفسارات، والحجز الأولي.</p>
+        </div>
+
+        <div class="ivan-card">
+            <h2 class="text-2xl font-black text-ivan-red mb-4">1) تعريف القسم وهدفه</h2>
+            <ul class="space-y-3 font-bold text-gray-700 dark:text-gray-300 text-lg">
+                <li>• <strong class="text-gray-900 dark:text-white">الهدف الأساسي:</strong> تحويل السؤال إلى زيارة، والزيارة إلى ثقة، والثقة إلى بيع.</li>
+                <li>• <strong class="text-gray-900 dark:text-white">القاعدة الأهم:</strong> الزبون يجب أن يشعر بأننا موجودون لخدمته، لا لمجادلته. الرد الأول يمثل واجهة المعرض بأكملها.</li>
+            </ul>
+        </div>
+
+        <div class="ivan-card">
+            <h2 class="text-2xl font-black text-gray-900 dark:text-white mb-6">2) المسموح والممنوع في المحادثات</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="sub-box border-emerald-500/30">
+                    <h3 class="text-xl font-black text-emerald-600 dark:text-emerald-500 mb-4">المسموح (طريقة العمل) ✔️</h3>
+                    <ul class="text-sm font-bold text-gray-700 dark:text-gray-300 space-y-2 list-disc pl-5">
+                        <li>الرد السريع جداً والمختصر والواضح.</li>
+                        <li>تقديم بديل مناسب فوراً إذا لم تتوفر القطعة المطلوبة.</li>
+                        <li>الاستماع الكامل لشكوى الزبون والاعتذار اللائق.</li>
+                        <li>استخدام أسلوب محترم ومرن وخالٍ من الجفاف.</li>
+                        <li>المتابعة اللطيفة وتوجيه الزبون لزيارة المعرض.</li>
+                    </ul>
+                </div>
+                <div class="sub-box border-red-500/30">
+                    <h3 class="text-xl font-black text-red-600 dark:text-red-500 mb-4">الممنوع ❌</h3>
+                    <ul class="text-sm font-bold text-gray-700 dark:text-gray-300 space-y-2 list-disc pl-5">
+                        <li>تجاهل الرسائل أو التأخر المتعمد في الرد.</li>
+                        <li>الرد الجاف أو المستفز أو الرد بالملصقات (Stickers) فقط.</li>
+                        <li>الجدال مع الزبون مهما كان أسلوبه.</li>
+                        <li>إعطاء وعود غير مؤكدة للزبائن.</li>
+                        <li>إغلاق المحادثة بشكل حاد أو بدون جواب نهائي.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="ivan-card border-t-4 border-t-purple-500">
+            <h2 class="text-2xl font-black text-purple-600 dark:text-purple-400 mb-6 flex items-center gap-3">
+                <i class="fa-solid fa-comments"></i> الردود الجاهزة المعتمدة
+            </h2>
+            
+            <div class="space-y-4">
+                <div class="sub-box bg-purple-50/50 dark:bg-purple-900/10 border-purple-200 dark:border-purple-900/30">
+                    <h3 class="text-lg font-black text-purple-700 dark:text-purple-300 mb-4 border-b border-purple-200 dark:border-purple-800 pb-2">نصوص المحادثات (باديني)</h3>
+                    <ul class="text-sm font-bold text-gray-800 dark:text-gray-200 space-y-3">
+                        <li><span class="text-purple-500">الترحيب:</span> بخێر هاتی بۆ پێشانگەها ئاڤان، چەوا دشێم هاریکاریا تە بکەم؟</li>
+                        <li><span class="text-purple-500">للقطع المستعملة:</span> ئەڤ پارچە مستعملە، هەندێ کێماسی هەیە، بەلێ نرخێ وێ باشە.</li>
+                        <li><span class="text-purple-500">للقطع غير المتوفرة:</span> ئەڤ پارچە نینە، بەلێ بەدیل هەیە گەلەک باشتر، ئەم دکارین پیشان بدەین.</li>
+                        <li><span class="text-purple-500">امتصاص الغضب:</span> حەقێ تەیە، لێبورینێ دخازین، ئەم دێ ڤی بابەتی چارەسەر بکەین.</li>
+                        <li><span class="text-purple-500">الخاتمة والدعوة:</span> ئەگەر هەر پرسیارەکا دی هەبیت، ئەم لێرەینە، یان سەردانا پێشانگەهێ بکە.</li>
+                    </ul>
+                </div>
+
+                <div class="sub-box bg-indigo-50/50 dark:bg-indigo-900/10 border-indigo-200 dark:border-indigo-900/30">
+                    <h3 class="text-lg font-black text-indigo-700 dark:text-indigo-300 mb-4 border-b border-indigo-200 dark:border-indigo-800 pb-2">نصوص المحادثات (عربي)</h3>
+                    <ul class="text-sm font-bold text-gray-800 dark:text-gray-200 space-y-3">
+                        <li><span class="text-indigo-500">الترحيب:</span> أهلاً بك في معرض إيفان، كيف نقدر نساعدك؟</li>
+                        <li><span class="text-indigo-500">للقطع المستعملة:</span> القطعة مستعملة وفيها بعض الملاحظات البسيطة، لكن سعرها جداً مناسب.</li>
+                        <li><span class="text-indigo-500">للقطع غير المتوفرة:</span> نعتذر، هالقطعة غير متوفرة حالياً، لكن عندنا بدائل أحدث وأفضل، تحب نرسل لك صورها؟</li>
+                        <li><span class="text-indigo-500">امتصاص الغضب:</span> حقك علينا، نعتذر على اللي صار، واسمح لنا نصلح المشكلة فوراً.</li>
+                        <li><span class="text-indigo-500">الخاتمة والدعوة:</span> تشرفنا بأسئلتك، ونتمنى تزورنا بالمعرض وتشوف الجودة بنفسك.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('ivanTheme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('ivanTheme') === 'light') { document.documentElement.classList.remove('dark'); }
+    </script>
+</body>
+</html>
