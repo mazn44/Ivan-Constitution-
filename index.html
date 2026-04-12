@@ -93,26 +93,26 @@
         }
     </style>
 </head>
-<body class="relative">
+<body class="bg-ivan-lightBg dark:bg-ivan-darkBg text-gray-900 dark:text-white transition-colors duration-300 relative">
 
-    <div id="mainLoginOverlay" class="fixed inset-0 z-[200] bg-ivan-lightBg dark:bg-ivan-darkBg flex items-center justify-center transition-all duration-500 backdrop-blur-xl">
+    <div id="mainLoginOverlay" class="fixed inset-0 z-[200] bg-ivan-lightBg dark:bg-ivan-darkBg flex items-center justify-center transition-all duration-500">
         <div class="absolute top-0 right-0 w-96 h-96 bg-ivan-red/20 rounded-full filter blur-[100px]"></div>
         <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-500/10 rounded-full filter blur-[100px]"></div>
         
-        <div class="bg-white/80 dark:bg-ivan-darkCard/80 backdrop-blur-2xl border border-gray-200 dark:border-ivan-darkBorder p-8 md:p-12 rounded-3xl shadow-2xl max-w-md w-full mx-4 relative z-10 text-center transform transition-all duration-500" id="mainLoginBox">
+        <div class="bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder p-8 md:p-12 rounded-3xl shadow-2xl max-w-md w-full mx-4 relative z-10 text-center transform transition-all duration-500" id="mainLoginBox">
             <div class="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-ivan-red to-red-900 flex items-center justify-center shadow-lg shadow-ivan-red/30 mb-6">
                 <span class="font-en text-4xl font-black italic text-white">i</span>
             </div>
             <h2 class="text-3xl font-black text-gray-900 dark:text-white mb-2 font-en tracking-widest uppercase">Ivan Show</h2>
-            <p class="text-sm text-gray-500 dark:text-gray-400 mb-8 font-bold">بوابة الموظفين - يرجى تسجيل الدخول</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-8 font-bold">بوابة الموظفين - يرجى إدخال رمز الدخول</p>
             
             <div class="relative mb-6">
-                <input type="password" id="mainPasswordInput" placeholder="أدخل رمز الدخول..." class="w-full bg-gray-50 dark:bg-[#080A10] border border-gray-200 dark:border-ivan-darkBorder rounded-xl px-5 py-4 text-gray-900 dark:text-white focus:outline-none focus:border-ivan-red dark:focus:border-ivan-red transition-all text-center text-xl tracking-[0.2em]" dir="ltr">
-                <p id="mainLoginError" class="text-ivan-red text-sm font-bold mt-3 opacity-0 transition-opacity">الرمز غير صحيح، حاول مجدداً</p>
+                <input type="password" id="mainPasswordInput" placeholder="أدخل رمز الدخول هنا..." class="w-full bg-gray-50 dark:bg-[#080A10] border border-gray-200 dark:border-ivan-darkBorder rounded-xl px-5 py-4 text-gray-900 dark:text-white focus:outline-none focus:border-ivan-red dark:focus:border-ivan-red transition-all text-center text-xl tracking-[0.2em]" dir="ltr">
+                <p id="mainLoginError" class="text-ivan-red text-sm font-bold mt-3 opacity-0 transition-opacity">الرمز غير صحيح، يرجى المحاولة مجدداً!</p>
             </div>
             
             <button onclick="checkMainPassword()" class="w-full bg-ivan-red hover:bg-red-700 text-white font-bold py-4 rounded-xl transition-all shadow-lg shadow-ivan-red/30 text-lg flex items-center justify-center gap-3">
-                <span>دخول للنظام</span>
+                <span>تسجيل الدخول للنظام</span>
                 <i class="fa-solid fa-lock-open text-sm"></i>
             </button>
         </div>
@@ -138,7 +138,7 @@
                 </div>
             </div>
 
-            <button onclick="toggleSidebar()" class="absolute left-4 lg:hidden text-gray-500 hover:text-ivan-red text-2xl">
+            <button onclick="toggleSidebar()" class="absolute left-4 lg:hidden text-gray-500 dark:text-gray-400 hover:text-ivan-red dark:hover:text-ivan-red text-2xl">
                 <i class="fa-solid fa-times"></i>
             </button>
         </div>
@@ -191,7 +191,7 @@
 
     <div class="flex flex-col min-h-screen w-full lg:w-[calc(100%-20rem)] lg:mr-auto transition-all duration-300">
         
-        <header class="h-20 lg:h-24 sticky top-0 z-30 px-4 sm:px-8 flex items-center justify-between bg-white/80 dark:bg-[#080A10]/80 backdrop-blur-xl border-b border-gray-200 dark:border-ivan-darkBorder">
+        <header class="h-20 lg:h-24 sticky top-0 z-30 px-4 sm:px-8 flex items-center justify-between bg-white/80 dark:bg-[#080A10]/80 backdrop-blur-xl border-b border-gray-200 dark:border-ivan-darkBorder transition-colors duration-300">
             <div class="flex items-center gap-4">
                 <button onclick="toggleSidebar()" class="lg:hidden w-12 h-12 rounded-xl bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-gray-900 dark:text-white shadow-sm text-xl hover:text-ivan-red transition-all">
                     <i class="fa-solid fa-bars-staggered"></i>
@@ -205,7 +205,7 @@
             <div class="flex items-center gap-4 lg:gap-6">
                 <div class="hidden md:flex items-center gap-3 px-5 py-2.5 rounded-full bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <span class="text-xs font-bold text-gray-600 dark:text-ivan-textDarkSub font-en tracking-widest uppercase mt-0.5 editable">System Online</span>
+                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300 font-en tracking-widest uppercase mt-0.5 editable">System Online</span>
                 </div>
                 
                 <button onclick="toggleTheme()" class="w-12 h-12 rounded-xl bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-indigo-600 dark:text-amber-400 hover:scale-110 transition-transform shadow-sm text-xl cursor-pointer">
@@ -217,26 +217,26 @@
 
         <main class="flex-1 w-full max-w-7xl mx-auto p-5 sm:p-8 lg:p-12">
             
-            <div class="mb-12 lg:mb-16 border-r-4 border-ivan-red pr-6">
+            <div class="mb-12 lg:mb-16">
                 <h2 class="text-3xl sm:text-4xl lg:text-6xl font-black mb-6 leading-tight text-gray-900 dark:text-white tracking-tight editable">
                     مرحبًا بكم في بوابة <br class="hidden lg:block"/> <span class="text-ivan-red">موظفي إيفان</span>
                 </h2>
-                <p class="text-base sm:text-lg lg:text-2xl max-w-4xl leading-relaxed text-gray-600 dark:text-ivan-textDarkSub font-semibold editable">
+                <p class="text-base sm:text-lg lg:text-2xl max-w-4xl leading-relaxed text-gray-600 dark:text-gray-300 font-semibold editable">
                     نظام داخلي متكامل يهدف إلى تنظيم العمل، توحيد الإجراءات، ورفع مستوى الأداء داخل جميع أقسام المعرض.
                 </p>
             </div>
 
-            <div class="mb-12 lg:mb-16 bg-white dark:bg-ivan-darkCard p-6 lg:p-8 rounded-3xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+            <div class="mb-12 lg:mb-16 border-r-4 border-ivan-red pr-4 lg:pr-6">
                 <h3 class="text-xl sm:text-2xl font-bold mb-3 text-gray-900 dark:text-white editable">نظرة عامة</h3>
-                <p class="text-base sm:text-lg leading-relaxed text-gray-600 dark:text-ivan-textDarkSub max-w-4xl editable">
-                    توفر هذه البوابة وصولًا سريعًا إلى المهام اليومية، التعليمات الأساسية، وأقسام العمل، بما يضمن وضوح المسؤوليات وسهولة المتابعة لجميع كوادر المعرض للارتقاء بخدماتنا.
+                <p class="text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-300 max-w-4xl editable">
+                    توفر هذه البوابة وصولًا سريعًا إلى المهام اليومية، التعليمات الأساسية، وأقسام العمل، بما يضمن وضوح المسؤوليات وسهولة المتابعة لجميع كوادر المعرض.
                 </p>
             </div>
 
             <div class="mb-16 lg:mb-20">
                 <h3 class="text-2xl sm:text-3xl font-black mb-8 text-gray-900 dark:text-white flex items-center gap-4 editable">
                     <i class="fa-solid fa-bolt text-ivan-red"></i>
-                    الوصول السريع للأقسام
+                    الوصول السريع
                 </h3>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
@@ -249,9 +249,23 @@
                             <span class="px-4 py-1.5 rounded-full bg-blue-100 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-bold font-en uppercase tracking-wider editable">Daily</span>
                         </div>
                         <h4 class="text-xl lg:text-2xl font-bold mb-3 text-gray-900 dark:text-white editable">المهام اليومية</h4>
-                        <p class="text-sm lg:text-base text-gray-600 dark:text-ivan-textDarkSub leading-relaxed editable mb-6">متابعة جدول الأعمال اليومي الخاص بك وتحديث حالة الإنجاز لضمان سير العمل.</p>
+                        <p class="text-sm lg:text-base text-gray-600 dark:text-gray-300 leading-relaxed editable mb-6">متابعة جدول الأعمال اليومي الخاص بك وتحديث حالة الإنجاز.</p>
                         <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all">
                             <span class="editable">الدخول إلى المهام</span> <i class="fa-solid fa-arrow-left"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder rounded-3xl p-6 lg:p-8 flex flex-col h-full group hover:-translate-y-2 hover:border-ivan-red dark:hover:border-ivan-red transition-all duration-300 shadow-sm hover:shadow-xl dark:shadow-none cursor-pointer">
+                        <div class="flex items-start justify-between mb-6">
+                            <div class="w-14 h-14 rounded-2xl bg-gray-50 dark:bg-[#080A10] border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-2xl text-gray-900 dark:text-white group-hover:bg-ivan-red group-hover:text-white group-hover:border-ivan-red transition-all">
+                                <i class="fa-solid fa-bell"></i>
+                            </div>
+                            <span class="px-4 py-1.5 rounded-full bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold font-en uppercase tracking-wider animate-pulse editable">New</span>
+                        </div>
+                        <h4 class="text-xl lg:text-2xl font-bold mb-3 text-gray-900 dark:text-white editable">الإعلانات والتنبيهات</h4>
+                        <p class="text-sm lg:text-base text-gray-600 dark:text-gray-300 leading-relaxed editable mb-6">الاطلاع على آخر القرارات الإدارية والتعميمات الصادرة حديثاً.</p>
+                        <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all">
+                            <span class="editable">اقرأ آخر التنبيهات</span> <i class="fa-solid fa-arrow-left"></i>
                         </div>
                     </div>
 
@@ -260,27 +274,13 @@
                             <div class="w-14 h-14 rounded-2xl bg-gray-50 dark:bg-[#080A10] border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-2xl text-gray-900 dark:text-white group-hover:bg-ivan-red group-hover:text-white group-hover:border-ivan-red transition-all">
                                 <i class="fa-solid fa-scale-balanced"></i>
                             </div>
-                            <span class="px-4 py-1.5 rounded-full bg-amber-100 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 text-xs font-bold font-en uppercase tracking-wider animate-pulse editable">Important</span>
                         </div>
                         <h4 class="text-xl lg:text-2xl font-bold mb-3 text-gray-900 dark:text-white editable">سياسة المعرض الشاملة</h4>
-                        <p class="text-sm lg:text-base text-gray-600 dark:text-ivan-textDarkSub leading-relaxed editable mb-6">الاطلاع على جميع القوانين والأنظمة الخاصة بالعمل داخل معرض إيفان.</p>
+                        <p class="text-sm lg:text-base text-gray-600 dark:text-gray-300 leading-relaxed editable mb-6">تصفح الدستور الداخلي وقوانين العمل الخاصة بمعرض إيفان لجميع الأقسام.</p>
                         <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all">
-                            <span class="editable">اقرأ سياسة المعرض</span> <i class="fa-solid fa-arrow-left"></i>
+                            <span class="editable">الاطلاع على السياسة</span> <i class="fa-solid fa-arrow-left"></i>
                         </div>
                     </a>
-
-                    <div class="bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder rounded-3xl p-6 lg:p-8 flex flex-col h-full group hover:-translate-y-2 hover:border-ivan-red dark:hover:border-ivan-red transition-all duration-300 shadow-sm hover:shadow-xl dark:shadow-none cursor-pointer">
-                        <div class="flex items-start justify-between mb-6">
-                            <div class="w-14 h-14 rounded-2xl bg-gray-50 dark:bg-[#080A10] border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-2xl text-gray-900 dark:text-white group-hover:bg-ivan-red group-hover:text-white group-hover:border-ivan-red transition-all">
-                                <i class="fa-solid fa-layer-group"></i>
-                            </div>
-                        </div>
-                        <h4 class="text-xl lg:text-2xl font-bold mb-3 text-gray-900 dark:text-white editable">أقسام المعرض</h4>
-                        <p class="text-sm lg:text-base text-gray-600 dark:text-ivan-textDarkSub leading-relaxed editable mb-6">تصفح أقسام العمل المختلفة والدخول للتعليمات المخصصة لكل قسم.</p>
-                        <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all">
-                            <span class="editable">اقرأ تفاصيل الأقسام</span> <i class="fa-solid fa-arrow-left"></i>
-                        </div>
-                    </div>
 
                     <div class="bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder rounded-3xl p-6 lg:p-8 flex flex-col h-full group hover:-translate-y-2 hover:border-ivan-red dark:hover:border-ivan-red transition-all duration-300 shadow-sm hover:shadow-xl dark:shadow-none cursor-pointer">
                         <div class="flex items-start justify-between mb-6">
@@ -289,7 +289,7 @@
                             </div>
                         </div>
                         <h4 class="text-xl lg:text-2xl font-bold mb-3 text-gray-900 dark:text-white editable">الشكاوى والملاحظات</h4>
-                        <p class="text-sm lg:text-base text-gray-600 dark:text-ivan-textDarkSub leading-relaxed editable mb-6">رفع المقترحات أو الملاحظات للإدارة بسرية تامة لضمان التطوير المستمر.</p>
+                        <p class="text-sm lg:text-base text-gray-600 dark:text-gray-300 leading-relaxed editable mb-6">رفع المقترحات أو الملاحظات للإدارة بسرية تامة لضمان التطوير.</p>
                         <div class="mt-auto pt-4 flex items-center gap-2 text-ivan-red font-bold group-hover:gap-4 transition-all">
                             <span class="editable">تقديم ملاحظة</span> <i class="fa-solid fa-arrow-left"></i>
                         </div>
@@ -302,14 +302,14 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12">
                     <div>
                         <h3 class="text-xl sm:text-2xl font-black mb-5 text-gray-900 dark:text-white editable">عن النظام</h3>
-                        <p class="text-base sm:text-lg leading-relaxed text-gray-600 dark:text-ivan-textDarkSub editable text-justify">
-                            تم تصميم هذا النظام لتسهيل العمل اليومي، وتعزيز التعاون بين الفرق، وتحقيق بيئة عمل منظمة تعتمد على الالتزام والدقة والتطوير المستمر داخل المعرض.
+                        <p class="text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-300 editable">
+                            تم تصميم هذا النظام لتسهيل العمل اليومي، وتعزيز التعاون بين الفرق، وتحقيق بيئة عمل منظمة تعتمد على الالتزام والدقة والتطوير المستمر.
                         </p>
                     </div>
                     <div>
                         <h3 class="text-xl sm:text-2xl font-black mb-5 text-gray-900 dark:text-white editable">رسالتنا</h3>
-                        <p class="text-base sm:text-lg leading-relaxed text-gray-600 dark:text-ivan-textDarkSub editable text-justify">
-                            العمل باحتراف، الالتزام بالجودة المطلقة، وتقديم أفضل تجربة تسوق وخدمة داخل معرض إيفان في كافة الأوقات لعملائنا الكرام.
+                        <p class="text-base sm:text-lg leading-relaxed text-gray-600 dark:text-gray-300 editable">
+                            العمل باحتراف، الالتزام بالجودة المطلقة، وتقديم أفضل تجربة تسوق وخدمة داخل معرض إيفان في كافة الأوقات.
                         </p>
                     </div>
                 </div>
@@ -317,23 +317,29 @@
 
             <footer class="mt-20 pt-12 border-t border-gray-200 dark:border-ivan-darkBorder text-center">
                 <h3 class="text-2xl font-bold mb-4 text-gray-900 dark:text-white editable">التواصل والدعم</h3>
-                <p class="text-base text-gray-600 dark:text-ivan-textDarkSub mb-8 max-w-2xl mx-auto editable">
+                <p class="text-base text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto editable">
                     للاستفسارات أو الدعم التقني حول النظام، يمكنكم التواصل عبر الوسائل الرسمية المتاحة أدناه.
                 </p>
                 
                 <div class="flex flex-wrap justify-center gap-4 mb-10">
-                    <a href="#" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-gray-600 dark:text-ivan-textDarkSub hover:text-[#25D366] hover:border-[#25D366] transition-all shadow-sm text-xl lg:text-2xl hover:-translate-y-2">
+                    <a href="https://wa.me/9647514844125" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-[#25D366] dark:hover:text-[#25D366] hover:border-[#25D366] transition-all shadow-sm text-xl lg:text-2xl hover:-translate-y-2">
                         <i class="fa-brands fa-whatsapp"></i>
                     </a>
-                    <a href="#" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-gray-600 dark:text-ivan-textDarkSub hover:text-[#1877F2] hover:border-[#1877F2] transition-all shadow-sm text-xl lg:text-2xl hover:-translate-y-2">
+                    <a href="https://www.facebook.com/share/1BLDRvJGzr/" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-[#1877F2] dark:hover:text-[#1877F2] hover:border-[#1877F2] transition-all shadow-sm text-xl lg:text-2xl hover:-translate-y-2">
                         <i class="fa-brands fa-facebook-f"></i>
                     </a>
-                    <a href="#" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-gray-600 dark:text-ivan-textDarkSub hover:text-[#E1306C] hover:border-[#E1306C] transition-all shadow-sm text-xl lg:text-2xl hover:-translate-y-2">
+                    <a href="https://www.instagram.com/ma3rd_ivan1?igsh=dDF4Y2dnYXZ5eGZ3" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-[#E1306C] dark:hover:text-[#E1306C] hover:border-[#E1306C] transition-all shadow-sm text-xl lg:text-2xl hover:-translate-y-2">
                         <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@ma3rdivan1?_r=1&_d=em9ma8k92df7mi" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white dark:hover:border-white hover:border-black transition-all shadow-sm text-xl lg:text-2xl hover:-translate-y-2">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                    <a href="https://maps.app.goo.gl/u6zP3XLVnA5xSKRGA?g_st=ac" target="_blank" class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-gray-600 dark:text-gray-400 hover:text-[#34A853] dark:hover:text-[#34A853] hover:border-[#34A853] transition-all shadow-sm text-xl lg:text-2xl hover:-translate-y-2">
+                        <i class="fa-solid fa-location-dot"></i>
                     </a>
                 </div>
 
-                <div class="flex flex-wrap justify-center gap-6 lg:gap-8 text-sm font-bold text-gray-600 dark:text-ivan-textDarkSub">
+                <div class="flex flex-wrap justify-center gap-6 lg:gap-8 text-sm font-bold text-gray-600 dark:text-gray-400">
                     <a href="policy.html" class="hover:text-ivan-red transition-colors editable">سياسة المعرض</a>
                     <a href="#" class="hover:text-ivan-red transition-colors editable">أقسام المعرض</a>
                     <a href="#" class="hover:text-ivan-red transition-colors editable">الدعم الفني</a>
@@ -347,7 +353,7 @@
         </main>
     </div>
 
-    <a href="#" target="_blank" class="fixed bottom-6 left-6 lg:bottom-8 lg:left-8 z-40 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center text-white text-3xl shadow-[0_10px_25px_rgba(37,211,102,0.4)] hover:scale-110 hover:-translate-y-2 transition-all duration-300">
+    <a href="https://wa.me/9647514844125" target="_blank" class="fixed bottom-6 left-6 lg:bottom-8 lg:left-8 z-40 w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center text-white text-3xl shadow-[0_10px_25px_rgba(37,211,102,0.4)] hover:scale-110 hover:-translate-y-2 transition-all duration-300">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
@@ -359,7 +365,7 @@
             <h3 class="text-xl font-black text-gray-900 dark:text-white mb-2">التحكم الإداري</h3>
             <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">يرجى إدخال رمز المرور السري للتعديل</p>
             
-            <input type="password" id="adminPasswordInput" placeholder="أدخل الرمز..." class="w-full bg-gray-50 dark:bg-[#080A10] border border-gray-200 dark:border-ivan-darkBorder rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-ivan-red text-center tracking-widest mb-2" dir="ltr">
+            <input type="password" id="adminPasswordInput" placeholder="أدخل الرمز هنا..." class="w-full bg-gray-50 dark:bg-[#080A10] border border-gray-200 dark:border-ivan-darkBorder rounded-xl px-4 py-3 text-gray-900 dark:text-white focus:outline-none focus:border-ivan-red text-center tracking-widest mb-2" dir="ltr">
             <p id="adminPasswordError" class="text-ivan-red text-sm font-bold opacity-0 transition-opacity mb-5">الرمز غير صحيح!</p>
             
             <div class="flex gap-3">
@@ -387,10 +393,9 @@
     </div>
 
     <script>
-        // --- حماية تسجيل الدخول للشاشة الرئيسية ---
+        // --- 1. حماية تسجيل الدخول للشاشة الرئيسية ---
         document.addEventListener("DOMContentLoaded", () => {
             const loginOverlay = document.getElementById('mainLoginOverlay');
-            // التأكد مما إذا كان المستخدم قد قام بتسجيل الدخول مسبقاً
             const isAuth = localStorage.getItem('ivan_main_portal_access');
             
             if (isAuth === 'granted') {
@@ -399,7 +404,7 @@
         });
 
         function checkMainPassword() {
-            // أخذ القيمة، إزالة أي مسافات من الأطراف، وتحويلها لأحرف صغيرة لحل مشاكل لوحة مفاتيح الجوال
+            // استخدام trim للتخلص من المسافات المخفية و toLowerCase لتوحيد حالة الأحرف (حماية من أخطاء الموبايل)
             const pass = document.getElementById('mainPasswordInput').value.trim().toLowerCase();
             const errorMsg = document.getElementById('mainLoginError');
             const loginBox = document.getElementById('mainLoginBox');
@@ -423,12 +428,12 @@
             }
         }
 
-        // دعم الضغط على Enter
+        // دعم الضغط على مفتاح Enter
         document.getElementById('mainPasswordInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') checkMainPassword();
         });
 
-        // --- Dark Mode ---
+        // --- 2. الوضع المظلم (Dark Mode) ---
         function toggleTheme() {
             const html = document.documentElement;
             html.classList.toggle('dark');
@@ -443,13 +448,13 @@
             }
         });
 
-        // --- Sidebar ---
+        // --- 3. القائمة الجانبية (Sidebar) ---
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('translate-x-full');
             document.getElementById('sidebarOverlay').classList.toggle('hidden');
         }
 
-        // --- Secret Trigger للإدارة (7 ضغطات) ---
+        // --- 4. الزناد السري للإدارة (7 ضغطات متتالية) ---
         const sidebarSecretTrigger = document.getElementById('sidebarSecretTrigger');
         let clickCount = 0;
         let clickTimer;
@@ -472,7 +477,7 @@
             });
         });
 
-        // --- كلمة سر لوحة التحكم الإدارية ---
+        // --- 5. نافذة كلمة سر لوحة التحكم الإدارية ---
         function openPasswordModal() {
             const modal = document.getElementById('passwordModal');
             const content = document.getElementById('passwordModalContent');
@@ -500,7 +505,6 @@
         }
 
         function verifyAdminPassword() {
-            // إزالة المسافات وتجاهل حالة الأحرف لحل مشكلة الموبايل
             const pass = document.getElementById('adminPasswordInput').value.trim().toLowerCase();
             if (pass === 'admin123') { // كلمة سر لوحة التحكم
                 closePasswordModal();
@@ -520,7 +524,7 @@
             if (e.key === 'Enter') verifyAdminPassword();
         });
 
-        // --- لوحة التعديل المباشر ---
+        // --- 6. لوحة التعديل المباشر ---
         function openAdminModal() {
             const modal = document.getElementById('adminModal');
             const content = document.getElementById('adminModalContent');
