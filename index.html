@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بوابة موظفي إيفان | Ivan Portal</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ivan: {
+                            red: '#b90e17',
+                            redLight: '#d91a25',
+                            dark: '#121418',
+                            cardDark: '#1a1c23',
+                            cardHover: '#242730',
+                            light: '#f8fafc',
+                            cardLight: '#ffffff',
+                            textMuted: '#94a3b8'
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-soft': 'pulseSoft 3s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        pulseSoft: {
+                            '0%, 100%': { opacity: 1, transform: 'scale(1)' },
+                            '50%': { opacity: 0.8, transform: 'scale(1.05)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Glassmorphism utilities */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark .glass-nav {
+            background: rgba(18, 20, 24, 0.8);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        /* Smooth transitions */
+        .transition-all-custom {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #334155;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b90e17;
+        }
+
+        /* Sidebar item active state */
+        .nav-item.active {
+            background: rgba(185, 14, 23, 0.1);
+            color: #b90e17;
+            font-weight: 700;
+        }
+        .dark .nav-item.active {
+            background: rgba(185, 14, 23, 0.15);
+            color: #ff4d55;
+        }
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 60%;
+            width: 4px;
+            background: #b90e17;
+            border-radius: 4px 0 0 4px;
+        }
+
+        /* Hide scrollbar for sidebar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-ivan-light dark:bg-ivan-dark text-slate-800 dark:text-slate-200 transition-colors duration-300">
+
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="toggleSidebar()"></div>
+
+    <aside id="sidebar" class="fixed top-0 right-0 h-screen w-72 bg-white dark:bg-ivan-cardDark border-l border-slate-200 dark:border-white/5 z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col shadow-2xl lg:shadow-none">
+        
+        <div class="h-20 flex items-center px-6 border-b border-slate-100 dark:border-white/5">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-ivan-red to-rose-900 flex items-center justify-center text-white shadow-lg shadow-red-500/30">
+                <i class="fa-solid fa-couch text-sm"></i>
+            </div>
+            <div class="mr-4">
+                <h1 class="font-bold text-lg leading-tight text-slate-900 dark:text-white uppercase tracking-wide">Ivan <span class="text-ivan-red">Showroom</span></h1>
+                <p class="text-[10px] text-slate-500 dark:text-ivan-textMuted tracking-widest">INTERNAL PORTAL</p>
+            </div>
+            <button onclick="toggleSidebar()" class="mr-auto lg:hidden text-slate-400 hover:text-ivan-red">
+                <i class="fa-solid fa-times text-xl"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto no-scrollbar py-6 px-4 space-y-1">
+            <div class="text-xs font-bold text-slate-400 dark:text-slate-500 mb-3 px-3">القائمة الرئيسية</div>
+            
+            <a href="#" class="nav-item active relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all-custom text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5">
+                <i class="fa-solid fa-house w-5 text-center"></i>
+                <span>الرئيسية</span>
+            </a>
+
+            <a href="#departments" class="nav-item relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all-custom text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5">
+                <i class="fa-solid fa-layer-group w-5 text-center"></i>
+                <span>أقسام المعرض</span>
+            </a>
+
+            <a href="#" class="nav-item relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all-custom text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5">
+                <i class="fa-solid fa-book-open w-5 text-center"></i>
+                <span>سياسة المعرض الشاملة</span>
+            </a>
+
+            <a href="#" class="nav-item relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all-custom text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5">
+                <i class="fa-solid fa-comment-dots w-5 text-center"></i>
+                <span>الشكاوى والملاحظات</span>
+            </a>
+
+            <div class="text-xs font-bold text-slate-400 dark:text-slate-500 mb-3 mt-6 px-3">الموارد البشرية</div>
+
+            <a href="#" class="nav-item relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all-custom text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5">
+                <i class="fa-solid fa-bell w-5 text-center"></i>
+                <span>الإعلانات والتنبيهات</span>
+                <span class="mr-auto bg-ivan-red text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse-soft">جديد</span>
+            </a>
+
+            <a href="#" class="nav-item relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all-custom text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5">
+                <i class="fa-solid fa-clock w-5 text-center"></i>
+                <span>الحضور والدوام</span>
+            </a>
+
+            <a href="#" class="nav-item relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all-custom text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5">
+                <i class="fa-solid fa-star w-5 text-center"></i>
+                <span>التقييم والمكافآت</span>
+            </a>
+
+            <a href="#" class="nav-item relative flex items-center gap-3 px-3 py-3 rounded-xl transition-all-custom text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5">
+                <i class="fa-solid fa-headset w-5 text-center"></i>
+                <span>التواصل والدعم</span>
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-slate-100 dark:border-white/5">
+            <div class="bg-slate-50 dark:bg-black/20 rounded-2xl p-4">
+                <p class="text-xs text-center text-slate-500 dark:text-ivan-textMuted mb-3">الروابط الرسمية للمعرض</p>
+                <div class="flex justify-center gap-4">
+                    <a href="https://www.instagram.com/ma3rd_ivan1?igsh=dDF4Y2dnYXZ5eGZ3" target="_blank" class="w-8 h-8 rounded-full bg-white dark:bg-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-[#E1306C] hover:scale-110 transition-all shadow-sm">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="https://www.facebook.com/share/1BLDRvJGzr/" target="_blank" class="w-8 h-8 rounded-full bg-white dark:bg-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-[#1877F2] hover:scale-110 transition-all shadow-sm">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@ma3rdivan1?_r=1&_d=em9ma8k92df7mi" target="_blank" class="w-8 h-8 rounded-full bg-white dark:bg-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-black dark:hover:text-white hover:scale-110 transition-all shadow-sm">
+                        <i class="fa-brands fa-tiktok"></i>
+                    </a>
+                    <a href="https://maps.app.goo.gl/u6zP3XLVnA5xSKRGA?g_st=ac" target="_blank" class="w-8 h-8 rounded-full bg-white dark:bg-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-[#34A853] hover:scale-110 transition-all shadow-sm">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <div class="flex-1 lg:mr-72 min-h-screen flex flex-col">
+        
+        <header class="h-20 glass-nav sticky top-0 z-30 px-4 lg:px-8 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-white dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center text-slate-600 dark:text-slate-300">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                
+                <div class="hidden md:flex relative group">
+                    <i class="fa-solid fa-search absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-ivan-red transition-colors"></i>
+                    <input type="text" placeholder="ابحث في البوابة..." class="bg-slate-100 dark:bg-ivan-cardDark border-none rounded-full py-2.5 pr-11 pl-6 w-64 focus:outline-none focus:ring-2 focus:ring-ivan-red/50 text-sm text-slate-700 dark:text-slate-200 placeholder-slate-400 transition-all">
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button onclick="toggleTheme()" class="w-10 h-10 rounded-full bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-600 dark:text-yellow-400 hover:bg-slate-200 dark:hover:bg-white/10 transition-colors">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                </button>
+                
+                <div class="flex items-center gap-3 pl-2 border-r border-slate-200 dark:border-white/10 mr-2 pr-4">
+                    <div class="text-left hidden sm:block">
+                        <p class="text-sm font-bold text-slate-800 dark:text-white">بوابة الموظفين</p>
+                        <p class="text-xs text-slate-500 dark:text-ivan-textMuted">دهوك - زركا</p>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-ivan-redLight flex items-center justify-center text-white font-bold border-2 border-white dark:border-ivan-cardDark">
+                        IV
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 p-4 lg:p-8 overflow-x-hidden">
+            
+            <div class="bg-white dark:bg-ivan-cardDark rounded-3xl p-8 mb-8 border border-slate-100 dark:border-white/5 relative overflow-hidden shadow-sm">
+                <div class="absolute -top-24 -right-24 w-64 h-64 bg-ivan-red opacity-5 dark:opacity-10 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-500 opacity-5 dark:opacity-[0.03] rounded-full blur-3xl"></div>
+                
+                <div class="relative z-10">
+                    <span class="inline-block px-3 py-1 bg-ivan-red/10 text-ivan-red text-xs font-bold rounded-lg mb-4 border border-ivan-red/20">النظام الداخلي</span>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">أهلاً بك في بوابة إيفان</h2>
+                    <p class="text-slate-500 dark:text-ivan-textMuted text-sm lg:text-base max-w-2xl leading-relaxed">
+                        هذه البوابة مخصصة لموظفي معرض إيفان، وتهدف إلى تنظيم سير العمل وتوحيد المعلومات بين جميع الأقسام، وتسهيل الوصول إلى المهام والتعليمات والخدمات الداخلية، بما يضمن بيئة عمل احترافية قائمة على التعاون والالتزام والتطوير المستمر.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white dark:bg-ivan-cardDark p-5 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-4 mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-500/10 text-blue-500 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-ivan-textMuted">من المسؤول اليوم</p>
+                    </div>
+                    <p class="text-xl font-bold text-slate-800 dark:text-white">الإدارة العامة</p>
+                </div>
+                
+                <div class="bg-white dark:bg-ivan-cardDark p-5 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-4 mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-green-50 dark:bg-green-500/10 text-green-500 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-check-circle"></i>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-ivan-textMuted">حالة النظام</p>
+                    </div>
+                    <p class="text-xl font-bold text-slate-800 dark:text-white">يعمل بنجاح</p>
+                </div>
+
+                <div class="bg-white dark:bg-ivan-cardDark p-5 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-4 mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-orange-50 dark:bg-orange-500/10 text-orange-500 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-bell"></i>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-ivan-textMuted">تنبيهات اليوم</p>
+                    </div>
+                    <p class="text-xl font-bold text-slate-800 dark:text-white">2 تعميم جديد</p>
+                </div>
+
+                <div class="bg-white dark:bg-ivan-cardDark p-5 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-md transition-shadow">
+                    <div class="flex items-center gap-4 mb-3">
+                        <div class="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-500/10 text-purple-500 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-clock-rotate-left"></i>
+                        </div>
+                        <p class="text-sm text-slate-500 dark:text-ivan-textMuted">آخر تحديث</p>
+                    </div>
+                    <p class="text-xl font-bold text-slate-800 dark:text-white">الآن</p>
+                </div>
+            </div>
+
+            <div id="departments" class="mb-8 pt-4">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-bold text-slate-800 dark:text-white flex items-center gap-2">
+                        <i class="fa-solid fa-layer-group text-ivan-red"></i>
+                        أقسام المعرض
+                    </h3>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                    
+                    <a href="#" class="group bg-white dark:bg-ivan-cardDark p-6 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-lg hover:border-ivan-red/30 transition-all-custom relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 text-8xl text-slate-50 dark:text-white/[0.02] group-hover:text-ivan-red/[0.05] transition-colors"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-white/5 flex items-center justify-center text-2xl text-slate-700 dark:text-slate-300 group-hover:bg-ivan-red group-hover:text-white transition-colors mb-4">
+                            <i class="fa-solid fa-tags"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white mb-2">قسم المبيعات</h4>
+                        <p class="text-xs text-slate-500 dark:text-ivan-textMuted leading-relaxed">إدارة عمليات البيع والتعامل المباشر مع الزبائن وتحقيق الأهداف البيعية.</p>
+                    </a>
+
+                    <a href="#" class="group bg-white dark:bg-ivan-cardDark p-6 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-lg hover:border-ivan-red/30 transition-all-custom relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 text-8xl text-slate-50 dark:text-white/[0.02] group-hover:text-ivan-red/[0.05] transition-colors"><i class="fa-solid fa-bullhorn"></i></div>
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-white/5 flex items-center justify-center text-2xl text-slate-700 dark:text-slate-300 group-hover:bg-ivan-red group-hover:text-white transition-colors mb-4">
+                            <i class="fa-solid fa-camera"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white mb-2">قسم التسويق</h4>
+                        <p class="text-xs text-slate-500 dark:text-ivan-textMuted leading-relaxed">الترويج للمنتجات وإدارة المحتوى والإعلانات وبناء صورة المعرض.</p>
+                    </a>
+
+                    <a href="#" class="group bg-white dark:bg-ivan-cardDark p-6 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-lg hover:border-ivan-red/30 transition-all-custom relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 text-8xl text-slate-50 dark:text-white/[0.02] group-hover:text-ivan-red/[0.05] transition-colors"><i class="fa-solid fa-hammer"></i></div>
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-white/5 flex items-center justify-center text-2xl text-slate-700 dark:text-slate-300 group-hover:bg-ivan-red group-hover:text-white transition-colors mb-4">
+                            <i class="fa-solid fa-screwdriver-wrench"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white mb-2">قسم النجارة</h4>
+                        <p class="text-xs text-slate-500 dark:text-ivan-textMuted leading-relaxed">تنفيذ وصيانة الأعمال الخشبية وضمان جودة المنتجات.</p>
+                    </a>
+
+                    <a href="#" class="group bg-white dark:bg-ivan-cardDark p-6 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-lg hover:border-ivan-red/30 transition-all-custom relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 text-8xl text-slate-50 dark:text-white/[0.02] group-hover:text-ivan-red/[0.05] transition-colors"><i class="fa-solid fa-truck"></i></div>
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-white/5 flex items-center justify-center text-2xl text-slate-700 dark:text-slate-300 group-hover:bg-ivan-red group-hover:text-white transition-colors mb-4">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white mb-2">قسم السائقين</h4>
+                        <p class="text-xs text-slate-500 dark:text-ivan-textMuted leading-relaxed">تنظيم عمليات النقل والتوصيل والالتزام بالمواعيد المحددة.</p>
+                    </a>
+
+                    <a href="#" class="group bg-white dark:bg-ivan-cardDark p-6 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-lg hover:border-ivan-red/30 transition-all-custom relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 text-8xl text-slate-50 dark:text-white/[0.02] group-hover:text-ivan-red/[0.05] transition-colors"><i class="fa-solid fa-box-open"></i></div>
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-white/5 flex items-center justify-center text-2xl text-slate-700 dark:text-slate-300 group-hover:bg-ivan-red group-hover:text-white transition-colors mb-4">
+                            <i class="fa-solid fa-boxes-stacked"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white mb-2">قسم المناولة</h4>
+                        <p class="text-xs text-slate-500 dark:text-ivan-textMuted leading-relaxed">تحميل وتنزيل ونقل البضائع داخل المعرض بطريقة منظمة وآمنة.</p>
+                    </a>
+
+                    <a href="#" class="group bg-white dark:bg-ivan-cardDark p-6 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-lg hover:border-ivan-red/30 transition-all-custom relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 text-8xl text-slate-50 dark:text-white/[0.02] group-hover:text-ivan-red/[0.05] transition-colors"><i class="fa-solid fa-clipboard-user"></i></div>
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-white/5 flex items-center justify-center text-2xl text-slate-700 dark:text-slate-300 group-hover:bg-ivan-red group-hover:text-white transition-colors mb-4">
+                            <i class="fa-solid fa-handshake-angle"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white mb-2">الخدمات العامة</h4>
+                        <p class="text-xs text-slate-500 dark:text-ivan-textMuted leading-relaxed">توفير الدعم اليومي للمعرض بما يشمل الضيافة والتنظيم الداخلي.</p>
+                    </a>
+
+                    <a href="#" class="group bg-white dark:bg-ivan-cardDark p-6 rounded-2xl border border-slate-100 dark:border-white/5 shadow-sm hover:shadow-lg hover:border-ivan-red/30 transition-all-custom relative overflow-hidden">
+                        <div class="absolute -right-4 -bottom-4 text-8xl text-slate-50 dark:text-white/[0.02] group-hover:text-ivan-red/[0.05] transition-colors"><i class="fa-solid fa-broom"></i></div>
+                        <div class="w-12 h-12 rounded-xl bg-slate-50 dark:bg-white/5 flex items-center justify-center text-2xl text-slate-700 dark:text-slate-300 group-hover:bg-ivan-red group-hover:text-white transition-colors mb-4">
+                            <i class="fa-solid fa-spray-can-sparkles"></i>
+                        </div>
+                        <h4 class="text-lg font-bold text-slate-800 dark:text-white mb-2">التنظيف والضيافة</h4>
+                        <p class="text-xs text-slate-500 dark:text-ivan-textMuted leading-relaxed">الحفاظ على نظافة المعرض وتهيئة بيئة مريحة للزبائن والموظفين.</p>
+                    </a>
+
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <a href="https://wa.me/9647514844125" target="_blank" class="fixed bottom-6 left-6 z-40 bg-[#25D366] text-white p-3.5 rounded-2xl shadow-lg shadow-green-500/30 hover:scale-105 hover:-translate-y-1 transition-all duration-300 flex items-center gap-3 backdrop-blur-md bg-opacity-90 border border-white/20">
+        <i class="fa-brands fa-whatsapp text-2xl"></i>
+        <span class="font-bold tracking-wider hidden sm:block text-sm" dir="ltr">+964 751 484 4125</span>
+    </a>
+
+    <script>
+        // Toggle Sidebar for Mobile
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        // Theme Toggle Logic
+        function toggleTheme() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                html.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+
+        // Initialize Theme from LocalStorage or System Preference
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</body>
+</html>
