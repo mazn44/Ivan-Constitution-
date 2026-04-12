@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>سياسة معرض إيفان | Ivan Policy</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ivan: {
+                            red: '#D91A2A',
+                            darkBg: '#080A10',
+                            darkCard: '#12141D',
+                            darkBorder: '#1F2332',
+                            lightBg: '#F8FAFC',
+                            lightCard: '#FFFFFF',
+                            lightBorder: '#E2E8F0',
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                        outfit: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@300;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            overflow-x: hidden;
+            width: 100%;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        .font-en { font-family: 'Outfit', sans-serif; }
+
+        /* Theme Styles */
+        body.dark { background-color: #080A10; color: #F8FAFC; }
+        body:not(.dark) { background-color: #F8FAFC; color: #0F172A; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: #1F2332; }
+        ::-webkit-scrollbar-thumb:hover { background: #D91A2A; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* Premium Cards */
+        .premium-card {
+            border-radius: 24px;
+            transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border-width: 1px;
+        }
+        .dark .premium-card {
+            background-color: #12141D;
+            border-color: #1F2332;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.6);
+        }
+        body:not(.dark) .premium-card {
+            background-color: #FFFFFF;
+            border-color: #E2E8F0;
+            box-shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+        }
+        
+        .dark .inner-card { background-color: #0B0D14; border-color: #1F2332; }
+        body:not(.dark) .inner-card { background-color: #F8FAFC; border-color: #E2E8F0; }
+
+        /* Lists Formatting */
+        .policy-list li {
+            position: relative;
+            padding-right: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .policy-list li::before {
+            content: '■';
+            position: absolute;
+            right: 0;
+            top: 6px;
+            color: #D91A2A;
+            font-size: 0.7rem;
+        }
+
+        /* Editable Fields */
+        [contenteditable="true"] {
+            outline: none;
+            background: rgba(217, 26, 42, 0.05);
+            padding: 2px 6px;
+            border-radius: 6px;
+            transition: all 0.3s;
+            border-bottom: 1px dashed transparent;
+        }
+        [contenteditable="true"]:focus {
+            background: rgba(217, 26, 42, 0.15);
+            border-bottom: 2px dashed #D91A2A;
+        }
+        .edit-active [contenteditable="true"] {
+            border-bottom: 2px dashed #D91A2A;
+        }
+    </style>
+</head>
+<body class="relative">
+
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity" onclick="toggleSidebar()"></div>
+
+    <aside id="sidebar" class="fixed top-0 right-0 h-screen w-72 lg:w-80 z-50 bg-white dark:bg-ivan-darkCard border-l border-gray-200 dark:border-ivan-darkBorder transform translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col shadow-2xl lg:shadow-none">
+        
+        <div class="h-24 lg:h-28 flex items-center px-6 lg:px-8 border-b border-gray-200 dark:border-ivan-darkBorder relative">
+            <div id="sidebarSecretTrigger" class="flex items-center gap-4 cursor-pointer select-none w-full" title="المنطقة الإدارية">
+                <div class="w-12 h-12 lg:w-14 lg:h-14 rounded-2xl bg-gradient-to-br from-ivan-red to-red-900 flex items-center justify-center shadow-lg shadow-ivan-red/30">
+                    <span class="font-en text-2xl lg:text-3xl font-black italic text-white">i</span>
+                </div>
+                <div class="flex flex-col">
+                    <h1 class="font-en text-2xl lg:text-3xl tracking-[0.15em] uppercase font-black text-gray-900 dark:text-white leading-none">
+                        IVAN
+                    </h1>
+                    <span class="text-[10px] lg:text-[11px] text-gray-500 dark:text-ivan-textDarkSub tracking-[0.2em] uppercase mt-1 font-bold">Portal System</span>
+                </div>
+            </div>
+
+            <button onclick="toggleSidebar()" class="absolute left-4 lg:hidden text-gray-500 dark:text-gray-400 hover:text-ivan-red dark:hover:text-ivan-red text-2xl">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+
+        <nav class="flex-1 overflow-y-auto no-scrollbar py-6 lg:py-8 px-4 lg:px-5 space-y-2">
+            <a href="index.html" class="flex items-center gap-4 px-5 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-ivan-red dark:hover:text-white font-bold transition-all">
+                <i class="fa-solid fa-house w-6 text-center text-xl"></i>
+                <span class="editable text-lg">الرئيسية</span>
+            </a>
+
+            <a href="#" class="flex items-center gap-4 px-5 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-ivan-red dark:hover:text-white font-bold transition-all">
+                <i class="fa-solid fa-layer-group w-6 text-center text-xl"></i>
+                <span class="editable text-lg">أقسام المعرض</span>
+            </a>
+
+            <a href="policy.html" class="flex items-center gap-4 px-5 py-4 rounded-2xl bg-red-50 dark:bg-red-900/20 text-ivan-red font-bold relative overflow-hidden">
+                <i class="fa-solid fa-scale-balanced w-6 text-center text-xl"></i>
+                <span class="editable text-lg">سياسة المعرض الشاملة</span>
+                <div class="absolute right-0 top-1/4 h-1/2 w-1 bg-ivan-red rounded-l-full shadow-[0_0_10px_rgba(217,26,42,0.8)]"></div>
+            </a>
+
+            <a href="#" class="flex items-center gap-4 px-5 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-ivan-red dark:hover:text-white font-bold transition-all">
+                <i class="fa-solid fa-envelope-open-text w-6 text-center text-xl"></i>
+                <span class="editable text-lg">الشكاوى والملاحظات</span>
+            </a>
+
+            <div class="w-full h-px bg-gray-200 dark:bg-ivan-darkBorder my-4"></div>
+
+            <a href="#" class="flex items-center gap-4 px-5 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-ivan-red dark:hover:text-white font-bold transition-all">
+                <i class="fa-solid fa-bell w-6 text-center text-xl"></i>
+                <span class="editable text-lg">الإعلانات والتنبيهات</span>
+            </a>
+
+            <a href="#" class="flex items-center gap-4 px-5 py-4 rounded-2xl text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5 hover:text-ivan-red dark:hover:text-white font-bold transition-all">
+                <i class="fa-solid fa-clock-rotate-left w-6 text-center text-xl"></i>
+                <span class="editable text-lg">الحضور والدوام</span>
+            </a>
+        </nav>
+    </aside>
+
+    <div class="flex flex-col min-h-screen w-full lg:w-[calc(100%-20rem)] lg:mr-auto transition-all duration-300">
+        
+        <header class="h-20 lg:h-24 sticky top-0 z-30 px-4 sm:px-8 flex items-center justify-between bg-white/80 dark:bg-[#080A10]/80 backdrop-blur-xl border-b border-gray-200 dark:border-ivan-darkBorder transition-colors duration-300">
+            <div class="flex items-center gap-4">
+                <button onclick="toggleSidebar()" class="lg:hidden w-12 h-12 rounded-xl bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-gray-900 dark:text-white shadow-sm text-xl hover:text-ivan-red transition-all">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+                
+                <div class="font-en text-xl lg:text-2xl font-black tracking-[0.2em] uppercase hidden sm:block text-gray-900 dark:text-white editable">
+                    IVAN <span class="text-ivan-red">SHOW</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4 lg:gap-6">
+                <div class="hidden md:flex items-center gap-3 px-5 py-2.5 rounded-full bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span class="text-xs font-bold text-gray-600 dark:text-gray-300 font-en tracking-widest uppercase mt-0.5 editable">System Online</span>
+                </div>
+                
+                <button onclick="toggleTheme()" class="w-12 h-12 rounded-xl bg-white dark:bg-ivan-darkCard border border-gray-200 dark:border-ivan-darkBorder flex items-center justify-center text-indigo-600 dark:text-amber-400 hover:scale-110 transition-transform shadow-sm text-xl cursor-pointer">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                </button>
+            </div>
+        </header>
+
+        <main class="flex-1 w-full max-w-6xl mx-auto p-5 sm:p-8 lg:p-12">
+            
+            <div class="mb-14 border-r-8 border-ivan-red pr-6 lg:pr-8 py-2">
+                <div class="inline-block px-5 py-2 bg-ivan-red/10 text-ivan-red border border-ivan-red/20 text-sm lg:text-base font-bold rounded-full mb-6 editable">
+                    السلام عليكم ورحمة الله وبركاته.
+                </div>
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-black mb-6 text-gray-900 dark:text-white tracking-tight editable leading-tight">
+                    دليل سياسات وأنظمة <br class="hidden sm:block"> <span class="text-ivan-red">معرض إيفان</span> للأثاث
+                </h1>
+                <p class="text-lg sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 font-bold editable max-w-3xl leading-relaxed">
+                    المسودة الشاملة والدستور الداخلي لتنظيم سير العمل، حقوق الموظفين، وأخلاقيات التعامل لجميع الأقسام.
+                </p>
+            </div>
+
+            <div class="premium-card p-6 lg:p-12 mb-12">
+                <div class="flex items-center gap-5 mb-10 border-b-2 border-gray-100 dark:border-ivan-darkBorder pb-6">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-ivan-red to-red-900 flex items-center justify-center text-white text-3xl shadow-lg shadow-ivan-red/30">
+                        <i class="fa-solid fa-building-user"></i>
+                    </div>
+                    <h2 class="text-3xl lg:text-4xl font-black text-gray-900 dark:text-white editable">الباب الأول / تعريف عن المعرض</h2>
+                </div>
+                
+                <div class="space-y-8 text-gray-700 dark:text-gray-300 leading-relaxed text-lg lg:text-xl">
+                    <p class="editable text-justify font-semibold">
+                        نحن في معرض ايفان عائلة كبيرة تضم حوالي 50 موظفاً وعاملاً يعملون بجهد وشغف دائم، موزعين بتنظيم عالٍ على 7 طوابق متكاملة. هدفنا الأول والأخير هو تقديم خدمة عملاء ممتازة تليق بضيوفنا. نحن لا نبيع الأثاث فحسب، بل نوفر كل ما يحتاجه المنزل تحت سقف واحد؛ من القطع الصغيرة إلى الأثاث الكبير، وسواء كان الزبون يبحث عن الأثاث الجديد الفاخر أو المستعمل بحالة ممتازة وجاهزية تامة، فإن فريقنا متواجد دائماً لخدمته بأفضل صورة.
+                    </p>
+                    
+                    <div class="inner-card p-8 rounded-3xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+                        <h3 class="text-2xl font-black text-ivan-red mb-4 editable">نبذة عنا ،</h3>
+                        <p class="editable text-justify font-semibold">
+                            تأسس معرض إيفان في عام 2017 ونفخر اليوم بكوننا مؤسسة متكاملة تضم 7 طوابق للعرض، ويدعمها 3 معامل إنتاجية تابعة لنا تعمل بأعلى معايير الجودة لتأمين أرقى الموديلات. كما نتوسع جغرافياً عبر قسمنا الخاص في مدينة زاخو لخدمة عملائنا بشكل أوسع. جميع موظفينا يعملون بجد لتوفير كل مستلزمات المنزل."
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                        <div class="inner-card p-8 rounded-3xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm border-t-4 border-t-indigo-500">
+                            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-4 editable"><i class="fa-solid fa-eye text-indigo-500 ml-2"></i> رؤيتنا وأهدافنا:</h3>
+                            <p class="editable font-semibold">نهدف إلى تقديم خدمات تضاهي الجودة العالمية، ونسعى لأن تكون بصمة "إيفان" موجودة في كل منزل من خلال توفير الراحة والأناقة.</p>
+                        </div>
+                        <div class="inner-card p-8 rounded-3xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm border-t-4 border-t-emerald-500">
+                            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-4 editable"><i class="fa-solid fa-gem text-emerald-500 ml-2"></i> قيمنا الأساسية:</h3>
+                            <p class="editable font-semibold">الوضوح والشفافية مع العملاء، فالهدف هو إرضاء وخدمة العميل وليس الاستفادة والربح المادي فقط. الأمانة، الجودة، والعمل بروح الفريق الواحد.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-card p-6 lg:p-12 mb-12">
+                <div class="flex items-center gap-5 mb-10 border-b-2 border-gray-100 dark:border-ivan-darkBorder pb-6">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-ivan-red to-red-900 flex items-center justify-center text-white text-3xl shadow-lg shadow-ivan-red/30">
+                        <i class="fa-solid fa-scale-balanced"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-3xl lg:text-4xl font-black text-gray-900 dark:text-white editable">الباب الثاني: السياسات العامة للمعرض</h2>
+                        <p class="text-lg text-gray-500 dark:text-gray-400 mt-2 font-bold editable">قواعد يجب على جميع الأقسام الالتزام بها:</p>
+                    </div>
+                </div>
+
+                <div class="space-y-10">
+                    <div>
+                        <h3 class="text-xl lg:text-2xl font-black text-ivan-red mb-4 editable">البند /1. سياسة إنهاء العمل والاستقالة (المهلة الانتقالية):</h3>
+                        <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder">
+                            <ul class="policy-list text-gray-700 dark:text-gray-300 text-base lg:text-lg font-semibold leading-relaxed space-y-4">
+                                <li class="editable"><strong>في حال الاستقالة:</strong> يُلزم الموظف أو العامل الذي يرغب بترك العمل بإبلاغ مديره المباشر والاستمرار في أداء مهامه لمدة أسبوع واحد كفترة انتقالية. الهدف من ذلك هو ضمان سير العمل وعدم إرباك القسم ريثما يتم توفير وتدريب موظف بديل.</li>
+                                <li class="editable"><strong>في حال إنهاء الخدمة:</strong> التزاماً من المعرض بالمسؤولية الأخلاقية والمهنية تجاه كادره، إذا قررت الإدارة الاستغناء عن خدمات أي موظف، يُمنح الموظف مهلة اسبوع واحد، كدعم له ليتمكن من ترتيب أموره وإيجاد فرصة عمل أخرى.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-xl font-black text-ivan-red mb-4 editable">البند /2. صندوق الضمان الوظيفي:</h3>
+                            <p class="text-gray-700 dark:text-gray-300 text-base lg:text-lg font-semibold leading-relaxed editable text-justify">
+                                يتم الاحتفاظ بمبلغ ضمان مالي قدره 100,000 دينار من كل موظف وعامل في المعرض. يبقى هذا المبلغ كأمانة محفوظة لدى الإدارة، والهدف منه هو ضمان الالتزام التام بقوانين المعرض، والحفاظ على الممتلكات وقطع الأثاث، وتطبيق معايير العمل. يُسترد هذا المبلغ للعامل عند انتهاء فترة عمله بشكل نظامي وحسب الأصول.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-black text-ivan-red mb-4 editable">البند /3. سياسة السلامة المهنية ونقل الأثاث:</h3>
+                            <p class="text-gray-700 dark:text-gray-300 text-base lg:text-lg font-semibold leading-relaxed editable text-justify">
+                                نظراً لحجم المعرض وتعدد طوابقه، يُمنع على أي عامل نقل قطع الأثاث الثقيلة بمفرده أو بطريقة عشوائية. يجب الاستعانة بزميل أو استخدام المعدات المخصصة للنقل والالتزام بتوجيهات مسؤول العمال، وذلك لتجنب الإصابات الجسدية أولاً، ولمنع حدوث أي خدش أو ضرر لقطع الأثاث أثناء النقل.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-px bg-gray-200 dark:bg-ivan-darkBorder"></div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <h3 class="text-xl font-black text-ivan-red mb-4 editable">البند /4. سياسة تنظيم فترات الراحة لتغطية الطوابق:</h3>
+                            <p class="text-gray-700 dark:text-gray-300 text-base lg:text-lg font-semibold leading-relaxed editable text-justify">
+                                لضمان عدم بقاء أي طابق من الطوابق السبعة فارغاً من الموظفين، تُنظم فترات الاستراحة وتناول الطعام بالتناوب بين عمال وموظفي القسم الواحد. يجب أن يتواجد دائماً عدد كافٍ من الموظفين في كل طابق لاستقبال الزبائن وتلبية طلباتهم فوراً.
+                            </p>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-black text-ivan-red mb-4 editable">البند /5. سياسة الأمانات والمفقودات:</h3>
+                            <p class="text-gray-700 dark:text-gray-300 text-base lg:text-lg font-semibold leading-relaxed editable text-justify">
+                                (1)<br> أي موظف يجد غرضاً شخصياً مفقوداً يعود لأحد الزبائن داخل المعرض (هاتف، محفظة، أو غيره)، يُلزم بتسليمه فوراً إلى الإدارة العامة لتوثيقه والاحتفاظ به في مكان آمن حتى يتم إعادته لصاحبه. هذه النقطة تعكس الأمانة العالية التي يتمتع بها كادر "معرض إيفان" وتبني ثقة عمياء مع الزبائن.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="w-full h-px bg-gray-200 dark:bg-ivan-darkBorder"></div>
+
+                    <div>
+                        <h3 class="text-xl font-black text-ivan-red mb-4 editable">البند 6 / سياسة الترجيع والتبديل:</h3>
+                        <p class="text-gray-700 dark:text-gray-300 text-base lg:text-lg font-semibold leading-relaxed editable text-justify">
+                            يُسمح بترجيع القطع وفقاً لآلية التقييم الفني المتبعة في المعرض. عند طلب الترجيع، يتم فحص القطعة من قبل مسؤول القسم المختص (في أي من طوابق المعرض السبعة)، وهو الطرف المخوّل حصراً بتقدير حالة القطعة. إذا كانت القطعة سليمة تماماً ولا يوجد بها أي ضرر، يتم الترجيع لضمان عدم خسارة الزبون. أما في حال وجود ضرر، فيتم تقدير قيمة هذا الضرر من قبل مسؤول القسم ويُخصم من القيمة المستردة حسب حالة المنتج.
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder">
+                            <h3 class="text-xl font-black text-ivan-red mb-4 editable">البند 7 / المظهر واللباس:</h3>
+                            <p class="text-gray-700 dark:text-gray-300 text-base font-semibold leading-relaxed editable text-justify">
+                                يجب على الموظف أن يداوم بملابس مرتبة وأنيقة ونظيفة (بنطال، قميص، وحذاء) أو الباس الموحد للمعرض. يُمنع منعاً باتاً ارتداء الملابس غير الرسمية كملابس النوم، الشورت او ارتداء نعال بدل الحذاء، أو ما شابه ذلك للحفاظ على الواجهة الاحترافية للمعرض.
+                            </p>
+                        </div>
+                        <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder">
+                            <h3 class="text-xl font-black text-ivan-red mb-4 editable">البند 8 / التعامل مع العملاء:</h3>
+                            <p class="text-gray-700 dark:text-gray-300 text-base font-semibold leading-relaxed editable text-justify">
+                                الزبون هو محور عملنا. يُمنع منعاً باتاً توجيه أي إهانة أو إساءة لأي عميل تحت أي ظرف. ومن أي قسم كان في المعرض. في حال حدوث سوء تفاهم أو مشكلة، يجب على الموظف عدم الرد وتحويل العميل فوراً إلى المدير المباشر أو الإدارة العامة.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl lg:text-2xl font-black text-ivan-red mb-4 editable">البند 9 / فلسفة إرضاء العميل وفن المبيعات:</h3>
+                        <div class="inner-card p-8 rounded-3xl border border-gray-200 dark:border-ivan-darkBorder">
+                            <ul class="policy-list text-gray-700 dark:text-gray-300 text-base lg:text-lg font-semibold leading-relaxed space-y-5">
+                                <li class="editable"><strong>العميل دائماً على حق:</strong> نؤمن في معرض إيفان بأن رضا العميل هو أولويتنا القصوى وقاعدة نجاحنا الأساسية. يجب التعامل مع ملاحظات وشكاوى الزبائن بصدر رحب ولباقة تامة، مع السعي دائماً لتقديم الحلول التي ترضيهم وتكسب ثقتهم الدائمة بنا.</li>
+                                <li class="editable"><strong>تحقيق الرضا التام:</strong> الموظف المحترف هو من يبحث عن "الابتسامة" على وجه الزبون. يجب تطويع كافة إمكانيات المعرض (من طوابقنا السبعة وتنوع بضاعتنا بين الجديد والمستعمل) لإيجاد ما يطلبه الزبون تماماً.</li>
+                                <li class="editable"><strong>فن "الفرصة الأخيرة":</strong> يُمنع ترك الزبون يغادر المعرض دون محاولة جادة وصادقة لتلبية احتياجه. إذا لم يجد الزبون ما يبحث عنه في قسمك، فواجبك هو:
+                                    <ul class="pl-6 mt-3 space-y-2 list-disc text-gray-600 dark:text-gray-400 marker:text-ivan-red">
+                                        <li>عرض البدائل المتاحة في الأقسام الأخرى أو الطوابق السبعة.</li>
+                                        <li>استشارة مدير القسم فوراً لتقديم عرض خاص أو حل بديل (مثل توفير القطعة من المخازن أو تعديل السعر بما يناسب ميزانية الزبون).</li>
+                                    </ul>
+                                </li>
+                                <li class="editable text-emerald-600 dark:text-emerald-400 font-black pt-2">الهدف هو ألا يخرج الزبون إلا وقد وجد ضالته لدينا، أو على الأقل خرج بانطباع ممتاز يجعله يعود إلينا مرة أخرى. + كتابة طلبات العملاء غير الموجودة بالمعرض.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-xl lg:text-2xl font-black text-ivan-red mb-4 editable">البند 10 / التنسيق الصناعي واللوجستي:</h3>
+                        <ul class="policy-list text-gray-700 dark:text-gray-300 text-base lg:text-lg font-semibold leading-relaxed space-y-4">
+                            <li class="editable"><strong>المعامل الثلاثة:</strong> تُعتبر معاملنا هي الشريان المغذي للمعرض. أي طلبات تصنيع خاصة أو صيانة كبرى يتم التنسيق فيها عبر (مدير العمليات) وبالتعاون مع قسم النجارين لضمان جودة المنتج النهائي.</li>
+                            <li class="editable"><strong>قسم زاخو:</strong> يتم التنسيق مع قسمنا في زاخو لضمان انسيابية حركة البضائع وتلبية طلبات الزبائن هناك، مع الالتزام بنفس سياسات "معرض إيفان" الموحدة في التعامل والجودة والأسعار.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-card p-6 lg:p-12 mb-12">
+                <div class="flex items-center gap-5 mb-10 border-b-2 border-gray-100 dark:border-ivan-darkBorder pb-6">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-ivan-red to-red-900 flex items-center justify-center text-white text-3xl shadow-lg shadow-ivan-red/30">
+                        <i class="fa-solid fa-users-gear"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 dark:text-gray-400 font-bold mb-1">(2)</p>
+                        <h2 class="text-3xl lg:text-4xl font-black text-gray-900 dark:text-white editable">القسم الاول : طبيعة عمل كل فئة من الموظفين في المعرض</h2>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="inner-card p-6 rounded-3xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+                        <h3 class="text-xl font-black text-gray-900 dark:text-white mb-4 flex items-center gap-3 editable"><i class="fa-solid fa-hammer text-ivan-red text-2xl"></i> 1. قسم النجارين</h3>
+                        <ul class="policy-list text-gray-600 dark:text-gray-400 text-base font-semibold leading-relaxed space-y-3">
+                            <li class="editable"><strong>المهمة الرئيسية:</strong> فك وتركيب وشد الأخشاب والأثاث بمهارة عالية داخل صالات المعرض وخارجها (في منازل الزبائن).</li>
+                            <li class="editable"><strong>المهام الإضافية:</strong> تصعيد وتنزيل البضائع داخل وخارج المعرض عند الحاجة.</li>
+                            <li class="editable"><strong>بروتوكول الإنجاز:</strong> يلتزم النجار بالاتصال بالإدارة فور انتهائه من أي عمل خارجي للتأكد من إتمام المهمة على أكمل وجه.</li>
+                        </ul>
+                    </div>
+                    <div class="inner-card p-6 rounded-3xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+                        <h3 class="text-xl font-black text-gray-900 dark:text-white mb-4 flex items-center gap-3 editable"><i class="fa-solid fa-people-carry-box text-ivan-red text-2xl"></i> 2. قسم العمال</h3>
+                        <ul class="policy-list text-gray-600 dark:text-gray-400 text-base font-semibold leading-relaxed space-y-3">
+                            <li class="editable">المساعدة في تحميل وتنزيل ونقل البضائع والمواد داخل المعرض أو المخزن.</li>
+                            <li class="editable">معاونة النجارين والفنيين في المهام اليومية المطلوبة.</li>
+                            <li class="editable">ترتيب المنتجات في مساحات العرض حسب توجيهات الإدارة.</li>
+                        </ul>
+                    </div>
+                    <div class="inner-card p-6 rounded-3xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+                        <h3 class="text-xl font-black text-gray-900 dark:text-white mb-4 flex items-center gap-3 editable"><i class="fa-solid fa-truck-fast text-ivan-red text-2xl"></i> 3. قسم السائقين</h3>
+                        <ul class="policy-list text-gray-600 dark:text-gray-400 text-base font-semibold leading-relaxed space-y-3">
+                            <li class="editable">توصيل المنتجات والبضائع للزبائن بأمان وفي المواعيد المحددة.</li>
+                            <li class="editable">استلام وتسليم الفواتير والتأكد من رضى الزبائن عند الاستلام البضاعة.</li>
+                            <li class="editable">الفحص الدوري للسيارة (الزيت، الإطارات، النظافة) وإبلاغ الإدارة بأي أعطال فوراً.</li>
+                            <li class="editable">الالتزام التام بقواعد المرور والسرعات المقررة للحفاظ على سلامة البضائع.</li>
+                        </ul>
+                    </div>
+                    <div class="inner-card p-6 rounded-3xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+                        <h3 class="text-xl font-black text-gray-900 dark:text-white mb-4 flex items-center gap-3 editable"><i class="fa-solid fa-broom text-ivan-red text-2xl"></i> 4. قسم التنظيفات</h3>
+                        <ul class="policy-list text-gray-600 dark:text-gray-400 text-base font-semibold leading-relaxed space-y-3">
+                            <li class="editable">التنظيف اليومي المستمر لصالة العرض، المكاتب، والمرافق الصحية.</li>
+                            <li class="editable">تلميع الأثاث المعروض والمرايا والزجاج بشكل دوري لإظهاره بأفضل صورة للزبائن.</li>
+                            <li class="editable">متابعة وجرد مواد التنظيف وإبلاغ الإدارة بالنواقص قبل نفادها.</li>
+                        </ul>
+                    </div>
+                    <div class="inner-card p-6 rounded-3xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+                        <h3 class="text-xl font-black text-gray-900 dark:text-white mb-4 flex items-center gap-3 editable"><i class="fa-solid fa-boxes-stacked text-ivan-red text-2xl"></i> 5. قسم المخازن</h3>
+                        <ul class="policy-list text-gray-600 dark:text-gray-400 text-base font-semibold leading-relaxed space-y-3">
+                            <li class="editable">استلام البضائع والمواد وتوثيقها في سجلات المخزن بدقة.</li>
+                            <li class="editable">ترتيب وتصنيف البضائع بطريقة آمنة تمنع تلفها وتسهل الوصول إليها.</li>
+                            <li class="editable">تجهيز الطلبيات اليومية الصادرة للمعرض أو للزبائن ومطابقتها مع الفواتير.</li>
+                            <li class="editable">إجراء جرد دوري لمحتويات المخزن ورفع التقارير للإدارة.</li>
+                        </ul>
+                    </div>
+                    <div class="inner-card p-6 rounded-3xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+                        <h3 class="text-xl font-black text-gray-900 dark:text-white mb-4 flex items-center gap-3 editable"><i class="fa-solid fa-globe text-ivan-red text-2xl"></i> 6. قسم الإنترنت <span class="text-sm font-normal text-gray-500">(خدمة العملاء والسوشيال ميديا)</span></h3>
+                        <ul class="policy-list text-gray-600 dark:text-gray-400 text-base font-semibold leading-relaxed space-y-3">
+                            <li class="editable">الرد على استفسارات ورسائل الزبائن على كافة منصات التواصل الاجتماعي الخاصة بالمعرض بسرعة ولباقة.</li>
+                            <li class="editable">رفع ونشر صور المنتجات الجديدة والعروض وتحديث بياناتها على الصفحات.</li>
+                            <li class="editable">متابعة طلبات الشراء الواردة عبر الإنترنت وتحويلها لقسم المبيعات أو التوصيل.</li>
+                            <li class="editable font-black text-indigo-500 pt-2">قسم خدمة العملاء يردون علا كل رسائل التواصل الاجتماعي والمكالمات.</li>
+                            <li class="editable font-black text-indigo-500">قسم التصميم والتسويق يصممون كل شيء الصفحات بشكل يومي.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mt-8 p-6 bg-red-50 dark:bg-red-900/20 rounded-2xl border border-red-200 dark:border-red-900/50 text-center">
+                    <p class="text-xl font-black text-ivan-red editable">يلتزم الموظف بتنفيذ أي مهام إضافية تُطلب منه عند الحاجة دون اعتراض.</p>
+                </div>
+            </div>
+
+            <div class="premium-card p-6 lg:p-12 mb-12">
+                <div class="flex items-center gap-5 mb-10 border-b-2 border-gray-100 dark:border-ivan-darkBorder pb-6">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-ivan-red to-red-900 flex items-center justify-center text-white text-3xl shadow-lg shadow-ivan-red/30">
+                        <i class="fa-solid fa-file-contract"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 dark:text-gray-400 font-bold mb-1">(3)</p>
+                        <h2 class="text-3xl lg:text-4xl font-black text-gray-900 dark:text-white editable">شؤون الموظفين والدوام</h2>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-black text-ivan-red mb-4 border-b border-gray-200 dark:border-ivan-darkBorder pb-3 editable">القسم الثاني : الراتب، التجربة، والضمان</h3>
+                        <ul class="text-gray-700 dark:text-gray-300 text-lg font-semibold leading-relaxed space-y-4">
+                            <li class="editable"><span class="font-black text-gray-900 dark:text-white">الفترة التجريبية:</span> يعتبر الأسبوع الأول من العمل فترة تجريبية للطرفين (المعرض والنجار) لتقييم المهارة والانسجام، قبل توقيع العقد الرسمي.</li>
+                            <li class="editable"><span class="font-black text-gray-900 dark:text-white">تحديد الراتب:</span> يتم الاتفاق على الراتب بعد أسبوع التجربة، ويلتزم المعرض بدفع الرواتب والإضافي في رأس كل شهر ميلادي.</li>
+                            <li class="editable"><span class="font-black text-gray-900 dark:text-white">صندوق الأمانات (التأمينات):</span> يتم استقطاع مبلغ 100,000 دينار عراقي لمرة واحدة فقط كـ "تأمينات"، تبقى أمانة لدى المعرض لضمان الالتزام بالقوانين، وتُرد للموظف كاملة عند إنهاء العقد بشكل نظامي.</li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-black text-ivan-red mb-4 border-b border-gray-200 dark:border-ivan-darkBorder pb-3 editable">القسم الثالث : أوقات الدوام والعطلات الرسمية</h3>
+                        <ul class="text-gray-700 dark:text-gray-300 text-lg font-semibold leading-relaxed space-y-4">
+                            <li class="editable"><span class="font-black text-gray-900 dark:text-white">الدوام الاعتيادي:</span> من الساعة 10:00 صباحاً وحتى 09:30 مساءً.</li>
+                            <li class="editable"><span class="font-black text-gray-900 dark:text-white">دوام شهر رمضان المبارك:</span> يتم تقسيم العمل إلى فترتين:
+                                <ul class="list-disc pl-6 mt-2 space-y-1 text-gray-600 dark:text-gray-400">
+                                    <li>الفترة الأولى: من 12:00 ظهراً إلى ما قبل أذان المغرب بـ 40 دقيقة.</li>
+                                    <li>الفترة الثانية: من بعد صلاة التراويح وحتى الساعة 01:00 صباحاً.</li>
+                                </ul>
+                            </li>
+                            <li class="editable"><span class="font-black text-gray-900 dark:text-white">العطلات:</span>
+                                <ul class="list-disc pl-6 mt-2 space-y-1 text-gray-600 dark:text-gray-400">
+                                    <li>الجمعة: عطلة أسبوعية ثابتة، ما عدا الجمعة التي تسبق عيد الفطر والجمعة التي تسبق عيد الأضحى (دوام كامل).</li>
+                                    <li>عيد الفطر: عطلة لمدة 3 أيام ونصف تبدأ من ليلة العيد.</li>
+                                    <li>عيد الأضحى: عطلة لمدة 4 أيام.</li>
+                                    <li>عيد نوروز: عطلة لمدة يوم واحد.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-black text-ivan-red mb-4 border-b border-gray-200 dark:border-ivan-darkBorder pb-3 editable">القسم الرابع : الحقوق والالتزامات (أخلاقيات العمل)</h3>
+                        <ul class="text-gray-700 dark:text-gray-300 text-lg font-semibold leading-relaxed space-y-4">
+                            <li class="editable"><span class="font-black text-gray-900 dark:text-white">التزامات الموظف:</span> العمل بحرفية، تنفيذ الأوامر الإدارية دون تذمر أو كسل، احترام الزملاء، والالتزام المطلق بـ "قاعدة إرضاء الزبون".</li>
+                            <li class="editable"><span class="font-black text-gray-900 dark:text-white">السرية والمصداقية:</span> يلتزم الموظف بعدم الاستهزاء بالمعرض أو "غيبته" سواء في المجالس الخاصة أو بين الزملاء.</li>
+                            <li class="editable"><span class="font-black text-gray-900 dark:text-white">التزامات المعرض:</span> احترام الموظف واعتباره أخاً، منع أي إهانة أو استهزاء به، والتحقق من أي واقعة وسماع أقوال الموظف قبل اتخاذ أي حكم أو إجراء بحقه.</li>
+                        </ul>
+                    </div>
+
+                    <div class="space-y-4">
+                        <h3 class="text-2xl font-black text-ivan-red mb-4 border-b border-gray-200 dark:border-ivan-darkBorder pb-3 editable">القسم الخامس : الإضافي، التأخير، والتعويضات</h3>
+                        <ul class="text-gray-700 dark:text-gray-300 text-lg font-semibold leading-relaxed space-y-4">
+                            <li class="editable"><span class="font-black text-gray-900 dark:text-white">ساعات الإضافي:</span> يدفع المعرض 5,000 دينار عن كل ساعة عمل إضافية بعد الدوام الرسمي.</li>
+                            <li class="editable"><span class="font-black text-gray-900 dark:text-white">التأخير:</span> يُخصم مبلغ 2,000 دينار عن كل ساعة تأخير (سواء كان التأخير مبرراً أو غير مبرر) لضمان انضباط العمل.</li>
+                            <li class="editable"><span class="font-black text-gray-900 dark:text-white">التلفيات:</span> يُخصم من النجار قيمة ما تسبب به من تلف أو كسر في البضاعة، ويُقدر الخصم بقيمة الضرر الفعلي الذي لحق بالمعرض.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="w-full h-px bg-gray-200 dark:bg-ivan-darkBorder my-12"></div>
+
+                <div>
+                    <p class="text-gray-500 dark:text-gray-400 font-bold mb-1">(4)</p>
+                    <h3 class="text-3xl font-black text-gray-900 dark:text-white mb-8 editable">القسم السادس : إنهاء وفسخ العقد وحوادث العمل</h3>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                        <div class="bg-red-50 dark:bg-red-900/10 p-8 rounded-3xl border border-red-200 dark:border-red-900/30 shadow-sm">
+                            <h4 class="font-black text-ivan-red mb-5 text-2xl editable">إنهاء وفسخ العقد</h4>
+                            <ul class="policy-list text-gray-700 dark:text-gray-300 text-lg font-semibold leading-relaxed space-y-4">
+                                <li class="editable"><strong>الإنهاء الودي:</strong> يتم بالتراضي بشرط إخطار الطرف الآخر قبل 7 أيام. وفي حال عدم الالتزام بهذه المدة، يدفع الطرف المخل غرامة تعادل أجر الأيام المتبقية من الأسبوع (عن كل يوم نقص).</li>
+                                <li class="editable"><strong>فسخ العقد الفوري (من طرف المعرض):</strong> يحق للمعرض طرد الموظف في نفس الدقيقة في حال: الكفر بالله عز وجل أو سبه (خط أحمر). أو التعدي بالضرب بالأيدي داخل العمل.</li>
+                                <li class="editable"><strong>فسخ العقد الفوري (من طرف النجار):</strong> يحق للنجار ترك العمل فوراً في حال تأخر المعرض عن دفع مستحقاته المالية بعد يوم 5 من الشهر الجديد.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-amber-50 dark:bg-amber-900/10 p-8 rounded-3xl border border-amber-200 dark:border-amber-900/30 shadow-sm">
+                            <h4 class="font-black text-amber-600 dark:text-amber-500 mb-5 text-2xl editable">ملاحظات مهمة في حال حدوث حوادث او إصابات عمل (لا قدر الله)</h4>
+                            <ul class="policy-list text-gray-700 dark:text-gray-300 text-lg font-semibold leading-relaxed space-y-4">
+                                <li class="editable"><strong>حوادث السير (للسائقين):</strong> في حال الحادث الناتج عن إهمال السائق أو مخالفته لقواعد المرور، يتحمل السائق تكاليف التصليح. أما الحوادث الخارجة عن الإرادة (قضاء وقدر)، فيتحملها المعرض بالكامل لضمان استمرار العمل.</li>
+                                <li class="editable"><strong>إصابات العمل:</strong> أي إصابة ناتجة عن إهمال الموظف (مثل حمل أوزان ثقيلة منفرداً أو مخالفة تعليمات السلامة) يمنح الموظف إجازة مرضية غير مدفوعة الراتب. الحالات البليغة جداً تُرفع الى(مدير العمليات) لتقدير المساعدة إنسانياً.</li>
+                                <li class="editable"><strong>المسؤولية الشخصية:</strong> يُمنع العمل أثناء الإجهاد البدني الشديد أو تحت تأثير أدوية بسبب للتعب او نعاس. وأي إصابة ناتجة عن ذلك تُخلي مسؤولية المعرض تماماً من أي تعويض مادي.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-card p-6 lg:p-12 mb-12 border-t-8 border-t-ivan-red">
+                <div class="flex items-center gap-5 mb-10 border-b-2 border-gray-100 dark:border-ivan-darkBorder pb-6">
+                    <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-ivan-red to-red-900 flex items-center justify-center text-white text-3xl shadow-lg shadow-ivan-red/30">
+                        <i class="fa-solid fa-sitemap"></i>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 dark:text-gray-400 font-bold mb-1">(5)</p>
+                        <h2 class="text-3xl lg:text-4xl font-black text-gray-900 dark:text-white editable">الباب الثالث: الهيكل التنظيمي ومهام الأقسام</h2>
+                        <p class="text-lg text-gray-600 dark:text-gray-400 mt-2 font-bold editable">دليل الهيكل التنظيمي والسياسات الإدارية - معرض إيفان</p>
+                    </div>
+                </div>
+
+                <div class="space-y-12">
+                    
+                    <div>
+                        <h3 class="text-2xl font-black text-ivan-red mb-6 editable">أولاً: الهرم الإداري (التسلسل القيادي)</h3>
+                        <p class="text-lg text-gray-700 dark:text-gray-300 font-semibold mb-6 editable">لضمان النظام، يتبع المعرض التسلسل الهرمي التالي من الأعلى إلى الأسفل:</p>
+                        
+                        <div class="inner-card p-8 rounded-3xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm flex flex-col space-y-6 lg:space-y-0 lg:flex-row items-center justify-between text-center">
+                            <div class="w-full lg:w-auto">
+                                <h4 class="text-xl font-black text-gray-900 dark:text-white editable">صاحب المعرض (المدير العام)</h4>
+                                <p class="text-gray-500 dark:text-gray-400 font-semibold mt-1 editable">يتكون من عدة شركاء</p>
+                            </div>
+                            <i class="fa-solid fa-arrow-down lg:-rotate-90 text-2xl text-ivan-red"></i>
+                            
+                            <div class="w-full lg:w-auto">
+                                <h4 class="text-xl font-black text-gray-900 dark:text-white editable">الإدارة العليا</h4>
+                                <p class="text-gray-500 dark:text-gray-400 font-semibold mt-1 editable">أصحاب المعرض ومدراء الأقسام</p>
+                            </div>
+                            <i class="fa-solid fa-arrow-down lg:-rotate-90 text-2xl text-ivan-red"></i>
+                            
+                            <div class="w-full lg:w-auto">
+                                <h4 class="text-xl font-black text-gray-900 dark:text-white editable">مدير العمليات</h4>
+                                <p class="text-gray-500 dark:text-gray-400 font-semibold mt-1 editable">المسؤول المباشر للتنفيذ وإدارة العمل</p>
+                            </div>
+                            <i class="fa-solid fa-arrow-down lg:-rotate-90 text-2xl text-ivan-red"></i>
+                            
+                            <div class="w-full lg:w-auto">
+                                <h4 class="text-xl font-black text-gray-900 dark:text-white editable">مدراء الأقسام</h4>
+                                <p class="text-gray-500 dark:text-gray-400 font-semibold mt-1 editable">المشتريات، المخازن، المبيعات، التسويق</p>
+                            </div>
+                            <i class="fa-solid fa-arrow-down lg:-rotate-90 text-2xl text-ivan-red"></i>
+                            
+                            <div class="w-full lg:w-auto">
+                                <h4 class="text-xl font-black text-gray-900 dark:text-white editable">الموظفون والعمال</h4>
+                                <p class="text-gray-500 dark:text-gray-400 font-semibold mt-1 editable">المنفذون لمهام الأقسام</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="text-2xl font-black text-ivan-red mb-6 editable">ثانياً: توزيع الأقسام والمسؤوليات (المرجعية)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+                                <h4 class="text-xl font-black text-gray-900 dark:text-white mb-4 editable">1. قسم التسويق، الإنترنت والتسويق</h4>
+                                <ul class="text-gray-700 dark:text-gray-400 text-base font-semibold space-y-2">
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">المسؤول المباشر:</strong> مازن داوود.</li>
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">المهام:</strong> الإشراف على صفحات التواصل، التسويق الإلكتروني، والرد عل زبائن والنشر.</li>
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">نظام الشكاوى:</strong> أي خلل في هذا القسم أو ملاحظة من العمال تُرفع مباشرة إلى (مازن داوود). في حال وجود شكوى على المدير نفسه، يتم التواصل مع الإدارة العامة.</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+                                <h4 class="text-xl font-black text-gray-900 dark:text-white mb-4 editable">2. قسم المبيعات والمندوبين</h4>
+                                <ul class="text-gray-700 dark:text-gray-400 text-base font-semibold space-y-2">
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">المسؤول المباشر:</strong> روان رياض.</li>
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">المهام:</strong> إدارة صالة العرض ال 6 طوابق + قسم ابو هيثم، توجيه المندوبين، وإتمام عمليات البيع.</li>
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">نظام الشكاوى:</strong> أي مشكلة تواجه موظف المبيعات أو المندوب يراجع فيها (روان رياض). في حال عدم الحل أو الشكوى على المسؤول، ترفع للإدارة العامة.</li>
+                                </ul>
+                            </div>
+
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+                                <h4 class="text-xl font-black text-gray-900 dark:text-white mb-4 editable">3. قسم التوصيل، سيارات الحمل والعمال التابعين لهم</h4>
+                                <ul class="text-gray-700 dark:text-gray-400 text-base font-semibold space-y-2">
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">المسؤول المباشر:</strong> عكيد عمر محمد.</li>
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">المهام:</strong> تنظيم حركة السيارات، ضمان وصول الأثاث للزبائن، وإدارة العمال المرافقين لعمليات النقل.</li>
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">الإدارة والغياب:</strong> أي موظف يحتاج إجازة، تأخير، أو لديه عذر للغياب في هذا القسم، يجب أن يخاطب (عكيد ابو عمر) حصراً.</li>
+                                </ul>
+                            </div>
+
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm">
+                                <h4 class="text-xl font-black text-gray-900 dark:text-white mb-4 editable">4. قسم المخازن والشراء بالجملة</h4>
+                                <p class="text-sm text-gray-500 mb-2 font-bold">(6)</p>
+                                <ul class="text-gray-700 dark:text-gray-400 text-base font-semibold space-y-2">
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">المسؤول المباشر:</strong> جوان محمد سميان الحسين.</li>
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">المهام:</strong> جرد المخازن، استلام بضائع الجملة، ومتابعة النواقص.</li>
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">نظام الشكاوى:</strong> أي ملاحظة تخص المخازن ترفع لـ (ديار ياسين). أي شكوى على ديار ترفع مباشرة إلى مدير العمليات.</li>
+                                </ul>
+                            </div>
+
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder shadow-sm md:col-span-2">
+                                <h4 class="text-xl font-black text-gray-900 dark:text-white mb-4 editable">5. قسم النجارين والصيانة والتنظيفات</h4>
+                                <ul class="text-gray-700 dark:text-gray-400 text-base font-semibold space-y-2">
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">المسؤول المباشر:</strong> جوتكار محمد فرهاد.</li>
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">المهام:</strong> صيانة البضاعة المستعملة الإشراف على جودة النجارة والتركيب وضمان نظافة المعرض والقطع المعروضة.</li>
+                                    <li class="editable"><strong class="text-gray-900 dark:text-white">المرجعية:</strong> جميع النجارين وعمال النظافة مرجعيتهم الأولى هو المسؤول المباشر.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-red-50 dark:bg-red-900/10 p-8 rounded-3xl border border-red-200 dark:border-red-900/30 shadow-sm">
+                        <h3 class="text-2xl font-black text-ivan-red mb-6 editable">القواعد الأساسية للعمل (لعدم نسيان أو تقصير الموظفين)</h3>
+                        <ul class="policy-list text-gray-700 dark:text-gray-300 text-lg font-semibold leading-relaxed space-y-4">
+                            <li class="editable"><strong>قاعدة "التسلسل الممنوع تجاوزه":</strong> يُمنع على أي عامل القفز فوق مديره المباشر والذهاب للمدير العام إلا في حالتين: (وجود شكوى رسمية على المدير المباشر، أو عدم استجابة المدير المباشر للمشكلة بعد 24 ساعة).</li>
+                            <li class="editable"><strong>سجل العيوب المصنعية:</strong> يلتزم كل مسؤول قسم او مخزن بابلاغ الشركة الموردة في حال وجود عيب في البضاعة المستلمة و ابلاغ الادارة بالحادثة.</li>
+                            <li class="editable"><strong>مبدأ نظافة المعرض:</strong> أي قطعة أثاث يتم لمسها من زبون أو تحريكها، يجب على عامل النظافة تنظيفها فوراً لتبقى دائماً كالجديدة.</li>
+                            <li class="editable"><strong>التزام الوقت:</strong> التأخير لثلاث مرات بدون عذر مسبق من (مدير العمليات) يعرض الموظف للمساءلة الإدارية.</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="text-3xl font-black text-gray-900 dark:text-white mb-8 editable border-b-2 border-gray-100 dark:border-ivan-darkBorder pb-4">مهام الأقسام</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder">
+                                <h4 class="text-xl font-black text-ivan-red mb-3 editable">قسم الإدارة العامة</h4>
+                                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 font-semibold space-y-1">
+                                    <li class="editable">الإشراف العام على سير العمل في المعرض وجميع الطوابق.</li>
+                                    <li class="editable">اتخاذ القرارات، حل المشكلات الإدارية والمالية.</li>
+                                    <li class="editable">متابعة أداء الموظفين وتقييمه.</li>
+                                </ul>
+                            </div>
+
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder">
+                                <h4 class="text-xl font-black text-ivan-red mb-3 editable">قسم المبيعات (البيع)</h4>
+                                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 font-semibold space-y-1">
+                                    <li class="editable">استقبال الزبائن بابتسامة ولباقة بمجرد دخولهم المعرض.</li>
+                                    <li class="editable">شرح مواصفات الأثاث وأنواعه ومساعدة العميل في اختيار الأنسب له.</li>
+                                    <li class="editable">إتمام عمليات البيع ومتابعة رضا العميل.</li>
+                                </ul>
+                            </div>
+
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder">
+                                <h4 class="text-xl font-black text-ivan-red mb-3 editable">قسم المشتريات</h4>
+                                <ul class="list-none text-gray-700 dark:text-gray-300 font-semibold space-y-2">
+                                    <li class="editable">1ـ دراسة السوق والحصول على البضاعة التي يطلبها الزبائن عبر قسم المبيعات.</li>
+                                    <li class="editable">2ـ متابعة نواقص المعرض من الأثاث والمواد.</li>
+                                    <li class="editable">3ـ التواصل مع الموردين والمصانع لاختيار أفضل الموديلات بأفضل الأسعار.</li>
+                                </ul>
+                            </div>
+
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder">
+                                <h4 class="text-xl font-black text-ivan-red mb-3 editable">قسم التسويق</h4>
+                                <ul class="list-none text-gray-700 dark:text-gray-300 font-semibold space-y-2">
+                                    <li class="editable">1ـ ابتكار أفكار للعروض والتخفيضات لجذب المزيد من الزبائن.</li>
+                                    <li class="editable">2ـ تصوير الأثاث بشكل احترافي وجذاب.</li>
+                                </ul>
+                            </div>
+
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder">
+                                <p class="text-sm text-gray-500 mb-2 font-bold">(7)</p>
+                                <h4 class="text-xl font-black text-ivan-red mb-3 editable">قسم الإنترنت والسوشيال ميديا</h4>
+                                <ul class="list-none text-gray-700 dark:text-gray-300 font-semibold space-y-2">
+                                    <li class="editable">1ـ إدارة صفحات المعرض والرد على رسائل واستفسارات العملاء بسرعة واحترافية.</li>
+                                    <li class="editable">2ـ معرفة طلبات الزبائن المتصلين عبر الاونلاين وتقديمها كتقرير الى قسم المشتريات.</li>
+                                </ul>
+                            </div>
+
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder">
+                                <h4 class="text-xl font-black text-ivan-red mb-3 editable">قسم المخازن</h4>
+                                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 font-semibold space-y-1">
+                                    <li class="editable">استلام البضائع الجديدة والتأكد من سلامتها.</li>
+                                    <li class="editable">ترتيب الأثاث داخل المخزن بطريقة آمنة تمنع تلفه أو خدشه.</li>
+                                    <li class="editable">تجهيز طلبيات الزبائن وتسليمها لقسم العمال والنجارين.</li>
+                                </ul>
+                            </div>
+
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder">
+                                <h4 class="text-xl font-black text-ivan-red mb-3 editable">قسم النجارين</h4>
+                                <ul class="list-none text-gray-700 dark:text-gray-300 font-semibold space-y-2">
+                                    <li class="editable">1ـ تجميع وتركيب الأثاث سواء داخل المعرض للعرض او خارجه.</li>
+                                    <li class="editable">2ـ إجراء عمليات الصيانة أو التعديلات المطلوبة بمهارة وحرفية عالية.</li>
+                                </ul>
+                            </div>
+
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder">
+                                <h4 class="text-xl font-black text-ivan-red mb-3 editable">قسم العمال</h4>
+                                <ul class="list-disc pl-6 text-gray-700 dark:text-gray-300 font-semibold space-y-1">
+                                    <li class="editable">تحميل وتنزيل الأثاث بحذر شديد للحفاظ عليه.</li>
+                                    <li class="editable">مساعدة النجارين وقسم المبيعات في نقل القطع بين الطوابق وتجهيزها.</li>
+                                </ul>
+                            </div>
+
+                            <div class="inner-card p-6 rounded-2xl border border-gray-200 dark:border-ivan-darkBorder">
+                                <h4 class="text-xl font-black text-ivan-red mb-3 editable">قسم التنظيفات</h4>
+                                <ul class="list-none text-gray-700 dark:text-gray-300 font-semibold space-y-2">
+                                    <li class="editable">1ـ الحفاظ على النظافة التامة والمستمرة لصالة العرض وجميع قطع الأثاث. في جميع الطوابق.</li>
+                                    <li class="editable">2ـ التأكد من خلو القطع المعروضة من الغبار لتعكس صورة مشرقة وجذابة للزبائن.</li>
+                                    <li class="editable">3ـ الحفاظ على عدة التنظيف ووضعها في المكان المخصص.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-card p-6 lg:p-12 mb-12 bg-gradient-to-l from-gray-50 to-white dark:from-[#0F111A] dark:to-ivan-darkCard">
+                <h3 class="text-3xl font-black text-gray-900 dark:text-white mb-8 editable">البند الرابع: إرشادات عامة</h3>
+                <ul class="policy-list text-gray-700 dark:text-gray-300 text-lg font-semibold leading-relaxed mb-10 space-y-4">
+                    <li class="editable"><strong>1ـ التعاون:</strong> نجاح قسم هو نجاح للمعرض بأكمله، يجب التعاون واحترام الزملاء في جميع الأقسام.</li>
+                    <li class="editable"><strong>2ـ الانضباط:</strong> الالتزام بمواعيد الحضور والانصراف المحددة من قبل الإدارة.</li>
+                    <li class="editable"><strong>3ـ بيئة العمل:</strong> الحفاظ على ممتلكات المعرض واستخدام الموارد بحكمة.</li>
+                </ul>
+
+                <div class="w-full h-px bg-gray-200 dark:bg-ivan-darkBorder my-8"></div>
+
+                <div class="text-center">
+                    <h3 class="text-2xl font-black text-ivan-red mb-6 editable">ملاحظة ومعلومات نهائية</h3>
+                    <p class="text-gray-800 dark:text-gray-200 text-lg font-bold mb-3 editable">يُسلم لكل موظف جديد نسخة عند توقيع العقد، أو بدون عقد.</p>
+                    <p class="text-gray-800 dark:text-gray-200 text-lg font-bold mb-8 editable">يُحتفظ بنسخة من سياسة المعرض في كل قسم.</p>
+                    
+                    <div class="inline-block p-6 bg-white dark:bg-[#12141D] border border-gray-200 dark:border-ivan-darkBorder rounded-3xl shadow-sm mb-6">
+                        <p class="text-xl font-black text-gray-900 dark:text-white mb-2 editable">المسودة الشاملة لسياسة معرض إيفان:</p>
+                        <p class="text-lg text-gray-600 dark:text-gray-400 font-bold editable">دليل سياسات وأنظمة معرض إيفان للأثاث</p>
+                    </div>
+
+                    <p class="text-gray-500 dark:text-gray-400 font-bold mb-4">(8)</p>
+                    <p class="text-4xl font-en italic text-gray-900 dark:text-white font-black mt-4 editable">شكرا لتعاونكم 🌷</p>
+                </div>
+            </div>
+
+            <footer class="mt-20 pt-12 border-t border-gray-200 dark:border-ivan-darkBorder text-center">
+                <p class="font-en text-[11px] text-gray-500 dark:text-gray-600 tracking-[0.3em] uppercase font-bold editable">
+                    © 2026 IVAN SHOWROOM. ALL RIGHTS RESERVED. DUHOK - ZARKA.
+                </p>
+            </footer>
+
+        </main>
+    </div>
+
+    <div id="passwordModal" class="fixed inset-0 bg-black/80 z-[150] hidden items-center justify-center opacity-0 transition-opacity duration-300 backdrop-blur-sm px-4">
+        <div id="passwordModalContent" class="bg-white dark:bg-ivan-darkCard border border-ivan-red/30 dark:border-ivan-red/50 rounded-3xl p-8 max-w-sm w-full transform scale-95 transition-transform duration-300 shadow-2xl text-center">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-ivan-red to-red-900 flex items-center justify-center shadow-lg shadow-ivan-red/30 mb-4">
+                <i class="fa-solid fa-shield-halved text-white text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-black text-gray-900 dark:text-white mb-2">التحكم الإداري</h3>
+            <p class="text-base text-gray-500 dark:text-gray-400 mb-6 font-bold">يرجى إدخال رمز المرور السري للتعديل</p>
+            
+            <input type="password" id="adminPasswordInput" placeholder="أدخل الرمز هنا..." class="w-full bg-gray-50 dark:bg-[#080A10] border border-gray-200 dark:border-ivan-darkBorder rounded-xl px-4 py-4 text-gray-900 dark:text-white focus:outline-none focus:border-ivan-red text-center text-xl tracking-widest mb-2" dir="ltr">
+            <p id="adminPasswordError" class="text-ivan-red text-base font-bold opacity-0 transition-opacity mb-5">الرمز غير صحيح!</p>
+            
+            <div class="flex gap-3">
+                <button onclick="closePasswordModal()" class="flex-1 px-4 py-4 bg-gray-200 dark:bg-[#080A10] hover:bg-gray-300 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-xl font-bold text-lg transition-all">إلغاء</button>
+                <button onclick="verifyAdminPassword()" class="flex-1 px-4 py-4 bg-ivan-red hover:bg-red-700 text-white rounded-xl font-bold text-lg transition-all shadow-lg shadow-ivan-red/30">تحقق</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="adminModal" class="fixed inset-0 bg-black/80 z-[100] hidden items-center justify-center opacity-0 transition-opacity duration-300 backdrop-blur-sm px-4">
+        <div id="adminModalContent" class="bg-white dark:bg-ivan-darkCard border border-ivan-red/30 dark:border-ivan-red/50 rounded-3xl p-6 lg:p-8 max-w-sm w-full transform scale-95 transition-transform duration-300 shadow-2xl">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="text-2xl font-black text-gray-900 dark:text-white flex items-center gap-3">
+                    <i class="fa-solid fa-lock-open text-ivan-red"></i> لوحة الإدارة
+                </h3>
+            </div>
+            <div class="space-y-4">
+                <button onclick="toggleEditMode()" class="w-full text-right px-6 py-5 bg-gray-50 dark:bg-[#080A10] hover:bg-ivan-red/10 border border-gray-200 dark:border-ivan-darkBorder hover:border-ivan-red text-gray-900 dark:text-white font-black text-lg rounded-2xl transition-all flex justify-between items-center">
+                    <span>تفعيل وضع تعديل النصوص</span>
+                    <i id="editIconStatus" class="fa-solid fa-pen text-ivan-red text-xl"></i>
+                </button>
+                <button onclick="closeAdminModal()" class="w-full text-center px-6 py-5 bg-ivan-red hover:bg-red-700 text-white font-black text-lg rounded-2xl transition-all mt-6 shadow-lg shadow-red-500/30">إغلاق اللوحة</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. الوضع المظلم (Dark Mode) ---
+        function toggleTheme() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            localStorage.setItem('ivanTheme', html.classList.contains('dark') ? 'dark' : 'light');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('ivanTheme') === 'light') {
+                document.documentElement.classList.remove('dark');
+            } else {
+                document.documentElement.classList.add('dark');
+            }
+        });
+
+        // --- 2. القائمة الجانبية (Sidebar) ---
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('translate-x-full');
+            document.getElementById('sidebarOverlay').classList.toggle('hidden');
+        }
+
+        // --- 3. الزناد السري للإدارة (7 ضغطات متتالية) ---
+        const sidebarSecretTrigger = document.getElementById('sidebarSecretTrigger');
+        let clickCount = 0;
+        let clickTimer;
+
+        ['click', 'touchstart'].forEach(evt => {
+            sidebarSecretTrigger.addEventListener(evt, function(e) {
+                if(evt === 'touchstart') e.preventDefault(); 
+                
+                clickCount++;
+                clearTimeout(clickTimer);
+                
+                clickTimer = setTimeout(() => {
+                    clickCount = 0;
+                }, 2000);
+
+                if (clickCount === 7) {
+                    openPasswordModal(); 
+                    clickCount = 0;
+                }
+            });
+        });
+
+        // --- 4. نافذة كلمة سر لوحة التحكم الإدارية ---
+        function openPasswordModal() {
+            const modal = document.getElementById('passwordModal');
+            const content = document.getElementById('passwordModalContent');
+            document.getElementById('adminPasswordInput').value = '';
+            document.getElementById('adminPasswordError').style.opacity = '0';
+            
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+                document.getElementById('adminPasswordInput').focus();
+            }, 10);
+        }
+
+        function closePasswordModal() {
+            const modal = document.getElementById('passwordModal');
+            const content = document.getElementById('passwordModalContent');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function verifyAdminPassword() {
+            const pass = document.getElementById('adminPasswordInput').value.trim().toLowerCase();
+            if (pass === 'admin123') { // كلمة سر لوحة التحكم للتعديل
+                closePasswordModal();
+                setTimeout(() => {
+                    openAdminModal();
+                }, 300);
+            } else {
+                const errorText = document.getElementById('adminPasswordError');
+                errorText.style.opacity = '1';
+                setTimeout(() => {
+                    errorText.style.opacity = '0';
+                }, 3000);
+            }
+        }
+
+        document.getElementById('adminPasswordInput').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') verifyAdminPassword();
+        });
+
+        // --- 5. لوحة التعديل المباشر ---
+        function openAdminModal() {
+            const modal = document.getElementById('adminModal');
+            const content = document.getElementById('adminModalContent');
+            modal.classList.remove('hidden');
+            modal.style.display = 'flex';
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                content.classList.remove('scale-95');
+            }, 10);
+        }
+
+        function closeAdminModal() {
+            const modal = document.getElementById('adminModal');
+            const content = document.getElementById('adminModalContent');
+            modal.classList.add('opacity-0');
+            content.classList.add('scale-95');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        let isEditMode = false;
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            const editableElements = document.querySelectorAll('.editable');
+            const editIcon = document.getElementById('editIconStatus');
+
+            if(isEditMode) {
+                document.body.classList.add('edit-active');
+                editableElements.forEach(el => el.contentEditable = true);
+                editIcon.classList.replace('fa-pen', 'fa-check');
+                editIcon.classList.replace('text-ivan-red', 'text-green-500');
+                alert("🔓 تم تفعيل وضع التعديل بنجاح. اضغط على أي نص لتغييره.");
+            } else {
+                document.body.classList.remove('edit-active');
+                editableElements.forEach(el => el.contentEditable = false);
+                editIcon.classList.replace('fa-check', 'fa-pen');
+                editIcon.classList.replace('text-green-500', 'text-ivan-red');
+                alert("🔒 تم حفظ وإيقاف التعديل.");
+            }
+            closeAdminModal();
+        }
+    </script>
+</body>
+</html>
