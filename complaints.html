@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>صندوق الملاحظات والشكاوى | إيفان</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ivan: { red: '#C8102E', darkBg: '#07090F', darkCard: '#0F1118', darkBorder: '#1A1E2E', lightBg: '#F5F7FA', lightCard: '#FFFFFF', lightBorder: '#E4E9F0' }
+                    },
+                    fontFamily: { cairo: ['Cairo', 'sans-serif'], outfit: ['Outfit', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Cairo', sans-serif; transition: 0.3s; overflow-x: hidden; }
+        .font-en { font-family: 'Outfit', sans-serif; }
+        body.dark { background-color: #07090F; color: #F0F4FF; }
+        body:not(.dark) { background-color: #F5F7FA; color: #0D1117; }
+        .content-card { background: #fff; border: 1px solid #E4E9F0; border-radius: 24px; padding: 30px; transition: 0.3s; box-shadow: 0 4px 20px rgba(0,0,0,0.02); }
+        .dark .content-card { background: #0F1118; border-color: #1A1E2E; box-shadow: none; }
+        .input-field { width: 100%; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 14px; margin-top: 8px; font-weight: 600; transition: 0.3s; outline: none; }
+        .input-field:focus { border-color: #C8102E; box-shadow: 0 0 0 3px rgba(200,16,46,0.1); }
+        .dark .input-field { background: #07090F; border-color: #1A1E2E; color: white; }
+        .radio-btn { display: none; }
+        .radio-label { display: flex; align-items: center; justify-content: center; padding: 12px; border: 1px solid #E2E8F0; border-radius: 12px; cursor: pointer; font-weight: 700; transition: 0.3s; background: white; color: #64748B; }
+        .dark .radio-label { background: #07090F; border-color: #1A1E2E; color: #94A3B8; }
+        .radio-btn:checked + .radio-label { background: rgba(200,16,46,0.1); border-color: #C8102E; color: #C8102E; }
+        .dark .radio-btn:checked + .radio-label { background: rgba(200,16,46,0.2); }
+    </style>
+</head>
+<body class="bg-ivan-lightBg dark:bg-ivan-darkBg text-gray-900 dark:text-white min-h-screen">
+
+    <header class="h-20 sticky top-0 z-50 px-6 flex items-center justify-between bg-ivan-lightBg/80 dark:bg-ivan-darkBg/80 backdrop-blur-xl border-b border-gray-100 dark:border-ivan-darkBorder">
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="w-10 h-10 rounded-xl bg-white dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center hover:text-ivan-red transition-all"><i class="fa-solid fa-arrow-right"></i></a>
+            <div class="font-en text-lg font-black tracking-widest uppercase">IVAN <span class="text-ivan-red">VOICE</span></div>
+        </div>
+        <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-white dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center text-indigo-500 dark:text-amber-400"><i class="fa-solid fa-moon dark:hidden"></i><i class="fa-solid fa-sun hidden dark:block"></i></button>
+    </header>
+
+    <main class="max-w-3xl mx-auto p-6 lg:p-10">
+        <div class="text-center mb-10">
+            <div class="w-20 h-20 mx-auto bg-gradient-to-br from-ivan-red to-red-900 rounded-full flex items-center justify-center text-white text-3xl shadow-lg shadow-ivan-red/30 mb-4"><i class="fa-solid fa-envelope-open-text"></i></div>
+            <h1 class="text-3xl font-black mb-2">صندوق <span class="text-ivan-red">الملاحظات والشكاوى</span></h1>
+            <p class="font-bold text-gray-500 dark:text-gray-400">صوتك مسموع... ملاحظاتك هي سر تطورنا.<br><span class="text-xs">دەنگێ تە دهێتە بیستن... تێبینیێن تە رازی پێشڤەچوونا مە نە.</span></p>
+        </div>
+
+        <div class="content-card">
+            <form id="complaintForm" onsubmit="sendToWhatsApp(event)">
+                
+                <div class="mb-6">
+                    <label class="block font-black mb-3">اختر نوع الرسالة:</label>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div>
+                            <input type="radio" name="type" id="type1" value="ملاحظة" class="radio-btn" checked>
+                            <label for="type1" class="radio-label"><i class="fa-solid fa-eye ml-2"></i> ملاحظة</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="type" id="type2" value="شكوى" class="radio-btn">
+                            <label for="type2" class="radio-label"><i class="fa-solid fa-triangle-exclamation ml-2"></i> شكوى</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="type" id="type3" value="اقتراح" class="radio-btn">
+                            <label for="type3" class="radio-label"><i class="fa-solid fa-lightbulb ml-2"></i> اقتراح</label>
+                        </div>
+                        <div>
+                            <input type="radio" name="type" id="type4" value="ثناء" class="radio-btn">
+                            <label for="type4" class="radio-label"><i class="fa-solid fa-heart ml-2"></i> ثناء</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label class="block font-black mb-1">اكتب رسالتك هنا <span class="text-red-500">*</span></label>
+                    <p class="text-xs font-bold text-gray-400 mb-2">صف المشكلة أو الفكرة باختصار ووضوح.</p>
+                    <textarea id="messageBody" rows="5" class="input-field resize-none" placeholder="اكتب كل شيء بصراحة، رسالتك ستصل للإدارة العليا مباشرة..." required></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <div>
+                        <label class="block font-black text-sm text-gray-600 dark:text-gray-400">الاسم (اختياري)</label>
+                        <input type="text" id="senderName" class="input-field" placeholder="اسمك أو اتركها فارغة">
+                    </div>
+                    <div>
+                        <label class="block font-black text-sm text-gray-600 dark:text-gray-400">القسم المعني</label>
+                        <select id="departmentName" class="input-field">
+                            <option value="غير محدد">اختر القسم...</option>
+                            <option value="المبيعات">المبيعات</option>
+                            <option value="التسويق والإعلام">التسويق والإعلام</option>
+                            <option value="خدمة العملاء">خدمة العملاء</option>
+                            <option value="النجارة والتركيب">النجارة والتركيب</option>
+                            <option value="المخازن والنقل">المخازن والنقل</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-900/30 rounded-xl p-4 mb-6">
+                    <p class="text-xs font-bold text-red-600 dark:text-red-400 text-center"><i class="fa-solid fa-lock"></i> يمنع استخدام هذه الاستمارة للإساءة الشخصية. الإدارة تتحقق من كل بلاغ بجدية وبسرية تامة.</p>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-l from-ivan-red to-red-900 text-white font-black py-4 rounded-xl text-lg hover:shadow-lg hover:shadow-ivan-red/40 hover:-translate-y-1 transition-all">
+                    إرسال الملاحظة مباشرة <i class="fa-brands fa-whatsapp mr-2"></i>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // إعداد الثيم
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('ivanTheme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('ivanTheme') === 'light') { document.documentElement.classList.remove('dark'); }
+
+        // إرسال للواتساب مباشرة لرقم مازن
+        function sendToWhatsApp(e) {
+            e.preventDefault();
+            const type = document.querySelector('input[name="type"]:checked').value;
+            const message = document.getElementById('messageBody').value;
+            const name = document.getElementById('senderName').value || 'فاعل خير (سري)';
+            const dept = document.getElementById('departmentName').value;
+
+            // تنسيق الرسالة للواتساب
+            const text = `*صندوق ملاحظات إيفان* 📩%0a%0a*النوع:* ${type}%0a*القسم:* ${dept}%0a*الاسم:* ${name}%0a%0a*الرسالة:*%0a${message}`;
+            
+            // رقم مازن
+            const phone = "9647502316274";
+            const url = `https://wa.me/${phone}?text=${text}`;
+            
+            window.open(url, '_blank');
+            
+            // مسح الحقل بعد الإرسال
+            document.getElementById('messageBody').value = '';
+            alert('تم تجهيز رسالتك! سيتم فتح الواتساب لإرسالها للإدارة مباشرة.');
+        }
+    </script>
+</body>
+</html>
