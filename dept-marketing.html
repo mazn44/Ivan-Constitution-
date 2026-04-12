@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>قسم التسويق والإعلام | Ivan Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        ivan: {
+                            red: "#C8102E",
+                            darkBg: "#07090F",
+                            darkCard: "#0F1118",
+                            darkBorder: "#1A1E2E",
+                            lightBg: "#F5F7FA",
+                            lightCard: "#FFFFFF",
+                            lightBorder: "#E4E9F0",
+                        }
+                    },
+                    fontFamily: {
+                        cairo: ["Cairo","sans-serif"],
+                        outfit: ["Outfit","sans-serif"],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: "Cairo", sans-serif; -webkit-tap-highlight-color: transparent; overflow-x: hidden; }
+        .font-en { font-family: "Outfit", sans-serif; }
+        body.dark { background-color: #07090F; color: #F0F4FF; }
+        body:not(.dark) { background-color: #F5F7FA; color: #0D1117; }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
+        .dark ::-webkit-scrollbar-thumb { background: #1A1E2E; }
+        ::-webkit-scrollbar-thumb:hover { background: #C8102E; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .nav-item {
+            display:flex; align-items:center; gap:12px; padding:10px 16px;
+            border-radius:14px; font-weight:600; font-size:13.5px;
+            color:#64748B; transition:all 0.2s; cursor:pointer;
+            text-decoration:none; border:none; background:transparent; width:100%;
+        }
+        .nav-item:hover { background:rgba(200,16,46,0.07); color:#C8102E; }
+        .dark .nav-item { color:#94A3B8; }
+        .dark .nav-item:hover { background:rgba(200,16,46,0.1); color:#FF6B7A; }
+        .nav-item.active { background:rgba(200,16,46,0.1); color:#C8102E; font-weight:700; }
+        .dark .nav-item.active { background:rgba(200,16,46,0.15); color:#FF6B7A; }
+        .nav-icon {
+            width:32px; height:32px; border-radius:9px; flex-shrink:0;
+            display:flex; align-items:center; justify-content:center;
+            font-size:13px; background:rgba(100,116,139,0.1); transition:all 0.2s;
+        }
+        .nav-item:hover .nav-icon, .nav-item.active .nav-icon {
+            background:rgba(200,16,46,0.15); color:#C8102E;
+        }
+        .dark .nav-item:hover .nav-icon, .dark .nav-item.active .nav-icon {
+            background:rgba(200,16,46,0.2); color:#FF6B7A;
+        }
+        .dept-item {
+            display:flex; align-items:flex-start; gap:10px; padding:9px 14px;
+            border-radius:12px; font-size:12.5px; font-weight:600;
+            color:#64748B; transition:all 0.18s; cursor:pointer;
+            text-decoration:none; border:none; background:transparent; width:100%;
+        }
+        .dept-item:hover { background:rgba(200,16,46,0.06); color:#C8102E; }
+        .dark .dept-item { color:#7A8BA0; }
+        .dark .dept-item:hover { background:rgba(200,16,46,0.1); color:#FF8090; }
+        .dept-icon {
+            width:26px; height:26px; border-radius:7px; flex-shrink:0;
+            display:flex; align-items:center; justify-content:center; font-size:11px;
+            background:rgba(100,116,139,0.08); margin-top:1px;
+        }
+        .dept-item:hover .dept-icon { background:rgba(200,16,46,0.12); }
+        #deptSubMenu { max-height:0; overflow:hidden; transition:max-height 0.35s cubic-bezier(0.4,0,0.2,1); }
+        #deptSubMenu.open { max-height:700px; }
+        .sidebar-social-btn {
+            width:34px; height:34px; border-radius:10px;
+            display:flex; align-items:center; justify-content:center;
+            font-size:13px; border:1px solid #E4E9F0;
+            background:transparent; color:#94A3B8; transition:all 0.2s;
+        }
+        .dark .sidebar-social-btn { border-color:#1A1E2E; color:#64748B; }
+        .sidebar-social-btn:hover { color:#C8102E; border-color:#C8102E; transform:translateY(-2px); }
+        .rule-card {
+            background:#fff; border:1px solid #E4E9F0; border-radius:18px;
+            padding:22px 24px; transition:all 0.2s;
+            box-shadow:0 1px 3px rgba(0,0,0,0.04);
+        }
+        .dark .rule-card { background:#0F1118; border-color:#1A1E2E; box-shadow:none; }
+        .allowed-item::before { content:"✓"; color:#10B981; font-weight:900; margin-left:8px; }
+        .forbidden-item::before { content:"✕"; color:#EF4444; font-weight:900; margin-left:8px; }
+        .rule-item { display:flex; align-items:flex-start; gap:0; padding:6px 0; font-size:14px; font-weight:600; border-bottom:1px solid #F1F5F9; }
+        .dark .rule-item { border-color:#1A1E2E; }
+        .rule-item:last-child { border-bottom:none; }
+        @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+        .fade-up { animation:fadeUp 0.45s ease both; }
+        .delay-1 { animation-delay:0.06s; }
+        .delay-2 { animation-delay:0.12s; }
+        .delay-3 { animation-delay:0.18s; }
+        [contenteditable="true"] {
+            outline:none; background:rgba(200,16,46,0.05);
+            padding:2px 6px; border-radius:6px; transition:all 0.3s;
+            border-bottom:1px dashed transparent;
+        }
+        [contenteditable="true"]:focus {
+            background:rgba(200,16,46,0.12);
+            border-bottom:2px dashed #C8102E;
+        }
+    </style>
+</head>
+<body class="bg-ivan-lightBg dark:bg-ivan-darkBg text-gray-900 dark:text-white">
+
+<div id="sidebarOverlay" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 hidden" onclick="toggleSidebar()"></div>
+
+<aside id="sidebar" class="fixed top-0 right-0 h-screen w-64 z-50 flex flex-col transform translate-x-full lg:translate-x-0 transition-transform duration-300 bg-white dark:bg-ivan-darkCard border-l border-gray-100 dark:border-ivan-darkBorder shadow-xl lg:shadow-none">
+    <div class="flex items-center gap-3 px-5 py-5 border-b border-gray-100 dark:border-ivan-darkBorder relative">
+        <div id="sidebarSecretTrigger" class="flex items-center gap-3 cursor-pointer select-none flex-1">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-ivan-red to-red-900 flex items-center justify-center shadow-lg shadow-ivan-red/30">
+                <span class="font-en text-xl font-black italic text-white">i</span>
+            </div>
+            <div>
+                <div class="font-en text-base font-black tracking-[0.15em] uppercase text-gray-900 dark:text-white leading-none">IVAN</div>
+                <div class="text-[9px] text-gray-400 dark:text-gray-600 font-en uppercase tracking-[0.2em] mt-0.5">Portal System</div>
+            </div>
+        </div>
+        <button onclick="toggleSidebar()" class="lg:hidden text-gray-400 hover:text-ivan-red text-lg p-1"><i class="fa-solid fa-times"></i></button>
+    </div>
+    <nav class="flex-1 overflow-y-auto no-scrollbar py-4 px-3 space-y-0.5">
+        <a href="index.html" onclick="return navigateTo('index.html')" class="nav-item">
+            <span class="nav-icon"><i class="fa-solid fa-house"></i></span>
+            <span class="flex-1">الرئيسية</span>
+        </a>
+        <div>
+            <button onclick="toggleDeptMenu()" class="nav-item w-full active">
+                <span class="nav-icon"><i class="fa-solid fa-layer-group"></i></span>
+                <span class="flex-1 text-right">أقسام المعرض</span>
+                <i id="deptArrow" class="fa-solid fa-chevron-down text-[10px] opacity-50 transition-transform duration-300 ml-1"></i>
+            </button>
+            <div id="deptSubMenu" class="pr-3 mt-0.5 space-y-0.5">
+                <a href="dept-sales.html" onclick="return navigateTo('dept-sales.html')" class="dept-item ">
+                    <span class="dept-icon"><i class="fa-solid fa-handshake"></i></span>
+                    <div><div class="font-semibold text-[12.5px]">قسم المبيعات</div><div class="text-[10.5px] opacity-60 mt-0.5">متابعة الزبائن والعروض</div></div>
+                </a>
+                <a href="dept-marketing.html" onclick="return navigateTo('dept-marketing.html')" class="dept-item">
+                    <span class="dept-icon"><i class="fa-solid fa-bullhorn"></i></span>
+                    <div><div class="font-semibold text-[12.5px]">قسم التسويق والإعلام</div><div class="text-[10.5px] opacity-60 mt-0.5">المحتوى والترويج</div></div>
+                </a>
+                <a href="dept-carpentry.html" onclick="return navigateTo('dept-carpentry.html')" class="dept-item">
+                    <span class="dept-icon"><i class="fa-solid fa-hammer"></i></span>
+                    <div><div class="font-semibold text-[12.5px]">قسم النجارة والتركيب</div><div class="text-[10.5px] opacity-60 mt-0.5">التصنيع والصيانة</div></div>
+                </a>
+                <a href="dept-drivers.html" onclick="return navigateTo('dept-drivers.html')" class="dept-item">
+                    <span class="dept-icon"><i class="fa-solid fa-truck"></i></span>
+                    <div><div class="font-semibold text-[12.5px]">قسم السائقين</div><div class="text-[10.5px] opacity-60 mt-0.5">التوصيل والنقل</div></div>
+                </a>
+                <a href="dept-handling.html" onclick="return navigateTo('dept-handling.html')" class="dept-item">
+                    <span class="dept-icon"><i class="fa-solid fa-boxes-stacked"></i></span>
+                    <div><div class="font-semibold text-[12.5px]">قسم المناولة والمخازن</div><div class="text-[10.5px] opacity-60 mt-0.5">تحميل وتنزيل وتخزين</div></div>
+                </a>
+                <a href="dept-general.html" onclick="return navigateTo('dept-general.html')" class="dept-item">
+                    <span class="dept-icon"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+                    <div><div class="font-semibold text-[12.5px]">قسم الخدمات العامة</div><div class="text-[10.5px] opacity-60 mt-0.5">الدعم اليومي</div></div>
+                </a>
+                <a href="dept-cleaning.html" onclick="return navigateTo('dept-cleaning.html')" class="dept-item">
+                    <span class="dept-icon"><i class="fa-solid fa-spray-can-sparkles"></i></span>
+                    <div><div class="font-semibold text-[12.5px]">قسم التنظيف والضيافة</div><div class="text-[10.5px] opacity-60 mt-0.5">النظافة والاستقبال</div></div>
+                </a>
+            </div>
+        </div>
+        <a href="policy.html" onclick="return navigateTo('policy.html')" class="nav-item">
+            <span class="nav-icon"><i class="fa-solid fa-scale-balanced"></i></span>
+            <span class="flex-1">سياسة المعرض الشاملة</span>
+        </a>
+        <a href="complaints.html" onclick="return navigateTo('complaints.html')" class="nav-item">
+            <span class="nav-icon"><i class="fa-solid fa-envelope-open-text"></i></span>
+            <span class="flex-1">الشكاوى والملاحظات</span>
+        </a>
+        <div class="my-3 mx-2 h-px bg-gray-100 dark:bg-ivan-darkBorder"></div>
+        <a href="announcements.html" onclick="return navigateTo('announcements.html')" class="nav-item">
+            <span class="nav-icon"><i class="fa-solid fa-bell"></i></span>
+            <span class="flex-1">الإعلانات والتنبيهات</span>
+        </a>
+        <a href="attendance.html" onclick="return navigateTo('attendance.html')" class="nav-item">
+            <span class="nav-icon"><i class="fa-solid fa-clock-rotate-left"></i></span>
+            <span class="flex-1">الحضور والدوام</span>
+        </a>
+        <a href="rewards.html" onclick="return navigateTo('rewards.html')" class="nav-item">
+            <span class="nav-icon"><i class="fa-solid fa-star"></i></span>
+            <span class="flex-1">التقييم والمكافآت</span>
+        </a>
+        <a href="support.html" onclick="return navigateTo('support.html')" class="nav-item">
+            <span class="nav-icon"><i class="fa-solid fa-headset"></i></span>
+            <span class="flex-1">التواصل والدعم</span>
+        </a>
+    </nav>
+    <div class="border-t border-gray-100 dark:border-ivan-darkBorder px-4 py-4">
+        <div class="flex items-center justify-center gap-2 mb-2">
+            <a href="https://wa.me/9647514844125" target="_blank" class="sidebar-social-btn"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://www.facebook.com/share/1BLDRvJGzr/" target="_blank" class="sidebar-social-btn"><i class="fa-brands fa-facebook-f"></i></a>
+            <a href="https://www.instagram.com/ma3rd_ivan1?igsh=dDF4Y2dnYXZ5eGZ3" target="_blank" class="sidebar-social-btn"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@ma3rdivan1?_r=1&_d=em9ma8k92df7mi" target="_blank" class="sidebar-social-btn"><i class="fa-brands fa-tiktok"></i></a>
+            <a href="https://maps.app.goo.gl/u6zP3XLVnA5xSKRGA?g_st=ac" target="_blank" class="sidebar-social-btn"><i class="fa-solid fa-location-dot"></i></a>
+        </div>
+        <p class="text-center font-en text-[8.5px] text-gray-300 dark:text-gray-700 tracking-[0.18em] uppercase">&copy; 2026 Ivan Showroom</p>
+    </div>
+</aside>
+
+<div class="flex flex-col min-h-screen lg:mr-64">
+    <header class="h-16 sticky top-0 z-30 px-5 sm:px-8 flex items-center justify-between bg-white/90 dark:bg-ivan-darkBg/90 backdrop-blur-xl border-b border-gray-100 dark:border-ivan-darkBorder">
+        <div class="flex items-center gap-3">
+            <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 rounded-xl bg-gray-50 dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center text-gray-500 dark:text-gray-400 hover:text-ivan-red text-lg">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+            <div class="font-en text-base font-black tracking-[0.2em] uppercase hidden sm:block text-gray-900 dark:text-white">
+                IVAN <span class="text-ivan-red">SHOW</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="hidden md:flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-[10px] font-bold text-gray-500 dark:text-gray-400 font-en tracking-widest uppercase">System Online</span>
+            </div>
+            <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-gray-50 dark:bg-ivan-darkCard border border-gray-100 dark:border-ivan-darkBorder flex items-center justify-center text-indigo-500 dark:text-amber-400 hover:scale-105 transition-transform text-base">
+                <i class="fa-solid fa-moon dark:hidden"></i>
+                <i class="fa-solid fa-sun hidden dark:block"></i>
+            </button>
+        </div>
+    </header>
+    <main class="flex-1 w-full max-w-4xl mx-auto p-5 sm:p-7 lg:p-10">
+
+        <div class="fade-up mb-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-50 dark:bg-purple-900/15 border border-purple-100 dark:border-purple-800/30 mb-5">
+                <i class="fa-solid fa-bullhorn text-purple-500 text-xs"></i>
+                <span class="text-[11px] font-bold text-purple-600 dark:text-purple-400 font-en uppercase tracking-wider">Marketing & Media</span>
+            </div>
+            <h1 class="text-3xl sm:text-4xl font-black mb-3 text-gray-900 dark:text-white">التسويق <span class="text-ivan-red">والإعلام الرقمي</span></h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400 font-medium max-w-xl">نبني اسماً — لا نبيع صورة فقط. الهدف تحويل المتابع إلى زائر، والزائر إلى سفير.</p>
+        </div>
+
+        <div class="rule-card mb-5 fade-up delay-1">
+            <h3 class="font-black text-gray-900 dark:text-white text-sm mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-gem text-purple-500"></i> المبادئ الذهبية للقسم
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="bg-gray-50 dark:bg-ivan-darkBg rounded-xl p-3 flex items-center gap-3">
+                    <span class="text-lg">🎯</span>
+                    <div><div class="text-xs font-black text-gray-800 dark:text-white">الصدق قبل التجميل</div><div class="text-[10px] text-gray-500">عرض العيب قبل الميزة في المستعمل</div></div>
+                </div>
+                <div class="bg-gray-50 dark:bg-ivan-darkBg rounded-xl p-3 flex items-center gap-3">
+                    <span class="text-lg">✨</span>
+                    <div><div class="text-xs font-black text-gray-800 dark:text-white">الوضوح قبل المبالغة</div><div class="text-[10px] text-gray-500">رسالة واحدة لكل فيديو أو صورة</div></div>
+                </div>
+                <div class="bg-gray-50 dark:bg-ivan-darkBg rounded-xl p-3 flex items-center gap-3">
+                    <span class="text-lg">👑</span>
+                    <div><div class="text-xs font-black text-gray-800 dark:text-white">الهيبة قبل الضجيج</div><div class="text-[10px] text-gray-500">بدون موسيقى صاخبة أو فلاتر مبالغة</div></div>
+                </div>
+                <div class="bg-gray-50 dark:bg-ivan-darkBg rounded-xl p-3 flex items-center gap-3">
+                    <span class="text-lg">⚖️</span>
+                    <div><div class="text-xs font-black text-gray-800 dark:text-white">الجودة قبل الكثرة</div><div class="text-[10px] text-gray-500">فيديو واحد ممتاز أفضل من عشرة ضعيفة</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-5 fade-up delay-1">
+            <div class="rule-card border-r-4 border-r-emerald-500">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center">
+                        <i class="fa-solid fa-check text-emerald-500 text-sm"></i>
+                    </div>
+                    <h3 class="font-black text-gray-900 dark:text-white text-sm">المسموح</h3>
+                </div>
+                <ul class="space-y-0">
+                    <li class="rule-item allowed-item text-gray-700 dark:text-gray-300">تصوير القطع بإضاءة واضحة ومريحة</li>
+                    <li class="rule-item allowed-item text-gray-700 dark:text-gray-300">ذكر المقاس، اللون، الحالة، والسعر بصدق</li>
+                    <li class="rule-item allowed-item text-gray-700 dark:text-gray-300">فيديو واحد كل ساعة كحد أقصى</li>
+                    <li class="rule-item allowed-item text-gray-700 dark:text-gray-300">لهجة بادینی مع ترجمة عربية مختصرة</li>
+                    <li class="rule-item allowed-item text-gray-700 dark:text-gray-300">نهاية بدعوة واحدة واضحة للتواصل</li>
+                    <li class="rule-item allowed-item text-gray-700 dark:text-gray-300">مونتاج خفيف بدون انتقالات مزعجة</li>
+                </ul>
+            </div>
+            <div class="rule-card border-r-4 border-r-red-500">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-8 h-8 rounded-lg bg-red-50 dark:bg-red-900/20 flex items-center justify-center">
+                        <i class="fa-solid fa-xmark text-red-500 text-sm"></i>
+                    </div>
+                    <h3 class="font-black text-gray-900 dark:text-white text-sm">الممنوع</h3>
+                </div>
+                <ul class="space-y-0">
+                    <li class="rule-item forbidden-item text-gray-700 dark:text-gray-300">النشر بدون موافقة مدير القسم</li>
+                    <li class="rule-item forbidden-item text-gray-700 dark:text-gray-300">الموسيقى الصاخبة والفلاتر المبالغة</li>
+                    <li class="rule-item forbidden-item text-gray-700 dark:text-gray-300">تصوير الزبائن بدون إذن</li>
+                    <li class="rule-item forbidden-item text-gray-700 dark:text-gray-300">السخرية من المنافسين أو مقارنتهم</li>
+                    <li class="rule-item forbidden-item text-gray-700 dark:text-gray-300">وعود كاذبة مثل "أرخص سعر"</li>
+                    <li class="rule-item forbidden-item text-gray-700 dark:text-gray-300">إخفاء عيوب القطع المستعملة</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="rule-card mb-5 fade-up delay-2">
+            <h3 class="font-black text-gray-900 dark:text-white text-sm mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-chart-pie text-purple-500"></i> قاعدة المحتوى 70 · 20 · 10
+            </h3>
+            <div class="grid grid-cols-3 gap-3">
+                <div class="bg-blue-50 dark:bg-blue-900/15 rounded-xl p-4 text-center border border-blue-100 dark:border-blue-800/30">
+                    <div class="text-2xl font-black text-blue-500 mb-1">70%</div>
+                    <div class="text-[11px] font-bold text-gray-700 dark:text-gray-300">تعليمي</div>
+                    <div class="text-[10px] text-gray-500 mt-1">كيف تختار — كيف تقيس</div>
+                </div>
+                <div class="bg-purple-50 dark:bg-purple-900/15 rounded-xl p-4 text-center border border-purple-100 dark:border-purple-800/30">
+                    <div class="text-2xl font-black text-purple-500 mb-1">20%</div>
+                    <div class="text-[11px] font-bold text-gray-700 dark:text-gray-300">عرض منتجات</div>
+                    <div class="text-[10px] text-gray-500 mt-1">تصوير احترافي للقطع</div>
+                </div>
+                <div class="bg-red-50 dark:bg-red-900/15 rounded-xl p-4 text-center border border-red-100 dark:border-red-800/30">
+                    <div class="text-2xl font-black text-ivan-red mb-1">10%</div>
+                    <div class="text-[11px] font-bold text-gray-700 dark:text-gray-300">بيع مباشر</div>
+                    <div class="text-[10px] text-gray-500 mt-1">عروض وتخفيضات</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rule-card mb-5 fade-up delay-2">
+            <h3 class="font-black text-gray-900 dark:text-white text-sm mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-comment-dots text-ivan-red"></i> نصوص معتمدة — بادینی / عربي
+            </h3>
+            <div class="space-y-3">
+                <div class="bg-gray-50 dark:bg-ivan-darkBg rounded-xl p-4">
+                    <div class="text-[10px] font-bold text-gray-400 mb-2 uppercase tracking-wider">خطاف الفيديو — أول 3 ثواني</div>
+                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">سلاڤ و رێز — ئەز ژ پێشانگەها ئاڤان وەرن ڤێ پارچێ پێکڤە ببینین.</p>
+                    <p class="text-xs text-gray-500">تحية واحترام — من معرض إيفان، لنرى هذه القطعة معاً.</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-ivan-darkBg rounded-xl p-4">
+                    <div class="text-[10px] font-bold text-gray-400 mb-2 uppercase tracking-wider">نهاية الفيديو — CTA</div>
+                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">ئەگەر د دلێ تە دا بوو — نامەیەکێ بۆ مە بنێرە، یان سەرەدانا مە بکە ل زركا.</p>
+                    <p class="text-xs text-gray-500">إذا أعجبك — أرسل لنا رسالة، أو زورنا في زركا.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="rule-card mb-5 fade-up delay-3">
+            <h3 class="font-black text-gray-900 dark:text-white text-sm mb-4 flex items-center gap-2">
+                <i class="fa-solid fa-headset text-ivan-red"></i> قسم الردود الرقمية — خدمة العملاء
+            </h3>
+            <div class="bg-amber-50 dark:bg-amber-900/10 rounded-xl p-4 mb-4 border border-amber-100 dark:border-amber-800/30">
+                <p class="text-xs font-bold text-amber-700 dark:text-amber-400">⚡ كل دقيقة تأخير في الرد = زبون ضائع. الهدف: رد خلال 5 دقائق.</p>
+            </div>
+            <div class="space-y-3">
+                <div class="bg-gray-50 dark:bg-ivan-darkBg rounded-xl p-4">
+                    <div class="text-[10px] font-bold text-gray-400 mb-2">بداية الرد</div>
+                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">بخێر هاتی بۆ ئاڤان — چەوا دشێم هاریکاریا تە بکەم؟</p>
+                    <p class="text-xs text-gray-500">أهلاً بك في إيفان — كيف أستطيع مساعدتك؟</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-ivan-darkBg rounded-xl p-4">
+                    <div class="text-[10px] font-bold text-gray-400 mb-2">عند الغضب</div>
+                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">حەقێ تەیە لێبورینێ دخازین — بهێلە چارەسەر بکەم.</p>
+                    <p class="text-xs text-gray-500">حقك علينا الاعتذار — دعنا نحل المشكلة فوراً.</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-ivan-darkBg rounded-xl p-4">
+                    <div class="text-[10px] font-bold text-gray-400 mb-2">القطعة مباعة</div>
+                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">نفدت — بس عندنا بديل أقوى بنفس السعر، تحب أشوفله معك؟</p>
+                    <p class="text-xs text-gray-500">لا تقل "ماكو" — قدّم البديل فوراً.</p>
+                </div>
+                <div class="bg-gray-50 dark:bg-ivan-darkBg rounded-xl p-4">
+                    <div class="text-[10px] font-bold text-gray-400 mb-2">إغلاق المحادثة</div>
+                    <p class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">تحب أرسلك صور غرفة النوم اللي تطابق الكنب؟</p>
+                    <p class="text-xs text-gray-500">أغلق بسؤال مفتوح — لا بجملة جافة.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="rule-card bg-purple-50 dark:bg-purple-900/10 border-purple-200 dark:border-purple-800/30 fade-up delay-3">
+            <p class="text-sm font-black text-purple-700 dark:text-purple-400 text-center">نحن لا نبيع الصورة فقط<br><span class="text-ivan-red">نحن نبني اسماً، ونصنع ثقة.</span></p>
+        </div>
+
+        <footer class="mt-16 pt-8 border-t border-gray-100 dark:border-ivan-darkBorder text-center">
+            <p class="font-en text-[9px] text-gray-300 dark:text-gray-700 tracking-[0.25em] uppercase">&copy; 2026 Ivan Showroom. All Rights Reserved. Duhok &mdash; Zarka.</p>
+        </footer>
+    </main>
+</div>
+
+<a href="https://wa.me/9647514844125" target="_blank" class="fixed bottom-6 left-6 z-40 flex items-center justify-center text-white text-2xl shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:scale-110 transition-all duration-300 bg-[#25D366] rounded-full" style="width:52px;height:52px;">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
+
+<script>
+    function navigateTo(f) {
+        const p = window.location.href;
+        if (p.startsWith("file://")) {
+            const parts = p.split("/"); parts.pop();
+            window.location.href = parts.join("/") + "/" + f;
+        } else { window.location.href = f; }
+        return false;
+    }
+    function toggleDeptMenu() {
+        const m = document.getElementById("deptSubMenu");
+        const a = document.getElementById("deptArrow");
+        const o = m.classList.contains("open");
+        m.classList.toggle("open");
+        a.style.transform = o ? "rotate(0deg)" : "rotate(180deg)";
+    }
+    function toggleTheme() {
+        const h = document.documentElement; const b = document.body;
+        h.classList.toggle("dark"); b.classList.toggle("dark");
+        localStorage.setItem("ivanTheme", h.classList.contains("dark") ? "dark" : "light");
+    }
+    function toggleSidebar() {
+        document.getElementById("sidebar").classList.toggle("translate-x-full");
+        document.getElementById("sidebarOverlay").classList.toggle("hidden");
+    }
+    document.addEventListener("DOMContentLoaded", () => {
+        const t = localStorage.getItem("ivanTheme");
+        if (t === "light") {
+            document.documentElement.classList.remove("dark");
+            document.body.classList.remove("dark");
+        } else {
+            document.documentElement.classList.add("dark");
+            document.body.classList.add("dark");
+        }
+        // auto open dept menu if on dept page
+        if (window.location.href.includes("dept-")) {
+            const m = document.getElementById("deptSubMenu");
+            const a = document.getElementById("deptArrow");
+            if (m) { m.classList.add("open"); a.style.transform = "rotate(180deg)"; }
+        }
+    });
+    let cc=0,ct;
+    const sst = document.getElementById("sidebarSecretTrigger");
+    if (sst) {
+        ["click","touchstart"].forEach(e => {
+            sst.addEventListener(e, function(ev) {
+                if(e==="touchstart") ev.preventDefault();
+                cc++; clearTimeout(ct);
+                ct = setTimeout(()=>cc=0,2000);
+                if(cc===7) { cc=0; alert("🔐 منطقة إدارية"); }
+            });
+        });
+    }
+</script>
+</body>
+</html>
