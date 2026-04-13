@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>شبكة إيفان الاجتماعية | Ivan Social</title>
+    <title>شبكة إيفان الإخبارية | Ivan Net</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -27,10 +27,9 @@
         body { font-family: 'Cairo', sans-serif; transition: background-color 0.3s, color 0.3s; -webkit-tap-highlight-color: transparent; }
         .font-en { font-family: 'Outfit', sans-serif; }
         
-        /* تدرج لوني للنصوص الفخمة */
         .gradient-text { background: linear-gradient(90deg, #00D4FF, #9D4EDD, #FF003C); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* الحالات (Stories) - مبنية بـ CSS نقي بدون صور خارجية */
+        /* القصص (Stories) */
         .story-circle {
             width: 64px; height: 64px; border-radius: 50%; padding: 3px;
             background: linear-gradient(45deg, #00D4FF, #9D4EDD, #FF003C);
@@ -42,7 +41,7 @@
         html:not(.dark) .story-inner { border-color: #F3F4F6; background: #FFFFFF; color: #0F172A; }
         .story-img-preview { width: 100%; height: 100%; object-fit: cover; }
 
-        /* فلاتر الأقسام (التفرع) */
+        /* الأقسام (Filters) - Scrollable */
         .category-tab {
             padding: 8px 18px; border-radius: 20px; font-weight: 800; font-size: 13px; cursor: pointer;
             transition: all 0.3s; white-space: nowrap; border: 1px solid;
@@ -51,29 +50,26 @@
         html:not(.dark) .category-tab { border-color: #E5E7EB; background: #FFFFFF; color: #64748B; }
         .category-tab.active { background: linear-gradient(135deg, #9D4EDD, #00D4FF); color: white; border-color: transparent; }
 
-        /* شاشة عرض الحالة (Full Screen Story) */
+        /* عارض القصص (Story Viewer) */
         #storyViewer { position: fixed; inset: 0; z-index: 9999; background: #000; display: none; flex-direction: column; }
         .story-progress-container { width: 100%; height: 3px; background: rgba(255,255,255,0.3); border-radius: 3px; overflow: hidden; margin-top: 10px; }
         .story-progress-bar { height: 100%; background: white; width: 0%; }
         .story-media { flex: 1; width: 100%; object-fit: contain; margin-top: 10px; border-radius: 12px; }
 
-        /* سكرول بار مخفي وناعم */
         .no-scrollbar::-webkit-scrollbar { display: none; }
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #9D4EDD; border-radius: 10px; }
 
-        /* حركات الظهور */
         .fade-up { animation: fadeUp 0.4s ease both; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* لوحة الإدارة */
+        /* الإدارة */
         #adminPanel { max-height: 0; overflow: hidden; opacity: 0; transition: 0.5s ease; }
         #adminPanel.open { max-height: 1000px; opacity: 1; padding-bottom: 20px; margin-top: 15px; }
         .admin-controls { display: none; }
         .admin-active .admin-controls { display: flex; }
         
-        /* إخفاء زر رفع الملفات الافتراضي */
         input[type="file"] { display: none; }
     </style>
 </head>
@@ -84,7 +80,7 @@
             <i class="fa-solid fa-house"></i>
         </a>
         
-        <div ondblclick="authenticateAdmin()" class="font-en text-xl font-black tracking-widest uppercase cursor-pointer select-none">
+        <div ondblclick="authenticateAdmin()" class="font-en text-xl font-black tracking-widest uppercase cursor-pointer select-none" title="اضغط مرتين للدخول كأدمن">
             IVAN <span class="gradient-text">NET</span>
         </div>
         
@@ -103,7 +99,7 @@
         
         <div class="mb-6 bg-white dark:bg-[#0D0F18] border border-gray-200 dark:border-white/5 rounded-2xl p-4 flex items-center gap-4 overflow-x-auto no-scrollbar shadow-sm dark:shadow-none">
             
-            <div class="flex flex-col items-center cursor-pointer" onclick="document.getElementById('storyUploadInput').click()">
+            <div class="admin-controls flex-col items-center cursor-pointer" onclick="document.getElementById('storyUploadInput').click()">
                 <div class="w-16 h-16 rounded-full border-2 border-dashed border-gray-300 dark:border-gray-600 flex items-center justify-center bg-gray-50 dark:bg-[#131624] hover:bg-gray-100 transition-all">
                     <i class="fa-solid fa-plus text-2xl text-gray-400 dark:text-gray-500"></i>
                 </div>
@@ -116,14 +112,18 @@
 
         <div class="mb-5 text-center">
             <h1 class="text-3xl font-black mb-2">شبكة <span class="gradient-text">إيفان الإخبارية</span></h1>
-            <p class="font-bold text-gray-500 dark:text-gray-400 text-sm">التواصل الداخلي، القرارات، والتحديثات المباشرة.</p>
+            <p class="font-bold text-gray-500 dark:text-gray-400 text-sm">التواصل الداخلي والقرارات لجميع أقسام المعرض.</p>
         </div>
 
-        <div class="mb-6 flex items-center justify-center gap-2 overflow-x-auto no-scrollbar pb-2">
+        <div class="mb-6 flex items-center gap-2 overflow-x-auto no-scrollbar pb-2">
             <button onclick="filterPosts('الكل')" class="category-tab active" id="tab-الكل">الكل 🌍</button>
             <button onclick="filterPosts('قرارات إدارية')" class="category-tab" id="tab-قرارات إدارية">إداري 📌</button>
-            <button onclick="filterPosts('أخبار المبيعات')" class="category-tab" id="tab-أخبار المبيعات">المبيعات 🛒</button>
-            <button onclick="filterPosts('أخرى')" class="category-tab" id="tab-أخرى">أخرى ✨</button>
+            <button onclick="filterPosts('المبيعات')" class="category-tab" id="tab-المبيعات">المبيعات 🛒</button>
+            <button onclick="filterPosts('التسويق')" class="category-tab" id="tab-التسويق">التسويق 📱</button>
+            <button onclick="filterPosts('النجارين')" class="category-tab" id="tab-النجارين">النجارين 🔨</button>
+            <button onclick="filterPosts('عمال المناولة')" class="category-tab" id="tab-عمال المناولة">المناولة والنقل 📦</button>
+            <button onclick="filterPosts('التنظيفات')" class="category-tab" id="tab-التنظيفات">التنظيفات 🧹</button>
+            <button onclick="filterPosts('أخبار عامة')" class="category-tab" id="tab-أخبار عامة">أخبار عامة ✨</button>
         </div>
 
         <div id="adminPanel">
@@ -131,15 +131,19 @@
                 <div class="absolute -top-3 right-6 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-black px-4 py-1 rounded-full uppercase tracking-widest">Admin Control</div>
                 
                 <h3 class="text-xl font-black mb-5 mt-2 flex items-center gap-2 text-gray-900 dark:text-white">
-                    <i class="fa-solid fa-pen-nib text-purple-500"></i> نشر إعلان جديد
+                    <i class="fa-solid fa-pen-nib text-purple-500"></i> نشر تعميم جديد
                 </h3>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
-                    <input type="text" id="postAuthor" value="الإدارة العليا" placeholder="اسم الناشر..." class="w-full bg-gray-50 dark:bg-[#131624] border border-gray-200 dark:border-gray-800 rounded-xl px-4 py-3 font-bold text-sm outline-none focus:border-purple-500 dark:focus:border-purple-500 transition-all text-gray-900 dark:text-white">
+                    <input type="text" id="postAuthor" value="الإدارة العليا" placeholder="اسم الناشر..." class="w-full bg-gray-50 dark:bg-[#131624] border border-gray-200 dark:border-gray-800 rounded-xl px-4 py-3 font-bold text-sm outline-none focus:border-purple-500 transition-all text-gray-900 dark:text-white">
                     <select id="postCategory" class="w-full bg-gray-50 dark:bg-[#131624] border border-gray-200 dark:border-gray-800 rounded-xl px-4 py-3 font-bold text-sm outline-none focus:border-purple-500 transition-all text-gray-900 dark:text-white">
-                        <option value="قرارات إدارية">قرارات إدارية</option>
-                        <option value="أخبار المبيعات">أخبار المبيعات</option>
-                        <option value="أخرى">أخرى (عام)</option>
+                        <option value="قرارات إدارية">قرارات إدارية (جديد)</option>
+                        <option value="المبيعات">قسم المبيعات</option>
+                        <option value="التسويق">قسم التسويق والإعلام</option>
+                        <option value="النجارين">قسم النجارين والتركيب</option>
+                        <option value="عمال المناولة">عمال المناولة والنقل</option>
+                        <option value="التنظيفات">قسم التنظيفات</option>
+                        <option value="أخبار عامة">أخبار عامة</option>
                     </select>
                 </div>
                 
@@ -190,18 +194,15 @@
     </div>
 
     <script>
-        // 1. نظام الثيم الصارم (مستحيل يتعطل)
+        // 1. الثيم
         function toggleTheme() {
             const html = document.getElementById('htmlTag');
             html.classList.toggle('dark');
             localStorage.setItem('ivanTheme', html.classList.contains('dark') ? 'dark' : 'light');
         }
-        // التحقق عند التحميل
-        if (localStorage.getItem('ivanTheme') === 'light') {
-            document.getElementById('htmlTag').classList.remove('dark');
-        }
+        if (localStorage.getItem('ivanTheme') === 'light') { document.getElementById('htmlTag').classList.remove('dark'); }
 
-        // 2. إدارة الأسماء والإدارة
+        // 2. الأسماء والإدارة
         function getUserName() { return localStorage.getItem('ivan_user_name') || 'عضو بالفريق'; }
         function setProfileName() {
             const current = localStorage.getItem('ivan_user_name') || '';
@@ -211,33 +212,27 @@
 
         let isAdmin = false;
         function authenticateAdmin() {
-            if (isAdmin) { isAdmin = false; document.body.classList.remove('admin-active'); document.getElementById('adminPanel').classList.remove('open'); alert('🔒 تم الإغلاق.'); return; }
+            if (isAdmin) { isAdmin = false; document.body.classList.remove('admin-active'); document.getElementById('adminPanel').classList.remove('open'); alert('🔒 تم الخروج من وضع الإدارة.'); return; }
             if (prompt('أدخل شفرة الإدارة:') === 'Ivan@2026$$') { isAdmin = true; document.body.classList.add('admin-active'); document.getElementById('adminPanel').classList.add('open'); }
             else { alert('❌ الشفرة غير صحيحة!'); }
         }
 
-        // 3. نظام الحالات (STORIES)
+        // 3. الحالات
         let storyTimer;
         function loadStories() {
-            let stories = JSON.parse(localStorage.getItem('ivan_stories_db')) || [];
+            let stories = JSON.parse(localStorage.getItem('ivan_stories_v3')) || [];
             const feed = document.getElementById('storiesFeed'); feed.innerHTML = '';
             
             const now = new Date().getTime();
             stories = stories.filter(s => (now - s.id) < 86400000); 
-            localStorage.setItem('ivan_stories_db', JSON.stringify(stories));
+            localStorage.setItem('ivan_stories_v3', JSON.stringify(stories));
 
             stories.sort((a, b) => b.id - a.id).forEach(story => {
                 const circle = document.createElement('div');
                 circle.className = 'flex flex-col items-center';
-                
-                let innerContent = story.mediaType.startsWith('image/') 
-                    ? `<img src="${story.mediaData}" class="story-img-preview">` 
-                    : `<i class="fa-solid fa-play text-gray-300"></i>`;
-                
+                let innerContent = story.mediaType.startsWith('image/') ? `<img src="${story.mediaData}" class="story-img-preview">` : `<i class="fa-solid fa-play text-gray-300"></i>`;
                 circle.innerHTML = `
-                    <div class="story-circle" onclick="viewStory(${story.id})">
-                        <div class="story-inner">${innerContent}</div>
-                    </div>
+                    <div class="story-circle" onclick="viewStory(${story.id})"><div class="story-inner">${innerContent}</div></div>
                     <span class="text-[11px] font-bold text-gray-700 dark:text-gray-400 mt-2 w-16 text-center truncate">${story.author}</span>
                 `;
                 feed.appendChild(circle);
@@ -253,8 +248,8 @@
                 const now = new Date();
                 const newStory = { id: now.getTime(), author: getUserName(), mediaData: e.target.result, mediaType: file.type, text: text || '', time: now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' }) };
                 try {
-                    let stories = JSON.parse(localStorage.getItem('ivan_stories_db')) || [];
-                    stories.push(newStory); localStorage.setItem('ivan_stories_db', JSON.stringify(stories)); loadStories();
+                    let stories = JSON.parse(localStorage.getItem('ivan_stories_v3')) || [];
+                    stories.push(newStory); localStorage.setItem('ivan_stories_v3', JSON.stringify(stories)); loadStories();
                 } catch (err) { alert('❌ حجم الملف كبير جداً!'); }
                 event.target.value = '';
             };
@@ -262,7 +257,7 @@
         }
 
         function viewStory(id) {
-            let stories = JSON.parse(localStorage.getItem('ivan_stories_db')) || [];
+            let stories = JSON.parse(localStorage.getItem('ivan_stories_v3')) || [];
             let story = stories.find(s => s.id === id);
             if(!story) return;
 
@@ -280,7 +275,6 @@
             else { deleteBtn.classList.add('hidden'); }
 
             document.getElementById('storyViewer').style.display = 'flex';
-            
             const bar = document.getElementById('storyProgressBar');
             bar.style.transition = 'none'; bar.style.width = '0%';
             setTimeout(() => { bar.style.transition = 'width 7s linear'; bar.style.width = '100%'; }, 50);
@@ -290,20 +284,20 @@
         function closeStory() { document.getElementById('storyViewer').style.display = 'none'; document.getElementById('sv-media-container').innerHTML = ''; clearTimeout(storyTimer); }
         function deleteStory(id) {
             if(confirm('حذف هذه الحالة نهائياً؟')) {
-                let stories = JSON.parse(localStorage.getItem('ivan_stories_db')) || [];
-                stories = stories.filter(s => s.id !== id); localStorage.setItem('ivan_stories_db', JSON.stringify(stories));
+                let stories = JSON.parse(localStorage.getItem('ivan_stories_v3')) || [];
+                stories = stories.filter(s => s.id !== id); localStorage.setItem('ivan_stories_v3', JSON.stringify(stories));
                 closeStory(); loadStories();
             }
         }
 
-        // 4. نظام المنشورات والتفرع
+        // 4. المنشورات والتفرع
         let currentCategory = 'الكل';
         let currentPostMedia = null; let currentPostMediaType = null;
 
         function updatePostFileName() {
             const file = document.getElementById('postMediaUpload').files[0];
             if(file) {
-                document.getElementById('fileNameDisplay').innerText = "تم الرفاق: " + file.name;
+                document.getElementById('fileNameDisplay').innerText = "تم الإرفاق: " + file.name;
                 document.getElementById('fileNameDisplay').style.color = '#9D4EDD';
                 const reader = new FileReader();
                 reader.onload = e => { currentPostMedia = e.target.result; currentPostMediaType = file.type; };
@@ -318,14 +312,8 @@
             loadPosts();
         }
 
-        const defaultPosts = [
-            { id: 1, author: "الإدارة العليا", category: "قرارات إدارية", title: "مرحباً بكم في شبكة إيفان المتطورة", content: "تم تفعيل الوضع الفاتح بنجاح، وإضافة ميزة التفرع للأقسام. \nنتمنى لكم تجربة ممتعة.", time: "مثبت 📌", mediaType: null, mediaData: null, likes: 10, comments: [] }
-        ];
-
         function loadPosts() {
-            let posts = JSON.parse(localStorage.getItem('ivan_posts_v2')) || [];
-            if(posts.length === 0) { posts = defaultPosts; localStorage.setItem('ivan_posts_v2', JSON.stringify(posts)); }
-            
+            let posts = JSON.parse(localStorage.getItem('ivan_posts_v3')) || [];
             const feed = document.getElementById('newsFeed'); feed.innerHTML = ''; 
             
             let filteredPosts = posts.filter(p => currentCategory === 'الكل' || p.category === currentCategory);
@@ -354,10 +342,14 @@
                         </div>`; });
                 }
 
-                // لون القسم (Tag)
-                let tagColor = "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800";
+                let tagColor = "bg-gray-100 text-gray-600 dark:bg-gray-900/50 dark:text-gray-400";
                 if(post.category === "قرارات إدارية") tagColor = "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400 border-red-200 dark:border-red-800";
-                if(post.category === "أخرى") tagColor = "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200 dark:border-purple-800";
+                if(post.category === "المبيعات") tagColor = "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 border-blue-200 dark:border-blue-800";
+                if(post.category === "التسويق") tagColor = "bg-pink-100 text-pink-600 dark:bg-pink-900/30 dark:text-pink-400 border-pink-200 dark:border-pink-800";
+                if(post.category === "النجارين") tagColor = "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400 border-orange-200 dark:border-orange-800";
+                if(post.category === "عمال المناولة") tagColor = "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400 border-yellow-200 dark:border-yellow-800";
+                if(post.category === "التنظيفات") tagColor = "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400 border-teal-200 dark:border-teal-800";
+                if(post.category === "أخبار عامة") tagColor = "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400 border-purple-200 dark:border-purple-800";
 
                 const card = document.createElement('div');
                 card.className = 'bg-white dark:bg-[#0D0F18] border border-gray-200 dark:border-[#1E2336] rounded-2xl p-5 fade-up shadow-sm dark:shadow-none';
@@ -393,7 +385,7 @@
                     <div id="comments-${post.id}" class="hidden mt-4 pt-4 border-t border-gray-100 dark:border-[#1E2336]">
                         <div class="max-h-48 overflow-y-auto pr-1 no-scrollbar mb-3">${commentsHTML}</div>
                         <div class="flex gap-2">
-                            <input type="text" id="comment-text-${post.id}" placeholder="اكتب تعليقاً كـ ${getUserName()}..." class="flex-1 bg-gray-50 dark:bg-[#131624] border border-gray-200 dark:border-gray-800 rounded-xl px-4 py-2 font-bold text-sm outline-none focus:border-blue-500 transition-all text-gray-900 dark:text-white" onkeypress="if(event.key === 'Enter') addComment(${post.id})">
+                            <input type="text" id="comment-text-${post.id}" placeholder="اكتب تعليقاً..." class="flex-1 bg-gray-50 dark:bg-[#131624] border border-gray-200 dark:border-gray-800 rounded-xl px-4 py-2 font-bold text-sm outline-none focus:border-blue-500 transition-all text-gray-900 dark:text-white" onkeypress="if(event.key === 'Enter') addComment(${post.id})">
                             <button onclick="addComment(${post.id})" class="bg-blue-500 text-white w-10 rounded-xl flex items-center justify-center hover:bg-blue-600 transition-all shadow-md shadow-blue-500/30"><i class="fa-solid fa-paper-plane"></i></button>
                         </div>
                     </div>
@@ -414,33 +406,31 @@
             const newPost = { id: now.getTime(), author, category, title, content, time: now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' }), mediaType: currentPostMediaType, mediaData: currentPostMedia, likes: 0, liked: false, comments: [] };
             
             try {
-                let posts = JSON.parse(localStorage.getItem('ivan_posts_v2')) || [];
-                posts.push(newPost); localStorage.setItem('ivan_posts_v2', JSON.stringify(posts));
+                let posts = JSON.parse(localStorage.getItem('ivan_posts_v3')) || [];
+                posts.push(newPost); localStorage.setItem('ivan_posts_v3', JSON.stringify(posts));
                 
                 document.getElementById('postTitle').value = ''; document.getElementById('postContent').value = ''; 
                 document.getElementById('fileNameDisplay').innerText = 'إرفاق ميديا (اختياري)'; document.getElementById('fileNameDisplay').style.color = '';
                 currentPostMedia = null; currentPostMediaType = null;
                 
-                filterPosts(category); // التحويل لقسم المنشور مباشرة
-                authenticateAdmin(); // إغلاق
+                filterPosts(category); authenticateAdmin();
             } catch (e) { alert('❌ الملف كبير جداً!'); }
         }
 
         function deletePost(postId) {
             if (confirm('هل أنت متأكد من الحذف؟')) {
-                let posts = JSON.parse(localStorage.getItem('ivan_posts_v2')) || [];
-                posts = posts.filter(p => p.id !== postId); localStorage.setItem('ivan_posts_v2', JSON.stringify(posts)); loadPosts(); 
+                let posts = JSON.parse(localStorage.getItem('ivan_posts_v3')) || [];
+                posts = posts.filter(p => p.id !== postId); localStorage.setItem('ivan_posts_v3', JSON.stringify(posts)); loadPosts(); 
             }
         }
 
         function toggleLike(postId, btnElement) {
-            let posts = JSON.parse(localStorage.getItem('ivan_posts_v2')) || [];
+            let posts = JSON.parse(localStorage.getItem('ivan_posts_v3')) || [];
             let post = posts.find(p => p.id === postId);
             if (post) {
                 if (post.liked) { post.likes = Math.max(0, post.likes - 1); post.liked = false; btnElement.classList.remove('text-red-500', 'drop-shadow-md'); btnElement.classList.add('text-gray-400'); } 
                 else { post.likes = (post.likes || 0) + 1; post.liked = true; btnElement.classList.remove('text-gray-400'); btnElement.classList.add('text-red-500', 'drop-shadow-md'); }
-                document.getElementById(`like-count-${postId}`).innerText = post.likes;
-                localStorage.setItem('ivan_posts_v2', JSON.stringify(posts));
+                document.getElementById(`like-count-${postId}`).innerText = post.likes; localStorage.setItem('ivan_posts_v3', JSON.stringify(posts));
             }
         }
 
@@ -454,23 +444,22 @@
             const textInput = document.getElementById(`comment-text-${postId}`).value;
             if (!textInput.trim()) return;
 
-            let posts = JSON.parse(localStorage.getItem('ivan_posts_v2')) || [];
+            let posts = JSON.parse(localStorage.getItem('ivan_posts_v3')) || [];
             let post = posts.find(p => p.id === postId);
             if (post) {
                 if(!post.comments) post.comments = [];
-                const now = new Date();
-                post.comments.push({ id: now.getTime(), author: authorName.trim(), text: textInput, time: now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' }) });
-                localStorage.setItem('ivan_posts_v2', JSON.stringify(posts));
+                const now = new Date(); post.comments.push({ id: now.getTime(), author: authorName.trim(), text: textInput, time: now.toLocaleTimeString('ar-IQ', { hour: '2-digit', minute:'2-digit' }) });
+                localStorage.setItem('ivan_posts_v3', JSON.stringify(posts));
                 loadPosts(); setTimeout(() => { document.getElementById(`comments-${postId}`).classList.remove('hidden'); }, 50);
             }
         }
 
         function deleteComment(postId, commentId) {
             if (confirm('حذف التعليق؟')) {
-                let posts = JSON.parse(localStorage.getItem('ivan_posts_v2')) || [];
+                let posts = JSON.parse(localStorage.getItem('ivan_posts_v3')) || [];
                 let post = posts.find(p => p.id === postId);
                 if (post && post.comments) {
-                    post.comments = post.comments.filter(c => c.id !== commentId); localStorage.setItem('ivan_posts_v2', JSON.stringify(posts));
+                    post.comments = post.comments.filter(c => c.id !== commentId); localStorage.setItem('ivan_posts_v3', JSON.stringify(posts));
                     loadPosts(); setTimeout(() => { document.getElementById(`comments-${postId}`).classList.remove('hidden'); }, 50);
                 }
             }
