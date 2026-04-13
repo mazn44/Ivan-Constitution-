@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlTag" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>التقييم والمكافآت | Ivan Rewards</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        ivan: { darkBg: '#050509', darkCard: '#0D0F18', lightBg: '#F3F4F6', lightCard: '#FFFFFF' },
+                        neon: { blue: '#00D4FF', purple: '#9D4EDD', green: '#00F58A', yellow: '#FFD700', red: '#FF003C' }
+                    },
+                    fontFamily: { cairo: ['Cairo', 'sans-serif'], outfit: ['Outfit', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body { font-family: 'Cairo', sans-serif; transition: 0.3s; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        .font-en { font-family: 'Outfit', sans-serif; }
+        
+        .dark body { background-color: #05050A; color: #F8FAFC; }
+        html:not(.dark) body { background-color: #F3F4F6; color: #0F172A; }
+
+        .gradient-text { background: linear-gradient(90deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .gradient-gold { background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C); }
+
+        /* البطاقات الفخمة */
+        .glass-card {
+            border-radius: 20px; padding: 20px; transition: 0.3s;
+            border: 1px solid; position: relative; overflow: hidden;
+        }
+        .dark .glass-card { background: #0D0F18; border-color: #1E2336; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        html:not(.dark) .glass-card { background: #FFFFFF; border-color: #E5E7EB; box-shadow: 0 8px 20px rgba(0,0,0,0.04); }
+
+        /* نظام النقاط (الألوان) */
+        .point-box { padding: 16px; border-radius: 16px; border: 1px solid transparent; transition: 0.3s; display: flex; align-items: center; gap: 12px; }
+        .dark .point-green { background: rgba(0, 245, 138, 0.05); border-color: rgba(0, 245, 138, 0.2); }
+        .dark .point-yellow { background: rgba(255, 215, 0, 0.05); border-color: rgba(255, 215, 0, 0.2); }
+        .dark .point-red { background: rgba(255, 0, 60, 0.05); border-color: rgba(255, 0, 60, 0.2); }
+        
+        html:not(.dark) .point-green { background: #DCFCE7; border-color: #BBF7D0; }
+        html:not(.dark) .point-yellow { background: #FEF9C3; border-color: #FEF08A; }
+        html:not(.dark) .point-red { background: #FFE4E6; border-color: #FECDD3; }
+
+        /* لوحة المتصدرين (السباق) */
+        .rank-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-radius: 14px; margin-bottom: 10px; transition: 0.3s; border: 1px solid transparent; }
+        .dark .rank-row { background: #131624; border-color: #1E2336; }
+        html:not(.dark) .rank-row { background: #F8FAFC; border-color: #E5E7EB; }
+        
+        /* التميز للأول والثاني والثالث */
+        .rank-1 { background: linear-gradient(90deg, rgba(255, 215, 0, 0.1), transparent) !important; border-color: rgba(255, 215, 0, 0.3) !important; box-shadow: 0 0 15px rgba(255, 215, 0, 0.1); }
+        .rank-2 { background: linear-gradient(90deg, rgba(192, 192, 192, 0.1), transparent) !important; border-color: rgba(192, 192, 192, 0.3) !important; }
+        .rank-3 { background: linear-gradient(90deg, rgba(205, 127, 50, 0.1), transparent) !important; border-color: rgba(205, 127, 50, 0.3) !important; }
+
+        /* أشرطة الإنجاز */
+        .xp-bar-bg { width: 100%; height: 6px; border-radius: 6px; overflow: hidden; margin-top: 8px; }
+        .dark .xp-bar-bg { background: #1E2336; }
+        html:not(.dark) .xp-bar-bg { background: #E5E7EB; }
+        .xp-bar-fill { height: 100%; background: linear-gradient(90deg, #FFD700, #FF003C); transition: width 1s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* لوحة الإدارة */
+        #adminPanel { max-height: 0; overflow: hidden; opacity: 0; transition: 0.5s ease; }
+        #adminPanel.open { max-height: 800px; opacity: 1; padding-bottom: 20px; margin-top: 15px; }
+        .input-style { width: 100%; border: 1px solid; border-radius: 14px; padding: 14px; font-weight: 700; outline: none; transition: 0.3s; }
+        .dark .input-style { background: #131624; border-color: #1E2336; color: white; }
+        html:not(.dark) .input-style { background: #F8FAFC; border-color: #E5E7EB; color: black; }
+        
+        .admin-controls { display: none; }
+        .admin-active .admin-controls { display: flex; }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .fade-up { animation: fadeUp 0.5s ease both; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="min-h-screen relative pb-12">
+
+    <div class="fixed top-0 left-0 w-full h-96 bg-gradient-to-b from-yellow-500/5 to-transparent -z-10 pointer-events-none"></div>
+
+    <header class="h-16 sticky top-0 z-50 px-4 flex items-center justify-between bg-white/90 dark:bg-[#05050A]/90 backdrop-blur-xl border-b border-gray-200 dark:border-white/5 shadow-sm dark:shadow-none">
+        <a href="index.html" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-[#131624] border border-gray-200 dark:border-[#1E2336] flex items-center justify-center text-gray-800 dark:text-white transition-all hover:scale-105">
+            <i class="fa-solid fa-arrow-right"></i>
+        </a>
+        
+        <div ondblclick="authenticateAdmin()" class="font-en text-xl font-black tracking-widest uppercase cursor-pointer select-none" title="اضغط مرتين للدخول للإدارة">
+            IVAN <span class="gradient-text">REWARDS</span>
+        </div>
+        
+        <button onclick="toggleTheme()" class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-[#131624] border border-gray-200 dark:border-[#1E2336] flex items-center justify-center text-indigo-500 dark:text-amber-400 transition-all hover:scale-105">
+            <i class="fa-solid fa-moon dark:hidden"></i>
+            <i class="fa-solid fa-sun hidden dark:block"></i>
+        </button>
+    </header>
+
+    <main class="max-w-2xl mx-auto p-4 lg:p-6 mt-2">
+        
+        <div class="mb-6 glass-card text-center bg-gradient-to-br from-gray-50 to-white dark:from-[#0D0F18] dark:to-[#131624]">
+            <div class="w-20 h-20 mx-auto rounded-full gradient-gold flex items-center justify-center text-3xl text-gray-900 mb-3 shadow-[0_0_20px_rgba(255,215,0,0.3)]">
+                <i class="fa-solid fa-crown"></i>
+            </div>
+            <h1 class="text-2xl font-black mb-2 text-gray-900 dark:text-white">نظام التقييم والسباق</h1>
+            <p class="text-sm font-bold text-gray-500 dark:text-gray-400 px-4 leading-relaxed">
+                كل جهد يُقدر، وكل خطأ يُسجل. اجمع النقاط الخضراء لتتصدر اللائحة وتحصل على المكافآت المالية والترقيات.
+            </p>
+            <div class="mt-4 inline-flex items-center gap-2 bg-gray-100 dark:bg-[#1E2336] px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700">
+                <i class="fa-solid fa-shield-halved text-green-500"></i>
+                <span class="text-xs font-black text-gray-700 dark:text-gray-300">صندوق الأمانات: 100,000 دينار (ضمان للالتزام)</span>
+            </div>
+        </div>
+
+        <div class="mb-8 grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div class="point-box point-green fade-up" style="animation-delay: 0.1s;">
+                <div class="w-12 h-12 rounded-xl bg-green-500 text-white flex items-center justify-center text-xl font-black flex-shrink-0 shadow-lg shadow-green-500/30">+</div>
+                <div>
+                    <h3 class="font-black text-green-600 dark:text-green-400 text-sm">نقطة خضراء</h3>
+                    <p class="text-[10px] font-bold text-gray-600 dark:text-gray-400 mt-1">إنجاز مهام، أسلوب راقي، بيع ممتاز = مكافأة مالية.</p>
+                </div>
+            </div>
+            <div class="point-box point-yellow fade-up" style="animation-delay: 0.2s;">
+                <div class="w-12 h-12 rounded-xl bg-yellow-400 text-gray-900 flex items-center justify-center text-xl flex-shrink-0 shadow-lg shadow-yellow-400/30"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div>
+                    <h3 class="font-black text-yellow-600 dark:text-yellow-400 text-sm">نقطة صفراء</h3>
+                    <p class="text-[10px] font-bold text-gray-600 dark:text-gray-400 mt-1">تقصير بسيط، نسيان، أو تنبيه إداري = لفت نظر.</p>
+                </div>
+            </div>
+            <div class="point-box point-red fade-up" style="animation-delay: 0.3s;">
+                <div class="w-12 h-12 rounded-xl bg-red-500 text-white flex items-center justify-center text-xl font-black flex-shrink-0 shadow-lg shadow-red-500/30">-</div>
+                <div>
+                    <h3 class="font-black text-red-600 dark:text-red-400 text-sm">نقطة حمراء</h3>
+                    <p class="text-[10px] font-bold text-gray-600 dark:text-gray-400 mt-1">إهمال، غياب بدون عذر، خطأ فادح = خصم مالي فوري.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="adminPanel">
+            <div class="bg-gray-50 dark:bg-[#0D0F18] border-2 border-yellow-500/40 rounded-3xl p-6 relative shadow-xl mb-6">
+                <div class="absolute -top-3 right-6 bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xs font-black px-4 py-1 rounded-full uppercase">Admin Control</div>
+                
+                <h3 class="text-lg font-black mb-4 mt-2 text-gray-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-gavel text-yellow-500"></i> تقييم الموظفين
+                </h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+                    <select id="empSelect" class="input-style">
+                        </select>
+                    <select id="pointType" class="input-style">
+                        <option value="green" class="text-green-600 font-black">🟢 منح نقطة خضراء (+50 نقطة)</option>
+                        <option value="yellow" class="text-yellow-600 font-black">🟡 لفت نظر أصفر (تحذير)</option>
+                        <option value="red" class="text-red-600 font-black">🔴 نقطة حمراء خصم (-50 نقطة)</option>
+                    </select>
+                </div>
+                
+                <input type="text" id="pointReason" placeholder="السبب (مثال: تحقيق تارجت المبيعات / التأخر عن الدوام)..." class="input-style mb-4">
+
+                <button onclick="evaluateEmployee()" class="w-full gradient-gold text-gray-900 font-black py-4 rounded-xl text-lg transition-all hover:opacity-90 shadow-lg shadow-yellow-500/20">
+                    تسجيل التقييم <i class="fa-solid fa-check-double ml-2"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="glass-card mb-10">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-black text-gray-900 dark:text-white flex items-center gap-2">
+                    <i class="fa-solid fa-ranking-star text-yellow-500"></i> سباق المتصدرين
+                </h2>
+                <span class="text-xs font-bold bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 px-3 py-1 rounded-full">يتحدث تلقائياً</span>
+            </div>
+
+            <div id="leaderboardContainer" class="flex flex-col gap-2">
+                </div>
+        </div>
+
+    </main>
+
+    <script>
+        // --- 1. الثيم الصارم ---
+        function toggleTheme() {
+            const html = document.getElementById('htmlTag');
+            html.classList.toggle('dark');
+            localStorage.setItem('ivanTheme', html.classList.contains('dark') ? 'dark' : 'light');
+        }
+        if (localStorage.getItem('ivanTheme') === 'light') { document.getElementById('htmlTag').classList.remove('dark'); }
+
+        // --- 2. نظام الإدارة السري ---
+        let isAdmin = false;
+        function authenticateAdmin() {
+            if (isAdmin) {
+                isAdmin = false; document.body.classList.remove('admin-active'); document.getElementById('adminPanel').classList.remove('open');
+                alert('🔒 تم إغلاق لوحة التحكم.'); return;
+            }
+            if (prompt('أدخل شفرة المشرفين لتقييم العمال:') === 'Ivan@2026$$') { 
+                isAdmin = true; document.body.classList.add('admin-active'); document.getElementById('adminPanel').classList.add('open');
+            } else { alert('❌ الشفرة غير صحيحة!'); }
+        }
+
+        // --- 3. قاعدة بيانات الموظفين (Leaderboard System) ---
+        const DB_KEY = 'ivan_rewards_db_v1';
+        
+        // القائمة الافتراضية للموظفين (يمكن التعديل عليها)
+        const defaultEmployees = [
+            { id: 1, name: "مازن", dept: "الإدارة والتسويق", points: 1500, green: 5, yellow: 0, red: 0, color: "from-pink-500 to-rose-500" },
+            { id: 2, name: "روان", dept: "المبيعات", points: 1200, green: 3, yellow: 1, red: 0, color: "from-blue-500 to-cyan-500" },
+            { id: 3, name: "أبو عمر", dept: "التوصيل والمناولة", points: 850, green: 2, yellow: 0, red: 1, color: "from-orange-500 to-amber-500" },
+            { id: 4, name: "ديار", dept: "المخازن", points: 950, green: 2, yellow: 2, red: 0, color: "from-purple-500 to-indigo-500" },
+            { id: 5, name: "أحمد", dept: "النجارين", points: 1050, green: 4, yellow: 0, red: 0, color: "from-red-500 to-orange-500" }
+        ];
+
+        function getEmployees() {
+            let stored = localStorage.getItem(DB_KEY);
+            return stored ? JSON.parse(stored) : defaultEmployees;
+        }
+
+        function saveEmployees(data) {
+            localStorage.setItem(DB_KEY, JSON.stringify(data));
+        }
+
+        // --- 4. رسم السباق (الواجهة) ---
+        function renderLeaderboard() {
+            let employees = getEmployees();
+            const container = document.getElementById('leaderboardContainer');
+            const select = document.getElementById('empSelect');
+            
+            container.innerHTML = '';
+            select.innerHTML = '<option value="">اختر الموظف...</option>';
+
+            // ترتيب الموظفين حسب النقاط (من الأعلى للأقل)
+            employees.sort((a, b) => b.points - a.points);
+
+            employees.forEach((emp, index) => {
+                // تعبئة قائمة الإدارة
+                select.innerHTML += `<option value="${emp.id}">${emp.name} (${emp.dept})</option>`;
+
+                // تحديد الترتيب والميداليات
+                let rankClass = ''; let medal = '';
+                if(index === 0) { rankClass = 'rank-1'; medal = '<i class="fa-solid fa-medal text-yellow-500 text-xl drop-shadow-[0_0_5px_rgba(255,215,0,0.8)]"></i>'; }
+                else if(index === 1) { rankClass = 'rank-2'; medal = '<i class="fa-solid fa-medal text-gray-400 text-lg"></i>'; }
+                else if(index === 2) { rankClass = 'rank-3'; medal = '<i class="fa-solid fa-medal text-amber-600 text-lg"></i>'; }
+                else { medal = `<span class="font-en font-black text-gray-400 dark:text-gray-600 text-sm">#${index + 1}</span>`; }
+
+                // حساب المستوى (Level)
+                let levelText = "برونزي"; let levelColor = "text-orange-700 dark:text-orange-400";
+                if(emp.points >= 1000) { levelText = "فضي"; levelColor = "text-gray-500 dark:text-gray-300"; }
+                if(emp.points >= 1300) { levelText = "ذهبي"; levelColor = "text-yellow-600 dark:text-yellow-400"; }
+                if(emp.points >= 1500) { levelText = "ماسي 💎"; levelColor = "text-cyan-500"; }
+
+                const row = document.createElement('div');
+                row.className = `rank-row fade-up ${rankClass}`;
+                row.style.animationDelay = `${index * 0.1}s`;
+                
+                row.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 flex items-center justify-center">${medal}</div>
+                        <div class="w-12 h-12 rounded-full bg-gradient-to-br ${emp.color} text-white flex items-center justify-center font-black shadow-md border-2 border-white/20">
+                            ${emp.name.charAt(0)}
+                        </div>
+                        <div>
+                            <h4 class="font-black text-sm text-gray-900 dark:text-white flex items-center gap-1">
+                                ${emp.name} <span class="text-[10px] ${levelColor} bg-gray-100 dark:bg-black/30 px-1.5 py-0.5 rounded">${levelText}</span>
+                            </h4>
+                            <span class="text-[10px] text-gray-500 font-bold">${emp.dept}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col items-end">
+                        <span class="font-en font-black text-lg text-gray-900 dark:text-white">${emp.points} <span class="text-[10px] text-gray-400">XP</span></span>
+                        <div class="flex items-center gap-1.5 mt-1">
+                            <span class="text-[9px] font-black text-green-600 bg-green-100 dark:bg-green-900/30 px-1 rounded" title="نقاط خضراء">${emp.green} 🟢</span>
+                            <span class="text-[9px] font-black text-yellow-600 bg-yellow-100 dark:bg-yellow-900/30 px-1 rounded" title="لفت نظر">${emp.yellow} 🟡</span>
+                            <span class="text-[9px] font-black text-red-600 bg-red-100 dark:bg-red-900/30 px-1 rounded" title="خصم">${emp.red} 🔴</span>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
+        // --- 5. وظيفة الإدارة: تقييم الموظف ---
+        function evaluateEmployee() {
+            const empId = document.getElementById('empSelect').value;
+            const type = document.getElementById('pointType').value;
+            const reason = document.getElementById('pointReason').value;
+            
+            if(!empId) { alert('❌ يرجى اختيار الموظف أولاً!'); return; }
+            if(!reason) { alert('❌ يجب كتابة سبب التقييم!'); return; }
+
+            let employees = getEmployees();
+            let emp = employees.find(e => e.id == empId);
+            
+            if(emp) {
+                if(type === 'green') {
+                    emp.green += 1;
+                    emp.points += 50; // النقطة الخضراء تزيد 50 نقطة
+                    alert(`✅ ممتاز! تم منح ${emp.name} نقطة خضراء.\nالسبب: ${reason}`);
+                } else if(type === 'yellow') {
+                    emp.yellow += 1;
+                    // لفت النظر لا يخصم نقاط رئيسية، لكن يسجل في السجل
+                    alert(`⚠️ تم تسجيل لفت نظر أصفر للموظف ${emp.name}.\nالسبب: ${reason}`);
+                } else if(type === 'red') {
+                    emp.red += 1;
+                    emp.points = Math.max(0, emp.points - 50); // النقطة الحمراء تخصم 50
+                    alert(`🚨 تحذير: تم خصم نقطة حمراء من ${emp.name}!\nالسبب: ${reason}`);
+                }
+                
+                saveEmployees(employees);
+                document.getElementById('pointReason').value = '';
+                renderLeaderboard(); // تحديث السباق فوراً ليرى الجميع التغيير
+            }
+        }
+
+        // التشغيل عند فتح الصفحة
+        window.onload = renderLeaderboard;
+
+    </script>
+</body>
+</html>
